@@ -13331,7 +13331,6 @@ class DoorController extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component
     return this._rapierBody;
   }
   awake() {
-    this.object3d.scene;
     this.hingePosition = new three__WEBPACK_IMPORTED_MODULE_1__.Vector3(1, 2, 0);
     this.leftDoorList = ["Door002", "Door019", "Door012", "Door009", "Door010", "Door004"];
     this.rightDoorList = ["Door013", "Door003", "Door001", "Door005", "Door007", "Door004", "Door008", "Door014", "Door012", "Door015", "Door016", "Door006"];
@@ -13342,7 +13341,6 @@ class DoorController extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component
   update() {
     const openDoorAction = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.keyboard.getKeyDown("Space") || rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.mouse.isLeftButtonDown;
     if (openDoorAction == true) {
-      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log(this.object3d.name);
       if (!this.isOpen) {
         this.openDoor();
       } else {
@@ -13357,11 +13355,9 @@ class DoorController extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component
     } else {
       this.object3d.rotateY(-this.openAngle);
     }
-    rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("openDoor");
     this.isOpen = true;
   }
   closeDoor() {
-    rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("closeDoor");
     if (this.object3d.name in this.leftDoorList) {
       this.object3d.rotateY(-this.openAngle);
     } else {
@@ -13383,6 +13379,50 @@ __decorateClass([
   rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.checkbox()
 ], DoorController.prototype, "isOpen", 2);
 rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(DoorController);
+
+
+/***/ }),
+
+/***/ "./Assets/GameLogic.re.ts":
+/*!********************************!*\
+  !*** ./Assets/GameLogic.re.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ GameLogic)
+/* harmony export */ });
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _RE_RogueEngine_rogue_rapier_Components_RapierBody_re__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @RE/RogueEngine/rogue-rapier/Components/RapierBody.re */ "./Assets/rogue_packages/RogueEngine/rogue-rapier/Components/RapierBody.re.ts");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three */ "three");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_2__);
+var __defProp = Object.defineProperty;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+
+
+
+class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
+  awake() {
+    this.bodyComponent = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_RE_RogueEngine_rogue_rapier_Components_RapierBody_re__WEBPACK_IMPORTED_MODULE_1__["default"], this.object3d);
+    this.bodyComponent.type = 0;
+    this.direction = new three__WEBPACK_IMPORTED_MODULE_2__.Vector3();
+    this.boxHelper = new three__WEBPACK_IMPORTED_MODULE_2__.BoxHelper(this.object3d);
+  }
+  start() {
+    this.direction.set(0, 0, -1);
+  }
+  update() {
+    const doorDirection = this.bodyComponent.object3d.getWorldDirection(this.direction);
+    const angle = Math.abs(this.direction.angleTo(doorDirection) * (180 / Math.PI));
+    if (angle != 0) {
+      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log(angle.toString());
+    }
+  }
+}
+__name(GameLogic, "GameLogic");
+rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(GameLogic);
 
 
 /***/ }),
@@ -17201,35 +17241,6 @@ RogueRapier.initialized = false;
 
 /***/ }),
 
-/***/ "./Assets/sensor.re.js":
-/*!*****************************!*\
-  !*** ./Assets/sensor.re.js ***!
-  \*****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ sensor)
-/* harmony export */ });
-/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
-/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_0__);
-var __defProp = Object.defineProperty;
-var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
-
-class sensor extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
-  awake() {
-  }
-  start() {
-  }
-  update() {
-  }
-}
-__name(sensor, "sensor");
-rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(sensor);
-
-
-/***/ }),
-
 /***/ "./Assets/walls.re.js":
 /*!****************************!*\
   !*** ./Assets/walls.re.js ***!
@@ -17473,6 +17484,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_three__;
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	__webpack_require__("./Assets/DoorController.re.ts");
+/******/ 	__webpack_require__("./Assets/GameLogic.re.ts");
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
 /******/ 	__webpack_require__("./Assets/init.ts");
 /******/ 	__webpack_require__("./Assets/InputController.re.ts");
@@ -17512,7 +17524,6 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_three__;
 /******/ 	__webpack_require__("./Assets/rogue_packages/RogueEngine/rogue-rapier/Components/RapierConfig.re.ts");
 /******/ 	__webpack_require__("./Assets/rogue_packages/RogueEngine/rogue-rapier/Components/RapierKinematicCharacterController.re.ts");
 /******/ 	__webpack_require__("./Assets/rogue_packages/RogueEngine/rogue-rapier/Lib/RogueRapier.ts");
-/******/ 	__webpack_require__("./Assets/sensor.re.js");
 /******/ 	var __webpack_exports__ = __webpack_require__("./Assets/walls.re.js");
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	

@@ -1,6 +1,11 @@
 {
-  "title": "Project",
-  "scenes": [],
+  "title": "Projfect",
+  "scenes": [
+    {
+      "name": "OnWallSuccess",
+      "uuid": "b840e184-f3bb-4ee8-b51a-55ca3f383542"
+    }
+  ],
   "projectVersion": 24,
   "lastOpenedScene": "\\Assets\\OnWallSuccess.rogueScene"
 }
