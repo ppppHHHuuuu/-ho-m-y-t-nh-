@@ -13287,15 +13287,80 @@ const endShapeContactEvent = {
 
 /***/ }),
 
-/***/ "./Assets/DoorController.re.ts":
+/***/ "./Assets/Component/Collectable.re.ts":
+/*!********************************************!*\
+  !*** ./Assets/Component/Collectable.re.ts ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Collectable)
+/* harmony export */ });
+/* harmony import */ var _RE_RogueEngine_rogue_rapier_Components_RapierBody_re__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @RE/RogueEngine/rogue-rapier/Components/RapierBody.re */ "./Assets/rogue_packages/RogueEngine/rogue-rapier/Components/RapierBody.re.ts");
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_1__);
+var __defProp = Object.defineProperty;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+
+
+class Collectable extends rogue_engine__WEBPACK_IMPORTED_MODULE_1__.Component {
+  get rapierBody() {
+    if (!this._rapierBody) {
+      this._rapierBody = rogue_engine__WEBPACK_IMPORTED_MODULE_1__.getComponent(_RE_RogueEngine_rogue_rapier_Components_RapierBody_re__WEBPACK_IMPORTED_MODULE_0__["default"], this.object3d);
+    }
+    return this._rapierBody;
+  }
+  awake() {
+  }
+  start() {
+  }
+  update() {
+  }
+}
+__name(Collectable, "Collectable");
+rogue_engine__WEBPACK_IMPORTED_MODULE_1__.registerComponent(Collectable);
+
+
+/***/ }),
+
+/***/ "./Assets/Component/CollisionDetection.re.ts":
+/*!***************************************************!*\
+  !*** ./Assets/Component/CollisionDetection.re.ts ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CollisionDetection)
+/* harmony export */ });
+var __defProp = Object.defineProperty;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+class CollisionDetection {
+  static colliding(obj1, obj2, distance) {
+    const x1 = obj1.object3d.position.x;
+    const y1 = obj1.object3d.position.y;
+    const z1 = obj1.object3d.position.z;
+    const x2 = obj2.object3d.position.x;
+    const y2 = obj2.object3d.position.y;
+    const z2 = obj2.object3d.position.z;
+    return Math.abs((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) + (z1 - z2) * (z1 - z2)) <= distance;
+  }
+}
+__name(CollisionDetection, "CollisionDetection");
+
+
+/***/ }),
+
+/***/ "./Assets/Component/Door.re.ts":
 /*!*************************************!*\
-  !*** ./Assets/DoorController.re.ts ***!
+  !*** ./Assets/Component/Door.re.ts ***!
   \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ DoorController)
+/* harmony export */   "default": () => (/* binding */ Door)
 /* harmony export */ });
 /* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
 /* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_0__);
@@ -13318,7 +13383,7 @@ var __decorateClass = (decorators, target, key, kind) => {
 
 
 const vZero = new three__WEBPACK_IMPORTED_MODULE_1__.Vector3();
-class DoorController extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
+class Door extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
   constructor() {
     super(...arguments);
     this.openAngle = 0.5 * Math.PI;
@@ -13330,63 +13395,34 @@ class DoorController extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component
     }
     return this._rapierBody;
   }
-  awake() {
-    this.hingePosition = new three__WEBPACK_IMPORTED_MODULE_1__.Vector3(1, 2, 0);
-    this.leftDoorList = ["Door002", "Door019", "Door012", "Door009", "Door010", "Door004"];
-    this.rightDoorList = ["Door013", "Door003", "Door001", "Door005", "Door007", "Door004", "Door008", "Door014", "Door012", "Door015", "Door016", "Door006"];
-    this.rotationSpeed = 10 * Math.PI / 180;
-  }
-  start() {
-  }
   update() {
-    const openDoorAction = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.keyboard.getKeyDown("Space") || rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.mouse.isLeftButtonDown;
-    if (openDoorAction == true) {
-      if (!this.isOpen) {
-        this.openDoor();
-      } else {
-        this.closeDoor();
-      }
-    }
   }
   openDoor() {
     const rotation = new three__WEBPACK_IMPORTED_MODULE_1__.Quaternion().setFromAxisAngle(vZero, this.openAngle);
-    if (this.object3d.name in this.leftDoorList) {
-      this.object3d.rotateY(this.openAngle);
-    } else {
-      this.object3d.rotateY(-this.openAngle);
-    }
+    this.object3d.rotateY(this.openAngle);
     this.isOpen = true;
   }
   closeDoor() {
-    if (this.object3d.name in this.leftDoorList) {
-      this.object3d.rotateY(-this.openAngle);
-    } else {
-      this.object3d.rotateY(this.openAngle);
-    }
+    this.object3d.rotateY(-this.openAngle);
     this.isOpen = false;
   }
-  onTriggerEnter(other) {
-    const openDoorAction = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.keyboard.getKeyDown("Space") || rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.mouse.isLeftButtonDown;
-    rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("abc");
-    rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log(String(openDoorAction));
-  }
 }
-__name(DoorController, "DoorController");
+__name(Door, "Door");
 __decorateClass([
   rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.num()
-], DoorController.prototype, "openAngle", 2);
+], Door.prototype, "openAngle", 2);
 __decorateClass([
   rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.checkbox()
-], DoorController.prototype, "isOpen", 2);
-rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(DoorController);
+], Door.prototype, "isOpen", 2);
+rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(Door);
 
 
 /***/ }),
 
-/***/ "./Assets/GameLogic.re.ts":
-/*!********************************!*\
-  !*** ./Assets/GameLogic.re.ts ***!
-  \********************************/
+/***/ "./Assets/Component/GameLogic.re.ts":
+/*!******************************************!*\
+  !*** ./Assets/Component/GameLogic.re.ts ***!
+  \******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -13395,267 +13431,171 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
 /* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _RE_RogueEngine_rogue_rapier_Components_RapierBody_re__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @RE/RogueEngine/rogue-rapier/Components/RapierBody.re */ "./Assets/rogue_packages/RogueEngine/rogue-rapier/Components/RapierBody.re.ts");
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three */ "three");
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Collectable_re__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Collectable.re */ "./Assets/Component/Collectable.re.ts");
+/* harmony import */ var _PlayerController_re__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PlayerController.re */ "./Assets/Component/PlayerController.re.ts");
+/* harmony import */ var _CollisionDetection_re__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CollisionDetection.re */ "./Assets/Component/CollisionDetection.re.ts");
+/* harmony import */ var _Door_re__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Door.re */ "./Assets/Component/Door.re.ts");
 var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+var __decorateClass = (decorators, target, key, kind) => {
+  var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc(target, key) : target;
+  for (var i = decorators.length - 1, decorator; i >= 0; i--)
+    if (decorator = decorators[i])
+      result = (kind ? decorator(target, key, result) : decorator(result)) || result;
+  if (kind && result)
+    __defProp(target, key, result);
+  return result;
+};
+
+
 
 
 
 class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
+  constructor() {
+    super(...arguments);
+    this.gameStarted = false;
+    this.collectableSet = [];
+    this.doorSet = [];
+    this.score = 0;
+    this.collectedFlags = [];
+    this.collectableCount = 5;
+    this.doorCount = 10;
+  }
   awake() {
-    this.bodyComponent = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_RE_RogueEngine_rogue_rapier_Components_RapierBody_re__WEBPACK_IMPORTED_MODULE_1__["default"], this.object3d);
-    this.bodyComponent.type = 0;
-    this.direction = new three__WEBPACK_IMPORTED_MODULE_2__.Vector3();
-    this.boxHelper = new three__WEBPACK_IMPORTED_MODULE_2__.BoxHelper(this.object3d);
   }
   start() {
-    this.direction.set(0, 0, -1);
+    this.stylesUI = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponentByName("UIStyles", this.object3d);
+    this.startMenuUI = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponentByName("UIStartMenu", this.object3d);
+    this.inGameUI = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponentByName("UIInGame", this.object3d);
+    this.interactUI = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponentByName("UIInteract", this.object3d);
+    if (this.stylesUI && this.startMenuUI) {
+      this.stylesUI.show();
+      this.startMenuUI.show();
+    }
   }
   update() {
-    const doorDirection = this.bodyComponent.object3d.getWorldDirection(this.direction);
-    const angle = Math.abs(this.direction.angleTo(doorDirection) * (180 / Math.PI));
-    if (angle != 0) {
-      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log(angle.toString());
+    if (this.gameStarted) {
+      if (this.playerController) {
+        this.collectableSet.forEach((collectable, index) => {
+          this.collectItem(this.playerController, this.collectableSet, index);
+        });
+        this.doorSet.forEach((door, index) => {
+          this.openDoorIn(this.playerController, this.doorSet, index);
+        });
+      }
+    } else {
+      const startAction = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.keyboard.getKeyDown("Space");
+      if (startAction) {
+        this.startGame();
+      }
+    }
+  }
+  collectItem(obj1, obj2, index) {
+    const collide = _CollisionDetection_re__WEBPACK_IMPORTED_MODULE_3__["default"].colliding(obj1, obj2[index], 4);
+    if (collide && !this.collectedFlags[index]) {
+      this.interactUI.show();
+      const interactAction = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.mouse.isLeftButtonDown;
+      if (interactAction) {
+        this.interactUI.hide();
+        this.collectableSet[index].object3d.parent?.remove(this.collectableSet[index].object3d);
+        this.collectedFlags[index] = true;
+        this.score++;
+        this.inGameUI.setScore(this.score);
+      }
+    } else {
+      setTimeout(() => {
+        this.interactUI.hide();
+      }, 100);
+    }
+  }
+  openDoorIn(obj1, obj2, index) {
+    const collide = _CollisionDetection_re__WEBPACK_IMPORTED_MODULE_3__["default"].colliding(obj1, obj2[index], 4);
+    if (collide) {
+      this.interactUI.show();
+      const interactAction = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.mouse.isLeftButtonDown;
+      if (interactAction) {
+        this.interactUI.hide();
+        if (!this.doorSet[index].isOpen) {
+          this.doorSet[index].openDoor();
+        } else {
+          this.doorSet[index].closeDoor();
+        }
+      }
+    } else {
+      setTimeout(() => {
+        this.interactUI.hide();
+      }, 100);
+    }
+  }
+  addCollectables() {
+    for (let i = 1; i <= this.collectableCount; i++) {
+      const collectableInstance = this.collectable.instantiate();
+      if (collectableInstance) {
+        this.collectableSet[i] = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_Collectable_re__WEBPACK_IMPORTED_MODULE_1__["default"], collectableInstance);
+        this.addCollectable(this.collectableSet[i], i * 3 + 18, -12);
+      }
+    }
+  }
+  addCollectable(collectableObject, x, z) {
+    collectableObject.object3d.position.set(x, 0.5, z);
+    this.collectableSet.push(collectableObject);
+  }
+  addDoors() {
+    for (let i = 1; i <= this.doorCount; i++) {
+      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("Add Doors");
+      const doorInstance = this.door.instantiate();
+      if (doorInstance) {
+        this.doorSet[i] = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_Door_re__WEBPACK_IMPORTED_MODULE_4__["default"], doorInstance);
+        this.addDoor(this.doorSet[i], i * 2 + 18, -16);
+      }
+    }
+  }
+  addDoor(doorObject, x, z) {
+    doorObject.object3d.position.set(x, 1, z);
+    this.doorSet.push(doorObject);
+  }
+  startGame() {
+    if (this.gameStarted === false) {
+      this.startMenuUI.hide();
+      this.inGameUI.show();
+      this.inGameUI.setScore(0);
+      this.gameStarted = true;
+      const playerInstance = this.player.instantiate();
+      if (playerInstance) {
+        this.playerController = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_PlayerController_re__WEBPACK_IMPORTED_MODULE_2__["default"], playerInstance);
+        this.addCollectables();
+        this.addDoors();
+        this.collectedFlags.push(false);
+      }
     }
   }
 }
 __name(GameLogic, "GameLogic");
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.prefab()
+], GameLogic.prototype, "collectable", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.prefab()
+], GameLogic.prototype, "player", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.prefab()
+], GameLogic.prototype, "door", 2);
 rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(GameLogic);
 
 
 /***/ }),
 
-/***/ "./Assets/InputController.re.ts":
-/*!**************************************!*\
-  !*** ./Assets/InputController.re.ts ***!
-  \**************************************/
+/***/ "./Assets/Component/PlayerController.re.ts":
+/*!*************************************************!*\
+  !*** ./Assets/Component/PlayerController.re.ts ***!
+  \*************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _init__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./init */ "./Assets/init.ts");
-var __defProp = Object.defineProperty;
-var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
-
-const MIN_ZOOM_LEVEL = 1e-3;
-const MAX_ZOOM_LEVEL = 20;
-const SCROLL_LEVEL_STEP = 1.5;
-const SCROLL_ANIMATION_SPEED = 2;
-const JUMP_DURATION = 0.5;
-const JUMP_AMPLITUDE = 0.5;
-var KEYS;
-(function(KEYS2) {
-  KEYS2["a"] = "KeyA";
-  KEYS2["s"] = "KeyS";
-  KEYS2["w"] = "KeyW";
-  KEYS2["d"] = "KeyD";
-  KEYS2["space"] = "Space";
-  KEYS2["shiftL"] = "ShiftLeft";
-  KEYS2["shiftR"] = "ShiftRight";
-})(KEYS || (KEYS = {}));
-class InputManager {
-  constructor(target) {
-    this.target = target || document;
-    this.currentMouse = {
-      leftButton: false,
-      rightButton: false,
-      mouseXDelta: 0,
-      mouseYDelta: 0,
-      mouseWheelDelta: 0
-    };
-    this.currentKeys = new Map();
-    this.pointerLocked = false;
-    this.init();
-  }
-  init() {
-    this.target.addEventListener("mousedown", (e) => this.onMouseDown(e), false);
-    this.target.addEventListener("mousemove", (e) => this.onMouseMove(e), false);
-    this.target.addEventListener("mouseup", (e) => this.onMouseUp(e), false);
-    addEventListener("wheel", (e) => this.onMouseWheel(e), false);
-    this.target.addEventListener("keydown", (e) => this.onKeyDown(e), false);
-    this.target.addEventListener("keyup", (e) => this.onKeyUp(e), false);
-    const renderer = (0,_init__WEBPACK_IMPORTED_MODULE_0__.useRenderer)();
-    const addPointerLockEvent = /* @__PURE__ */ __name(async () => {
-      await renderer.domElement.requestPointerLock();
-    }, "addPointerLockEvent");
-    renderer.domElement.addEventListener("click", addPointerLockEvent);
-    renderer.domElement.addEventListener("dblclick", addPointerLockEvent);
-    renderer.domElement.addEventListener("mousedown", addPointerLockEvent);
-    const setPointerLocked = /* @__PURE__ */ __name(() => {
-      this.pointerLocked = document.pointerLockElement === renderer.domElement;
-    }, "setPointerLocked");
-    document.addEventListener("pointerlockchange", setPointerLocked, false);
-  }
-  onMouseWheel(e) {
-    const changeMouseWheelLevel = /* @__PURE__ */ __name(() => {
-      if (this.pointerLocked) {
-        if (e.deltaY < 0) {
-          this.currentMouse.mouseWheelDelta = Math.max(this.currentMouse.mouseWheelDelta - SCROLL_LEVEL_STEP, MIN_ZOOM_LEVEL);
-        } else if (e.deltaY > 0) {
-          this.currentMouse.mouseWheelDelta = Math.min(this.currentMouse.mouseWheelDelta + SCROLL_LEVEL_STEP, MAX_ZOOM_LEVEL);
-        }
-      }
-    }, "changeMouseWheelLevel");
-    changeMouseWheelLevel();
-  }
-  onMouseMove(e) {
-    if (this.pointerLocked) {
-      this.currentMouse.mouseXDelta = e.movementX;
-      this.currentMouse.mouseYDelta = e.movementY;
-    }
-  }
-  onMouseDown(e) {
-    if (this.pointerLocked) {
-      this.onMouseMove(e);
-      switch (e.button) {
-        case 0: {
-          this.currentMouse.leftButton = true;
-          break;
-        }
-        case 2: {
-          this.currentMouse.rightButton = true;
-          break;
-        }
-      }
-    }
-  }
-  onMouseUp(e) {
-    if (this.pointerLocked) {
-      this.onMouseMove(e);
-      switch (e.button) {
-        case 0: {
-          this.currentMouse.leftButton = false;
-          break;
-        }
-        case 2: {
-          this.currentMouse.rightButton = false;
-          break;
-        }
-      }
-    }
-  }
-  onKeyDown(e) {
-    if (this.pointerLocked) {
-      this.currentKeys.set(e.code, true);
-    }
-  }
-  onKeyUp(e) {
-    if (this.pointerLocked) {
-      this.currentKeys.set(e.code, false);
-    }
-  }
-  isKeyDown(keyCode) {
-    if (this.pointerLocked) {
-      const hasKeyCode = this.currentKeys.get(keyCode);
-      if (hasKeyCode) {
-        return hasKeyCode;
-      }
-    }
-    return false;
-  }
-  update() {
-    this.currentMouse.mouseXDelta = 0;
-    this.currentMouse.mouseYDelta = 0;
-  }
-  runActionByKey(key, action, inAction) {
-    if (this.isKeyDown(key)) {
-      return action();
-    } else {
-      return inAction && inAction();
-    }
-  }
-  runActionByOneKey(keys, action, inAction) {
-    let check = false;
-    for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-      check = this.isKeyDown(key);
-      if (check) {
-        break;
-      }
-    }
-    if (check) {
-      return action();
-    } else {
-      return inAction && inAction();
-    }
-  }
-  runActionByAllKeys(keys, action, inAction) {
-    let check = true;
-    for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-      check = this.isKeyDown(key);
-      if (!check) {
-        break;
-      }
-    }
-    if (check) {
-      return action();
-    } else {
-      return inAction && inAction();
-    }
-  }
-}
-__name(InputManager, "InputManager");
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (InputManager);
-
-
-/***/ }),
-
-/***/ "./Assets/init.ts":
-/*!************************!*\
-  !*** ./Assets/init.ts ***!
-  \************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "useRenderer": () => (/* binding */ useRenderer),
-/* harmony export */   "useRenderSize": () => (/* binding */ useRenderSize),
-/* harmony export */   "useScene": () => (/* binding */ useScene),
-/* harmony export */   "useCamera": () => (/* binding */ useCamera),
-/* harmony export */   "useStats": () => (/* binding */ useStats),
-/* harmony export */   "useRenderTarget": () => (/* binding */ useRenderTarget),
-/* harmony export */   "useComposer": () => (/* binding */ useComposer),
-/* harmony export */   "addPass": () => (/* binding */ addPass),
-/* harmony export */   "useGltfLoader": () => (/* binding */ useGltfLoader),
-/* harmony export */   "useTextureLoader": () => (/* binding */ useTextureLoader),
-/* harmony export */   "RAPIER": () => (/* reexport safe */ _dimforge_rapier3d_compat__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _dimforge_rapier3d_compat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @dimforge/rapier3d-compat */ "./node_modules/@dimforge/rapier3d-compat/rapier.es.js");
-var __defProp = Object.defineProperty;
-var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
-
-let scene, camera, renderer, renderTarget, composer, stats, renderWidth, renderHeight, renderAspectRatio, gltfLoader, textureLoader;
-const useRenderer = /* @__PURE__ */ __name(() => renderer, "useRenderer");
-const useRenderSize = /* @__PURE__ */ __name(() => ({ width: renderWidth, height: renderHeight }), "useRenderSize");
-const useScene = /* @__PURE__ */ __name(() => scene, "useScene");
-const useCamera = /* @__PURE__ */ __name(() => camera, "useCamera");
-const useStats = /* @__PURE__ */ __name(() => stats, "useStats");
-const useRenderTarget = /* @__PURE__ */ __name(() => renderTarget, "useRenderTarget");
-const useComposer = /* @__PURE__ */ __name(() => composer, "useComposer");
-const addPass = /* @__PURE__ */ __name((pass) => {
-  composer.addPass(pass);
-}, "addPass");
-const useGltfLoader = /* @__PURE__ */ __name(() => gltfLoader, "useGltfLoader");
-const useTextureLoader = /* @__PURE__ */ __name(() => textureLoader, "useTextureLoader");
-
-
-
-/***/ }),
-
-/***/ "./Assets/movement.re.js":
-/*!*******************************!*\
-  !*** ./Assets/movement.re.js ***!
-  \*******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ movement)
+/* harmony export */   "default": () => (/* binding */ PlayerController)
 /* harmony export */ });
 /* harmony import */ var _RE_RogueEngine_rogue_rapier_Components_RapierBody_re__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @RE/RogueEngine/rogue-rapier/Components/RapierBody.re */ "./Assets/rogue_packages/RogueEngine/rogue-rapier/Components/RapierBody.re.ts");
 /* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
@@ -13664,23 +13604,116 @@ var __defProp = Object.defineProperty;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
 
-class movement extends rogue_engine__WEBPACK_IMPORTED_MODULE_1__.Component {
-  awake() {
-  }
-  start() {
-    this.a = rogue_engine__WEBPACK_IMPORTED_MODULE_1__.getComponent(_RE_RogueEngine_rogue_rapier_Components_RapierBody_re__WEBPACK_IMPORTED_MODULE_0__["default"], this.object3d);
-    rogue_engine__WEBPACK_IMPORTED_MODULE_1__.Debug.log(this.a.toJSON());
-    this.a.onCollisionStart = (e) => {
-      rogue_engine__WEBPACK_IMPORTED_MODULE_1__.Debug.log("e");
-    };
+class PlayerController extends rogue_engine__WEBPACK_IMPORTED_MODULE_1__.Component {
+  get rapierBody() {
+    if (!this._rapierBody) {
+      this._rapierBody = rogue_engine__WEBPACK_IMPORTED_MODULE_1__.getComponent(_RE_RogueEngine_rogue_rapier_Components_RapierBody_re__WEBPACK_IMPORTED_MODULE_0__["default"], this.object3d);
+    }
+    return this._rapierBody;
   }
   update() {
-    if (rogue_engine__WEBPACK_IMPORTED_MODULE_1__.Input.keyboard.getKeyDown("KeyW")) {
-    }
+  }
+  start() {
   }
 }
-__name(movement, "movement");
-rogue_engine__WEBPACK_IMPORTED_MODULE_1__.registerComponent(movement);
+__name(PlayerController, "PlayerController");
+rogue_engine__WEBPACK_IMPORTED_MODULE_1__.registerComponent(PlayerController);
+
+
+/***/ }),
+
+/***/ "./Assets/Component/UIComponent.re.ts":
+/*!********************************************!*\
+  !*** ./Assets/Component/UIComponent.re.ts ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ UIComponent)
+/* harmony export */ });
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_0__);
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+var __decorateClass = (decorators, target, key, kind) => {
+  var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc(target, key) : target;
+  for (var i = decorators.length - 1, decorator; i >= 0; i--)
+    if (decorator = decorators[i])
+      result = (kind ? decorator(target, key, result) : decorator(result)) || result;
+  if (kind && result)
+    __defProp(target, key, result);
+  return result;
+};
+
+class UIComponent extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
+  constructor() {
+    super(...arguments);
+    this.url = "";
+    this.container = document.createElement("div");
+  }
+  async awake() {
+    this.container.style.display = "none";
+    const filePath = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getStaticPath(this.url);
+    const res = await fetch(filePath);
+    this.container.innerHTML = await res.text();
+    rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Runtime.uiContainer.append(this.container);
+  }
+  show(...args) {
+    if (!this.isShowing) {
+      this.container.style.display = "block";
+      this.isShowing = true;
+    }
+  }
+  hide(...args) {
+    if (this.isShowing) {
+      this.container.style.display = "none";
+      this.isShowing = false;
+    }
+  }
+  start() {
+  }
+  update() {
+  }
+}
+__name(UIComponent, "UIComponent");
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.text()
+], UIComponent.prototype, "url", 2);
+rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(UIComponent);
+
+
+/***/ }),
+
+/***/ "./Assets/Component/UIInGame.re.ts":
+/*!*****************************************!*\
+  !*** ./Assets/Component/UIInGame.re.ts ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ UIInGame)
+/* harmony export */ });
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _UIComponent_re__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UIComponent.re */ "./Assets/Component/UIComponent.re.ts");
+var __defProp = Object.defineProperty;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+
+
+class UIInGame extends _UIComponent_re__WEBPACK_IMPORTED_MODULE_1__["default"] {
+  show() {
+    super.show();
+    this.scoreDiv = document.getElementById("score");
+  }
+  setScore(score) {
+    this.scoreDiv.innerHTML = score.toString();
+  }
+}
+__name(UIInGame, "UIInGame");
+rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(UIInGame);
 
 
 /***/ }),
@@ -17241,69 +17274,6 @@ RogueRapier.initialized = false;
 
 /***/ }),
 
-/***/ "./Assets/walls.re.js":
-/*!****************************!*\
-  !*** ./Assets/walls.re.js ***!
-  \****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ walls)
-/* harmony export */ });
-/* harmony import */ var _dimforge_rapier3d_compat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @dimforge/rapier3d-compat */ "./node_modules/@dimforge/rapier3d-compat/rapier.es.js");
-/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
-/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_0__);
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
-var __decorateClass = (decorators, target, key, kind) => {
-  var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc(target, key) : target;
-  for (var i = decorators.length - 1, decorator; i >= 0; i--)
-    if (decorator = decorators[i])
-      result = (kind ? decorator(target, key, result) : decorator(result)) || result;
-  if (kind && result)
-    __defProp(target, key, result);
-  return result;
-};
-
-
-class walls extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor() {
-    super(...arguments);
-    this.colliderShapeVar = "box";
-  }
-  awake() {
-  }
-  start() {
-    const entity = new _dimforge_rapier3d_compat__WEBPACK_IMPORTED_MODULE_1__["default"].World({ x: 0, y: 9.81, z: 0 });
-    const colliderShape = this.colliderShapeVar;
-    let colliderDesc;
-    switch (colliderShape) {
-      case "box":
-        colliderDesc = _dimforge_rapier3d_compat__WEBPACK_IMPORTED_MODULE_1__["default"].ColliderDesc.cuboid(1, 2, 3);
-        break;
-      default:
-        rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("Unsupported collider shape. Using a box by default.");
-        colliderDesc = _dimforge_rapier3d_compat__WEBPACK_IMPORTED_MODULE_1__["default"].ColliderDesc.cuboid(1, 2, 3);
-        ;
-    }
-    colliderDesc.isTrigger = false;
-    colliderDesc.restitution = 0.2;
-    let handle = entity.createCollider(colliderDesc, this);
-  }
-  update() {
-  }
-}
-__name(walls, "walls");
-__decorateClass([
-  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.text()
-], walls.prototype, "colliderShapeVar", 2);
-rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(walls);
-
-
-/***/ }),
-
 /***/ "rogue-engine":
 /*!******************************************************************************************************************!*\
   !*** external {"commonjs":"rogue-engine","commonjs2":"rogue-engine","amd":"rogue-engine","root":"rogue-engine"} ***!
@@ -17483,12 +17453,14 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_three__;
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	__webpack_require__("./Assets/DoorController.re.ts");
-/******/ 	__webpack_require__("./Assets/GameLogic.re.ts");
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	__webpack_require__("./Assets/init.ts");
-/******/ 	__webpack_require__("./Assets/InputController.re.ts");
-/******/ 	__webpack_require__("./Assets/movement.re.js");
+/******/ 	__webpack_require__("./Assets/Component/Collectable.re.ts");
+/******/ 	__webpack_require__("./Assets/Component/CollisionDetection.re.ts");
+/******/ 	__webpack_require__("./Assets/Component/Door.re.ts");
+/******/ 	__webpack_require__("./Assets/Component/GameLogic.re.ts");
+/******/ 	__webpack_require__("./Assets/Component/PlayerController.re.ts");
+/******/ 	__webpack_require__("./Assets/Component/UIComponent.re.ts");
+/******/ 	__webpack_require__("./Assets/Component/UIInGame.re.ts");
 /******/ 	__webpack_require__("./Assets/rogue_packages/BeardScript/rogue-cannon/Components/CannonBody.re.ts");
 /******/ 	__webpack_require__("./Assets/rogue_packages/BeardScript/rogue-cannon/Components/CannonConfig.re.ts");
 /******/ 	__webpack_require__("./Assets/rogue_packages/BeardScript/rogue-cannon/Components/Constraints/CannonConstraint.ts");
@@ -17523,8 +17495,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_three__;
 /******/ 	__webpack_require__("./Assets/rogue_packages/RogueEngine/rogue-rapier/Components/RapierBody.re.ts");
 /******/ 	__webpack_require__("./Assets/rogue_packages/RogueEngine/rogue-rapier/Components/RapierConfig.re.ts");
 /******/ 	__webpack_require__("./Assets/rogue_packages/RogueEngine/rogue-rapier/Components/RapierKinematicCharacterController.re.ts");
-/******/ 	__webpack_require__("./Assets/rogue_packages/RogueEngine/rogue-rapier/Lib/RogueRapier.ts");
-/******/ 	var __webpack_exports__ = __webpack_require__("./Assets/walls.re.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("./Assets/rogue_packages/RogueEngine/rogue-rapier/Lib/RogueRapier.ts");
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ 	return __webpack_exports__;
