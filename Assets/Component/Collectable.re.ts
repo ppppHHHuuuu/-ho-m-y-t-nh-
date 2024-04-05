@@ -36,7 +36,6 @@ export default class Collectable extends RE.Component {
   ]
   private startTime : number = 0;
   private _rapierBody: RapierBody;
-  private _collider: RapierCollider;
 
   get rapierBody() {
     if (!this._rapierBody) {

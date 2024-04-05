@@ -13466,8 +13466,6 @@ class Door extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
     }
     return this._rapierBody;
   }
-  update() {
-  }
   openDoor() {
     const rotation = new three__WEBPACK_IMPORTED_MODULE_1__.Quaternion().setFromAxisAngle(vZero, this.openAngle);
     this.object3d.rotateY(this.openAngle);
@@ -13477,8 +13475,46 @@ class Door extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
     this.object3d.rotateY(-this.openAngle);
     this.isOpen = false;
   }
+  awake() {
+  }
 }
 __name(Door, "Door");
+Door.dimensions = [
+  [18.28, 5.052, -50.721, 0, 0.5 * Math.PI, 201],
+  [18.28, 5.052, -61.579, 0, 0.5 * Math.PI, 202],
+  [30.624, 5.052, -76.562, 0, 0, 203],
+  [49.264, 5.052, -76.606, 0, 0, 204],
+  [28.025, 5.052, -30.04, 0, 0.5 * Math.PI, 205],
+  [28.167, 5.052, -43.752, 0, 0.5 * Math.PI, 206],
+  [28.075, 5.052, -58.842, 0, 0.5 * Math.PI, 207],
+  [31.535, 5.052, -16.081, 0, 0, 1],
+  [42.226, 5.052, -16.081, 0, 0, 2],
+  [20.353, 5.052, -21.673, 1, 0, 3],
+  [21.693, 5.052, -21.673, 1, Math.PI, 4],
+  [67.65, 5.052, -57.93, 0, 0.5 * Math.PI, 208],
+  [67.751, 5.052, -10.936, 0, 0.5 * Math.PI, 211],
+  [67.715, 5.052, -44.886, 0, 0.5 * Math.PI, 209],
+  [67.789, 5.052, -29.43, 0, 0.5 * Math.PI, 210],
+  [103.297, 5.052, -24.241, 0, 0.5 * Math.PI, 214],
+  [103.417, 5.052, -39.83, 0, 0.5 * Math.PI, 215],
+  [103.169, 5.052, -54.894, 0, 0.5 * Math.PI, 216],
+  [103.232, 5.052, -69.373, 0, 0.5 * Math.PI, 217],
+  [92.86, 5.052, -76.481, 0, 0, 5],
+  [14.014, 1.05, 28.602, 0, Math.PI, 101],
+  [17.876, 1.05, 37.34, 0, Math.PI, 102.1],
+  [27.057, 1.05, 37.361, 0, Math.PI, 102.2],
+  [34.809, 1.05, 37.34, 0, Math.PI, 103],
+  [45.128, 1.05, 37.359, 0, Math.PI, 104.1],
+  [53.549, 1.05, 37.332, 0, Math.PI, 104.2],
+  [59.269, 1.05, 37.34, 0, Math.PI, 105.1],
+  [68.542, 1.05, 37.339, 0, Math.PI, 105.2],
+  [74.644, 1.05, 37.339, 0, Math.PI, 106.1],
+  [83.741, 1.05, 37.339, 0, Math.PI, 106.2],
+  [95.48, 1.05, 38.877, 0, 0, 6],
+  [90.253, 1.05, 37.98, 0, 0, 7],
+  [20.257, 1.05, -1.67, 1, Math.PI, 8],
+  [18.917, 1.05, -1.67, 1, 0, 9]
+];
 __decorateClass([
   rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.num()
 ], Door.prototype, "openAngle", 2);
