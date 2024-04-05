@@ -5,7 +5,6 @@ import * as RE from "rogue-engine";
 
 export default class Collectable extends RE.Component {
   private _rapierBody: RapierBody;
-  private _collider: RapierCollider;
 
   get rapierBody() {
     if (!this._rapierBody) {

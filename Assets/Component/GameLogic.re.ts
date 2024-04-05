@@ -9,7 +9,8 @@ import Door from "./Door.re";
 export default class GameLogic extends RE.Component {
   @RE.props.prefab() collectable: RE.Prefab;
   @RE.props.prefab() player: RE.Prefab;
-  @RE.props.prefab() door: RE.Prefab;
+  @RE.props.prefab() singleDoor: RE.Prefab;
+  @RE.props.prefab() doubleDoor: RE.Prefab;
 
   gameStarted = false;
   collectableSet: Collectable[] = [];
@@ -19,7 +20,7 @@ export default class GameLogic extends RE.Component {
   score = 0;
   collectedFlags: Boolean[] = [];
   collectableCount = 5;
-  doorCount = 10;
+  doorCount = Door.dimensions.length;
 
   stylesUI: UIComponent;
   startMenuUI: UIComponent;
@@ -97,7 +98,7 @@ export default class GameLogic extends RE.Component {
   }
 
   openDoorIn(obj1: RE.Component, obj2: RE.Component[], index: number) {
-    const collide = CollisionDetection.colliding(obj1, obj2[index], 4);
+    const collide = CollisionDetection.colliding(obj1, obj2[index], 8);
 
     if (collide) {
       this.interactUI.show();
@@ -125,29 +126,53 @@ export default class GameLogic extends RE.Component {
           Collectable,
           collectableInstance
         ) as Collectable;
-        this.addCollectable(this.collectableSet[i], i * 3 + 18, -12);
+        this.addCollectable(this.collectableSet[i], i * 3 + 18, 0, -12);
       }
     }
   }
 
-  addCollectable(collectableObject: Collectable, x: number, z: number) {
-    collectableObject.object3d.position.set(x, 0.5, z);
+  addCollectable(
+    collectableObject: Collectable,
+    x: number,
+    y: number,
+    z: number
+  ) {
+    collectableObject.object3d.position.set(x, 5.052, z);
     this.collectableSet.push(collectableObject);
   }
 
   addDoors() {
-    for (let i = 1; i <= this.doorCount; i++) {
-      RE.Debug.log("Add Doors");
-      const doorInstance = this.door.instantiate();
+    for (let i = 0; i < this.doorCount; i++) {
+      let doorInstance;
+
+      if (Door.dimensions[i][3] === 0) {
+        doorInstance = this.singleDoor.instantiate();
+      } else {
+        doorInstance = this.doubleDoor.instantiate();
+      }
+
       if (doorInstance) {
         this.doorSet[i] = RE.getComponent(Door, doorInstance) as Door;
-        this.addDoor(this.doorSet[i], i * 2 + 18, -16);
+        this.addDoor(
+          this.doorSet[i],
+          Door.dimensions[i][0],
+          Door.dimensions[i][1],
+          Door.dimensions[i][2],
+          Door.dimensions[i][4]
+        );
       }
     }
   }
 
-  addDoor(doorObject: Door, x: number, z: number) {
-    doorObject.object3d.position.set(x, 1, z);
+  addDoor(
+    doorObject: Door,
+    x: number,
+    y: number,
+    z: number,
+    rotationY: number
+  ) {
+    doorObject.object3d.position.set(x, y, z);
+    doorObject.object3d.rotateY(rotationY);
     // RE.Debug.log(x.toString() + "," + z.toString());
     this.doorSet.push(doorObject);
   }
@@ -159,7 +184,9 @@ export default class GameLogic extends RE.Component {
       this.inGameUI.setScore(0);
       this.gameStarted = true;
       const playerInstance = this.player.instantiate();
+
       if (playerInstance) {
+        playerInstance.position.set(20, 0.8, -18);
         this.playerController = RE.getComponent(
           PlayerController,
           playerInstance

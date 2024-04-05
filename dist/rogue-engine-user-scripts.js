@@ -13406,8 +13406,46 @@ class Door extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
     this.object3d.rotateY(-this.openAngle);
     this.isOpen = false;
   }
+  awake() {
+  }
 }
 __name(Door, "Door");
+Door.dimensions = [
+  [18.28, 5.052, -50.721, 0, 0.5 * Math.PI, 201],
+  [18.28, 5.052, -61.579, 0, 0.5 * Math.PI, 202],
+  [30.624, 5.052, -76.562, 0, 0, 203],
+  [49.264, 5.052, -76.606, 0, 0, 204],
+  [28.025, 5.052, -30.04, 0, 0.5 * Math.PI, 205],
+  [28.167, 5.052, -43.752, 0, 0.5 * Math.PI, 206],
+  [28.075, 5.052, -58.842, 0, 0.5 * Math.PI, 207],
+  [31.535, 5.052, -16.081, 0, 0, 1],
+  [42.226, 5.052, -16.081, 0, 0, 2],
+  [20.353, 5.052, -21.673, 1, 0, 3],
+  [21.693, 5.052, -21.673, 1, Math.PI, 4],
+  [67.65, 5.052, -57.93, 0, 0.5 * Math.PI, 208],
+  [67.751, 5.052, -10.936, 0, 0.5 * Math.PI, 211],
+  [67.715, 5.052, -44.886, 0, 0.5 * Math.PI, 209],
+  [67.789, 5.052, -29.43, 0, 0.5 * Math.PI, 210],
+  [103.297, 5.052, -24.241, 0, 0.5 * Math.PI, 214],
+  [103.417, 5.052, -39.83, 0, 0.5 * Math.PI, 215],
+  [103.169, 5.052, -54.894, 0, 0.5 * Math.PI, 216],
+  [103.232, 5.052, -69.373, 0, 0.5 * Math.PI, 217],
+  [92.86, 5.052, -76.481, 0, 0, 5],
+  [14.014, 1.05, 28.602, 0, Math.PI, 101],
+  [17.876, 1.05, 37.34, 0, Math.PI, 102.1],
+  [27.057, 1.05, 37.361, 0, Math.PI, 102.2],
+  [34.809, 1.05, 37.34, 0, Math.PI, 103],
+  [45.128, 1.05, 37.359, 0, Math.PI, 104.1],
+  [53.549, 1.05, 37.332, 0, Math.PI, 104.2],
+  [59.269, 1.05, 37.34, 0, Math.PI, 105.1],
+  [68.542, 1.05, 37.339, 0, Math.PI, 105.2],
+  [74.644, 1.05, 37.339, 0, Math.PI, 106.1],
+  [83.741, 1.05, 37.339, 0, Math.PI, 106.2],
+  [95.48, 1.05, 38.877, 0, 0, 6],
+  [90.253, 1.05, 37.98, 0, 0, 7],
+  [20.257, 1.05, -1.67, 1, Math.PI, 8],
+  [18.917, 1.05, -1.67, 1, 0, 9]
+];
 __decorateClass([
   rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.num()
 ], Door.prototype, "openAngle", 2);
@@ -13461,7 +13499,7 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
     this.score = 0;
     this.collectedFlags = [];
     this.collectableCount = 5;
-    this.doorCount = 10;
+    this.doorCount = _Door_re__WEBPACK_IMPORTED_MODULE_4__["default"].dimensions.length;
   }
   awake() {
   }
@@ -13511,7 +13549,7 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
     }
   }
   openDoorIn(obj1, obj2, index) {
-    const collide = _CollisionDetection_re__WEBPACK_IMPORTED_MODULE_3__["default"].colliding(obj1, obj2[index], 4);
+    const collide = _CollisionDetection_re__WEBPACK_IMPORTED_MODULE_3__["default"].colliding(obj1, obj2[index], 8);
     if (collide) {
       this.interactUI.show();
       const interactAction = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.mouse.isLeftButtonDown;
@@ -13534,26 +13572,31 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
       const collectableInstance = this.collectable.instantiate();
       if (collectableInstance) {
         this.collectableSet[i] = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_Collectable_re__WEBPACK_IMPORTED_MODULE_1__["default"], collectableInstance);
-        this.addCollectable(this.collectableSet[i], i * 3 + 18, -12);
+        this.addCollectable(this.collectableSet[i], i * 3 + 18, 0, -12);
       }
     }
   }
-  addCollectable(collectableObject, x, z) {
-    collectableObject.object3d.position.set(x, 0.5, z);
+  addCollectable(collectableObject, x, y, z) {
+    collectableObject.object3d.position.set(x, 5.052, z);
     this.collectableSet.push(collectableObject);
   }
   addDoors() {
-    for (let i = 1; i <= this.doorCount; i++) {
-      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("Add Doors");
-      const doorInstance = this.door.instantiate();
+    for (let i = 0; i < this.doorCount; i++) {
+      let doorInstance;
+      if (_Door_re__WEBPACK_IMPORTED_MODULE_4__["default"].dimensions[i][3] === 0) {
+        doorInstance = this.singleDoor.instantiate();
+      } else {
+        doorInstance = this.doubleDoor.instantiate();
+      }
       if (doorInstance) {
         this.doorSet[i] = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_Door_re__WEBPACK_IMPORTED_MODULE_4__["default"], doorInstance);
-        this.addDoor(this.doorSet[i], i * 2 + 18, -16);
+        this.addDoor(this.doorSet[i], _Door_re__WEBPACK_IMPORTED_MODULE_4__["default"].dimensions[i][0], _Door_re__WEBPACK_IMPORTED_MODULE_4__["default"].dimensions[i][1], _Door_re__WEBPACK_IMPORTED_MODULE_4__["default"].dimensions[i][2], _Door_re__WEBPACK_IMPORTED_MODULE_4__["default"].dimensions[i][4]);
       }
     }
   }
-  addDoor(doorObject, x, z) {
-    doorObject.object3d.position.set(x, 1, z);
+  addDoor(doorObject, x, y, z, rotationY) {
+    doorObject.object3d.position.set(x, y, z);
+    doorObject.object3d.rotateY(rotationY);
     this.doorSet.push(doorObject);
   }
   startGame() {
@@ -13564,6 +13607,7 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
       this.gameStarted = true;
       const playerInstance = this.player.instantiate();
       if (playerInstance) {
+        playerInstance.position.set(20, 0.8, -18);
         this.playerController = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_PlayerController_re__WEBPACK_IMPORTED_MODULE_2__["default"], playerInstance);
         this.addCollectables();
         this.addDoors();
@@ -13581,7 +13625,10 @@ __decorateClass([
 ], GameLogic.prototype, "player", 2);
 __decorateClass([
   rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.prefab()
-], GameLogic.prototype, "door", 2);
+], GameLogic.prototype, "singleDoor", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.prefab()
+], GameLogic.prototype, "doubleDoor", 2);
 rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(GameLogic);
 
 
