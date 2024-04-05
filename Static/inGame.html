@@ -1,8 +1,8 @@
 <div class="container">
   <div class="whole-health-bar">
-    <div class="health-bar-circle">100</div>
+    <div id="health-bar-circle">100</div>
     <div class="health-bar">
-      <div class="health-fill" style="width: 100%"></div>
+      <div id="health-fill" style="width: 100%"></div>
     </div>
   </div>
   <div id="score-div">
@@ -36,7 +36,7 @@
     align-items: center;
   }
 
-  .health-bar-circle {
+  #health-bar-circle {
     width: 40px;
     height: 40px;
     border-radius: 40px;
@@ -61,7 +61,7 @@
     margin-left: -20px;
   }
 
-  .health-fill {
+  #health-fill {
     height: 100%;
     background-color: #0f0;
     transition: width 0.3s ease;

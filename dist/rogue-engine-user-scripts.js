@@ -13287,6 +13287,43 @@ const endShapeContactEvent = {
 
 /***/ }),
 
+/***/ "./Assets/Component/Bot.re.ts":
+/*!************************************!*\
+  !*** ./Assets/Component/Bot.re.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Bot)
+/* harmony export */ });
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _RE_RogueEngine_rogue_rapier_Components_RapierBody_re__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @RE/RogueEngine/rogue-rapier/Components/RapierBody.re */ "./Assets/rogue_packages/RogueEngine/rogue-rapier/Components/RapierBody.re.ts");
+var __defProp = Object.defineProperty;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+
+
+class Bot extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
+  get rapierBody() {
+    if (!this._rapierBody) {
+      this._rapierBody = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_RE_RogueEngine_rogue_rapier_Components_RapierBody_re__WEBPACK_IMPORTED_MODULE_1__["default"], this.object3d);
+    }
+    return this._rapierBody;
+  }
+  awake() {
+  }
+  start() {
+  }
+  update() {
+  }
+}
+__name(Bot, "Bot");
+rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(Bot);
+
+
+/***/ }),
+
 /***/ "./Assets/Component/Collectable.re.ts":
 /*!********************************************!*\
   !*** ./Assets/Component/Collectable.re.ts ***!
@@ -13435,6 +13472,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PlayerController_re__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PlayerController.re */ "./Assets/Component/PlayerController.re.ts");
 /* harmony import */ var _CollisionDetection_re__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CollisionDetection.re */ "./Assets/Component/CollisionDetection.re.ts");
 /* harmony import */ var _Door_re__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Door.re */ "./Assets/Component/Door.re.ts");
+/* harmony import */ var _Bot_re__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Bot.re */ "./Assets/Component/Bot.re.ts");
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
@@ -13452,6 +13490,7 @@ var __decorateClass = (decorators, target, key, kind) => {
 
 
 
+
 class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
   constructor() {
     super(...arguments);
@@ -13462,6 +13501,10 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
     this.collectedFlags = [];
     this.collectableCount = 5;
     this.doorCount = 10;
+    this.botSet = [];
+    this.botCount = 5;
+    this.health = 100;
+    this.damageFlags = [];
   }
   awake() {
   }
@@ -13484,6 +13527,11 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
         this.doorSet.forEach((door, index) => {
           this.openDoorIn(this.playerController, this.doorSet, index);
         });
+        this.botSet.forEach((boot, index) => {
+          this.botDamage(this.playerController, this.botSet, index);
+        });
+        if (this.health <= 0) {
+        }
       }
     } else {
       const startAction = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.keyboard.getKeyDown("Space");
@@ -13556,17 +13604,52 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
     doorObject.object3d.position.set(x, 1, z);
     this.doorSet.push(doorObject);
   }
+  addBots() {
+    for (let i = 1; i <= this.botCount; i++) {
+      const botInstance = this.bot.instantiate();
+      if (botInstance) {
+        this.botSet[i] = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_Bot_re__WEBPACK_IMPORTED_MODULE_5__["default"], botInstance);
+        this.addBot(this.botSet[i], i * 3 + 20, -20);
+      }
+    }
+  }
+  addBot(botObject, x, z) {
+    botObject.object3d.position.set(x, 1, z);
+    this.botSet.push(botObject);
+  }
+  botDamage(obj1, obj2, index) {
+    const collide = _CollisionDetection_re__WEBPACK_IMPORTED_MODULE_3__["default"].colliding(obj1, obj2[index], 2);
+    if (collide) {
+      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("true");
+    } else {
+      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("false");
+    }
+    if (collide && !this.damageFlags[index]) {
+      this.botSet[index].object3d.parent?.remove(this.botSet[index].object3d);
+      this.health -= 20;
+      this.damageFlags[index] = true;
+      this.inGameUI.setHealth(this.health);
+      if (this.health >= 0) {
+        this.inGameUI.setHealthText(this.health);
+      } else {
+        this.inGameUI.setHealthText(0);
+      }
+      obj1.object3d.translateX(-5);
+    }
+  }
   startGame() {
     if (this.gameStarted === false) {
       this.startMenuUI.hide();
       this.inGameUI.show();
       this.inGameUI.setScore(0);
+      this.inGameUI.setHealth(100);
       this.gameStarted = true;
       const playerInstance = this.player.instantiate();
       if (playerInstance) {
         this.playerController = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_PlayerController_re__WEBPACK_IMPORTED_MODULE_2__["default"], playerInstance);
         this.addCollectables();
         this.addDoors();
+        this.addBots();
         this.collectedFlags.push(false);
       }
     }
@@ -13582,6 +13665,9 @@ __decorateClass([
 __decorateClass([
   rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.prefab()
 ], GameLogic.prototype, "door", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.prefab()
+], GameLogic.prototype, "bot", 2);
 rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(GameLogic);
 
 
@@ -13618,6 +13704,261 @@ class PlayerController extends rogue_engine__WEBPACK_IMPORTED_MODULE_1__.Compone
 }
 __name(PlayerController, "PlayerController");
 rogue_engine__WEBPACK_IMPORTED_MODULE_1__.registerComponent(PlayerController);
+
+
+/***/ }),
+
+/***/ "./Assets/Component/RemoteFire.re.ts":
+/*!*******************************************!*\
+  !*** ./Assets/Component/RemoteFire.re.ts ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ RemoteFire)
+/* harmony export */ });
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three */ "three");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_1__);
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+var __decorateClass = (decorators, target, key, kind) => {
+  var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc(target, key) : target;
+  for (var i = decorators.length - 1, decorator; i >= 0; i--)
+    if (decorator = decorators[i])
+      result = (kind ? decorator(target, key, result) : decorator(result)) || result;
+  if (kind && result)
+    __defProp(target, key, result);
+  return result;
+};
+
+
+
+const vector = new three__WEBPACK_IMPORTED_MODULE_1__.Vector3();
+class RemoteFire extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
+  constructor() {
+    super(...arguments);
+    this.alwaysFire = false;
+    this.currentAudio = 0;
+    this.charging = false;
+    this.firing = false;
+    this.nextFire = 0;
+    this.nextFires = [];
+    this.fireSounds = [];
+  }
+  start() {
+    this.chargeSound.setPlaybackRate(1);
+    for (let i = 0; i < 10; i++) {
+      const audio = new three__WEBPACK_IMPORTED_MODULE_1__.PositionalAudio(this.fireSound.listener);
+      audio.setBuffer(this.fireSound.buffer);
+      this.fireSounds.push(audio);
+      this.object3d.add(audio);
+    }
+    const multiply = new three__WEBPACK_IMPORTED_MODULE_1__.Vector3(1.5, 1.5, 1.5);
+    this.object3d.parent?.traverse((child) => {
+      if (!child.isMesh) {
+        return;
+      }
+      const material = child.material;
+      if (!material.color) {
+        return;
+      }
+      if (material.color.r > 0.5 && material.color.g < 0.5 && material.color.b < 0.5) {
+        if (child.name === "mesh1273343276_1") {
+          child.scale.multiply(multiply);
+        }
+        if (!this.remoteMaterial) {
+          this.remoteMaterial = material.clone();
+          this.remoteMaterial.color.setRGB(1, 1, 1);
+        }
+        child.material = this.remoteMaterial;
+      }
+    });
+  }
+  update() {
+    if (!this.firing) {
+      return;
+    }
+    this.nextFire -= rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Runtime.deltaTime;
+    if (this.charging) {
+      this.remoteMaterial.color.setRGB(1, this.nextFire / 3, this.nextFire / 3);
+    }
+    if (this.nextFire > 0) {
+      return;
+    }
+    if (this.charging) {
+      this.remoteMaterial.color.setRGB(1, 1, 1);
+    }
+    this.charging = false;
+    this.firing = this.nextFires.length > 0;
+    this.nextFire = this.nextFires.shift();
+  }
+  startFiring() {
+    const numberOfFires = 2 + Math.random() * 4;
+    for (let i = 0; i < numberOfFires; i++) {
+      this.nextFires.push(0.25 + Math.random() * 0.35);
+    }
+    this.chargeSound.play();
+    this.charging = true;
+    this.firing = true;
+    this.nextFire = 1.75;
+    vector.x += -0.25 + Math.random() * 0.5;
+    vector.y += -0.3 + Math.random() * 0.3;
+    vector.z += -0.25 + Math.random() * 0.5;
+    return this.nextFires.reduce((result, value) => result + value, 1.5);
+  }
+  playAudio() {
+    this.currentAudio++;
+    if (this.currentAudio >= this.fireSounds.length) {
+      this.currentAudio = 0;
+    }
+    const fireSound = this.fireSounds[this.currentAudio];
+    fireSound.setPlaybackRate(0.8 + Math.random() * 0.7);
+    fireSound.play();
+  }
+  fire() {
+    const laser = this.laserPrefab.instantiate();
+    this.object3d.getWorldPosition(laser.position);
+    const cameraPositionX = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Runtime.camera.position.x;
+    const cameraPositionY = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Runtime.camera.position.y;
+    const cameraPositionZ = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Runtime.camera.position.z;
+    if (cameraPositionX < vector.x) {
+      vector.x -= vector.x - Math.abs(cameraPositionX);
+    } else {
+      vector.x += cameraPositionX - Math.abs(vector.x);
+    }
+    if (cameraPositionY < vector.y) {
+      vector.y -= vector.y - Math.abs(cameraPositionY);
+    } else {
+      vector.y += cameraPositionY - Math.abs(vector.y);
+    }
+    if (cameraPositionZ < vector.z) {
+      vector.z -= vector.z - Math.abs(cameraPositionZ);
+    } else {
+      vector.z += cameraPositionZ - Math.abs(vector.z);
+    }
+    laser.lookAt(vector);
+    this.playAudio();
+  }
+}
+__name(RemoteFire, "RemoteFire");
+__decorateClass([
+  (0,rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Prop)("Boolean")
+], RemoteFire.prototype, "alwaysFire", 2);
+__decorateClass([
+  (0,rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Prop)("PositionalAudio")
+], RemoteFire.prototype, "chargeSound", 2);
+__decorateClass([
+  (0,rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Prop)("PositionalAudio")
+], RemoteFire.prototype, "fireSound", 2);
+__decorateClass([
+  (0,rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Prop)("Prefab")
+], RemoteFire.prototype, "laserPrefab", 2);
+rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(RemoteFire);
+
+
+/***/ }),
+
+/***/ "./Assets/Component/RemoteMovement.re.ts":
+/*!***********************************************!*\
+  !*** ./Assets/Component/RemoteMovement.re.ts ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ RemoteMovement)
+/* harmony export */ });
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var three_src_math_MathUtils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three/src/math/MathUtils */ "./node_modules/three/src/math/MathUtils.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three */ "three");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_1__);
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+var __decorateClass = (decorators, target, key, kind) => {
+  var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc(target, key) : target;
+  for (var i = decorators.length - 1, decorator; i >= 0; i--)
+    if (decorator = decorators[i])
+      result = (kind ? decorator(target, key, result) : decorator(result)) || result;
+  if (kind && result)
+    __defProp(target, key, result);
+  return result;
+};
+
+
+
+
+const vector = new three__WEBPACK_IMPORTED_MODULE_1__.Vector3();
+class RemoteMovement extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
+  constructor() {
+    super(...arguments);
+    this.nextPosition = 0;
+    this.nextRotation = 0;
+    this.speed = 200;
+  }
+  start() {
+    this.setupPosition();
+  }
+  update() {
+    if (this.positionTime > 0) {
+      this.updatePosition();
+    }
+    this.nextPosition -= rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Runtime.deltaTime;
+    if (this.nextPosition < 0) {
+      this.setupPosition();
+      this.nextPosition = 1 + Math.abs(Math.random()) * 5;
+    }
+    if (this.rotationTime > 0) {
+      this.updateRotation();
+    }
+    this.nextRotation -= rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Runtime.deltaTime;
+    if (this.nextRotation < 0) {
+      this.setupRotation();
+      this.nextRotation = 1 + Math.abs(Math.random()) * 5;
+    }
+    if (!this.model) {
+      return;
+    }
+    rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Runtime.camera.getWorldPosition(vector);
+    this.model.lookAt(vector);
+  }
+  updatePosition() {
+    const { positionDirection } = this;
+    const change = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Runtime.deltaTime;
+    this.object3d.position.y = Math.max(-1.5, Math.min(0.5, this.object3d.position.y + positionDirection * change));
+    this.positionTime -= change;
+  }
+  updateRotation() {
+    const { rotationDirection, speed } = this;
+    const change = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Runtime.deltaTime * speed;
+    this.object3d.rotateZ((0,three_src_math_MathUtils__WEBPACK_IMPORTED_MODULE_2__.degToRad)(change * rotationDirection));
+    this.rotationTime -= change;
+  }
+  setupPosition() {
+    const { y } = this.object3d.position;
+    this.positionDirection = Math.abs(Math.random()) < 1 ? 1 : 2;
+    if (y < -1) {
+      this.positionDirection = 1;
+    } else if (y > 0.4) {
+      this.positionDirection = -1;
+    }
+    this.positionTime = Math.abs(Math.random()) * 1;
+  }
+  setupRotation() {
+    this.rotationDirection = Math.random() < 0.5 ? -1.5 : 1.5;
+    this.rotationTime = Math.random() * 45;
+  }
+}
+__name(RemoteMovement, "RemoteMovement");
+__decorateClass([
+  (0,rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Prop)("Object3D")
+], RemoteMovement.prototype, "model", 2);
+rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(RemoteMovement);
 
 
 /***/ }),
@@ -13707,9 +14048,17 @@ class UIInGame extends _UIComponent_re__WEBPACK_IMPORTED_MODULE_1__["default"] {
   show() {
     super.show();
     this.scoreDiv = document.getElementById("score");
+    this.healthDiv = document.getElementById("health-fill");
+    this.healthText = document.getElementById("health-bar-circle");
   }
   setScore(score) {
     this.scoreDiv.innerHTML = score.toString();
+  }
+  setHealth(health) {
+    this.healthDiv.style.width = `${health.toString()}%`;
+  }
+  setHealthText(health) {
+    this.healthText.innerHTML = health.toString();
   }
 }
 __name(UIInGame, "UIInGame");
@@ -17292,6 +17641,339 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_rogue_engine__;
 
 module.exports = __WEBPACK_EXTERNAL_MODULE_three__;
 
+/***/ }),
+
+/***/ "./node_modules/three/src/math/MathUtils.js":
+/*!**************************************************!*\
+  !*** ./node_modules/three/src/math/MathUtils.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DEG2RAD": () => (/* binding */ DEG2RAD),
+/* harmony export */   "RAD2DEG": () => (/* binding */ RAD2DEG),
+/* harmony export */   "generateUUID": () => (/* binding */ generateUUID),
+/* harmony export */   "clamp": () => (/* binding */ clamp),
+/* harmony export */   "euclideanModulo": () => (/* binding */ euclideanModulo),
+/* harmony export */   "mapLinear": () => (/* binding */ mapLinear),
+/* harmony export */   "inverseLerp": () => (/* binding */ inverseLerp),
+/* harmony export */   "lerp": () => (/* binding */ lerp),
+/* harmony export */   "damp": () => (/* binding */ damp),
+/* harmony export */   "pingpong": () => (/* binding */ pingpong),
+/* harmony export */   "smoothstep": () => (/* binding */ smoothstep),
+/* harmony export */   "smootherstep": () => (/* binding */ smootherstep),
+/* harmony export */   "randInt": () => (/* binding */ randInt),
+/* harmony export */   "randFloat": () => (/* binding */ randFloat),
+/* harmony export */   "randFloatSpread": () => (/* binding */ randFloatSpread),
+/* harmony export */   "seededRandom": () => (/* binding */ seededRandom),
+/* harmony export */   "degToRad": () => (/* binding */ degToRad),
+/* harmony export */   "radToDeg": () => (/* binding */ radToDeg),
+/* harmony export */   "isPowerOfTwo": () => (/* binding */ isPowerOfTwo),
+/* harmony export */   "ceilPowerOfTwo": () => (/* binding */ ceilPowerOfTwo),
+/* harmony export */   "floorPowerOfTwo": () => (/* binding */ floorPowerOfTwo),
+/* harmony export */   "setQuaternionFromProperEuler": () => (/* binding */ setQuaternionFromProperEuler),
+/* harmony export */   "normalize": () => (/* binding */ normalize),
+/* harmony export */   "denormalize": () => (/* binding */ denormalize)
+/* harmony export */ });
+const _lut = [ '00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '0a', '0b', '0c', '0d', '0e', '0f', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '1a', '1b', '1c', '1d', '1e', '1f', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '2a', '2b', '2c', '2d', '2e', '2f', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '3a', '3b', '3c', '3d', '3e', '3f', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '4a', '4b', '4c', '4d', '4e', '4f', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '5a', '5b', '5c', '5d', '5e', '5f', '60', '61', '62', '63', '64', '65', '66', '67', '68', '69', '6a', '6b', '6c', '6d', '6e', '6f', '70', '71', '72', '73', '74', '75', '76', '77', '78', '79', '7a', '7b', '7c', '7d', '7e', '7f', '80', '81', '82', '83', '84', '85', '86', '87', '88', '89', '8a', '8b', '8c', '8d', '8e', '8f', '90', '91', '92', '93', '94', '95', '96', '97', '98', '99', '9a', '9b', '9c', '9d', '9e', '9f', 'a0', 'a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'aa', 'ab', 'ac', 'ad', 'ae', 'af', 'b0', 'b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8', 'b9', 'ba', 'bb', 'bc', 'bd', 'be', 'bf', 'c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8', 'c9', 'ca', 'cb', 'cc', 'cd', 'ce', 'cf', 'd0', 'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'da', 'db', 'dc', 'dd', 'de', 'df', 'e0', 'e1', 'e2', 'e3', 'e4', 'e5', 'e6', 'e7', 'e8', 'e9', 'ea', 'eb', 'ec', 'ed', 'ee', 'ef', 'f0', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9', 'fa', 'fb', 'fc', 'fd', 'fe', 'ff' ];
+
+let _seed = 1234567;
+
+
+const DEG2RAD = Math.PI / 180;
+const RAD2DEG = 180 / Math.PI;
+
+// http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript/21963136#21963136
+function generateUUID() {
+
+	const d0 = Math.random() * 0xffffffff | 0;
+	const d1 = Math.random() * 0xffffffff | 0;
+	const d2 = Math.random() * 0xffffffff | 0;
+	const d3 = Math.random() * 0xffffffff | 0;
+	const uuid = _lut[ d0 & 0xff ] + _lut[ d0 >> 8 & 0xff ] + _lut[ d0 >> 16 & 0xff ] + _lut[ d0 >> 24 & 0xff ] + '-' +
+			_lut[ d1 & 0xff ] + _lut[ d1 >> 8 & 0xff ] + '-' + _lut[ d1 >> 16 & 0x0f | 0x40 ] + _lut[ d1 >> 24 & 0xff ] + '-' +
+			_lut[ d2 & 0x3f | 0x80 ] + _lut[ d2 >> 8 & 0xff ] + '-' + _lut[ d2 >> 16 & 0xff ] + _lut[ d2 >> 24 & 0xff ] +
+			_lut[ d3 & 0xff ] + _lut[ d3 >> 8 & 0xff ] + _lut[ d3 >> 16 & 0xff ] + _lut[ d3 >> 24 & 0xff ];
+
+	// .toLowerCase() here flattens concatenated strings to save heap memory space.
+	return uuid.toLowerCase();
+
+}
+
+function clamp( value, min, max ) {
+
+	return Math.max( min, Math.min( max, value ) );
+
+}
+
+// compute euclidean modulo of m % n
+// https://en.wikipedia.org/wiki/Modulo_operation
+function euclideanModulo( n, m ) {
+
+	return ( ( n % m ) + m ) % m;
+
+}
+
+// Linear mapping from range <a1, a2> to range <b1, b2>
+function mapLinear( x, a1, a2, b1, b2 ) {
+
+	return b1 + ( x - a1 ) * ( b2 - b1 ) / ( a2 - a1 );
+
+}
+
+// https://www.gamedev.net/tutorials/programming/general-and-gameplay-programming/inverse-lerp-a-super-useful-yet-often-overlooked-function-r5230/
+function inverseLerp( x, y, value ) {
+
+	if ( x !== y ) {
+
+		return ( value - x ) / ( y - x );
+
+	} else {
+
+		return 0;
+
+	}
+
+}
+
+// https://en.wikipedia.org/wiki/Linear_interpolation
+function lerp( x, y, t ) {
+
+	return ( 1 - t ) * x + t * y;
+
+}
+
+// http://www.rorydriscoll.com/2016/03/07/frame-rate-independent-damping-using-lerp/
+function damp( x, y, lambda, dt ) {
+
+	return lerp( x, y, 1 - Math.exp( - lambda * dt ) );
+
+}
+
+// https://www.desmos.com/calculator/vcsjnyz7x4
+function pingpong( x, length = 1 ) {
+
+	return length - Math.abs( euclideanModulo( x, length * 2 ) - length );
+
+}
+
+// http://en.wikipedia.org/wiki/Smoothstep
+function smoothstep( x, min, max ) {
+
+	if ( x <= min ) return 0;
+	if ( x >= max ) return 1;
+
+	x = ( x - min ) / ( max - min );
+
+	return x * x * ( 3 - 2 * x );
+
+}
+
+function smootherstep( x, min, max ) {
+
+	if ( x <= min ) return 0;
+	if ( x >= max ) return 1;
+
+	x = ( x - min ) / ( max - min );
+
+	return x * x * x * ( x * ( x * 6 - 15 ) + 10 );
+
+}
+
+// Random integer from <low, high> interval
+function randInt( low, high ) {
+
+	return low + Math.floor( Math.random() * ( high - low + 1 ) );
+
+}
+
+// Random float from <low, high> interval
+function randFloat( low, high ) {
+
+	return low + Math.random() * ( high - low );
+
+}
+
+// Random float from <-range/2, range/2> interval
+function randFloatSpread( range ) {
+
+	return range * ( 0.5 - Math.random() );
+
+}
+
+// Deterministic pseudo-random float in the interval [ 0, 1 ]
+function seededRandom( s ) {
+
+	if ( s !== undefined ) _seed = s;
+
+	// Mulberry32 generator
+
+	let t = _seed += 0x6D2B79F5;
+
+	t = Math.imul( t ^ t >>> 15, t | 1 );
+
+	t ^= t + Math.imul( t ^ t >>> 7, t | 61 );
+
+	return ( ( t ^ t >>> 14 ) >>> 0 ) / 4294967296;
+
+}
+
+function degToRad( degrees ) {
+
+	return degrees * DEG2RAD;
+
+}
+
+function radToDeg( radians ) {
+
+	return radians * RAD2DEG;
+
+}
+
+function isPowerOfTwo( value ) {
+
+	return ( value & ( value - 1 ) ) === 0 && value !== 0;
+
+}
+
+function ceilPowerOfTwo( value ) {
+
+	return Math.pow( 2, Math.ceil( Math.log( value ) / Math.LN2 ) );
+
+}
+
+function floorPowerOfTwo( value ) {
+
+	return Math.pow( 2, Math.floor( Math.log( value ) / Math.LN2 ) );
+
+}
+
+function setQuaternionFromProperEuler( q, a, b, c, order ) {
+
+	// Intrinsic Proper Euler Angles - see https://en.wikipedia.org/wiki/Euler_angles
+
+	// rotations are applied to the axes in the order specified by 'order'
+	// rotation by angle 'a' is applied first, then by angle 'b', then by angle 'c'
+	// angles are in radians
+
+	const cos = Math.cos;
+	const sin = Math.sin;
+
+	const c2 = cos( b / 2 );
+	const s2 = sin( b / 2 );
+
+	const c13 = cos( ( a + c ) / 2 );
+	const s13 = sin( ( a + c ) / 2 );
+
+	const c1_3 = cos( ( a - c ) / 2 );
+	const s1_3 = sin( ( a - c ) / 2 );
+
+	const c3_1 = cos( ( c - a ) / 2 );
+	const s3_1 = sin( ( c - a ) / 2 );
+
+	switch ( order ) {
+
+		case 'XYX':
+			q.set( c2 * s13, s2 * c1_3, s2 * s1_3, c2 * c13 );
+			break;
+
+		case 'YZY':
+			q.set( s2 * s1_3, c2 * s13, s2 * c1_3, c2 * c13 );
+			break;
+
+		case 'ZXZ':
+			q.set( s2 * c1_3, s2 * s1_3, c2 * s13, c2 * c13 );
+			break;
+
+		case 'XZX':
+			q.set( c2 * s13, s2 * s3_1, s2 * c3_1, c2 * c13 );
+			break;
+
+		case 'YXY':
+			q.set( s2 * c3_1, c2 * s13, s2 * s3_1, c2 * c13 );
+			break;
+
+		case 'ZYZ':
+			q.set( s2 * s3_1, s2 * c3_1, c2 * s13, c2 * c13 );
+			break;
+
+		default:
+			console.warn( 'THREE.MathUtils: .setQuaternionFromProperEuler() encountered an unknown order: ' + order );
+
+	}
+
+}
+
+function denormalize( value, array ) {
+
+	switch ( array.constructor ) {
+
+		case Float32Array:
+
+			return value;
+
+		case Uint16Array:
+
+			return value / 65535.0;
+
+		case Uint8Array:
+
+			return value / 255.0;
+
+		case Int16Array:
+
+			return Math.max( value / 32767.0, - 1.0 );
+
+		case Int8Array:
+
+			return Math.max( value / 127.0, - 1.0 );
+
+		default:
+
+			throw new Error( 'Invalid component type.' );
+
+	}
+
+}
+
+function normalize( value, array ) {
+
+	switch ( array.constructor ) {
+
+		case Float32Array:
+
+			return value;
+
+		case Uint16Array:
+
+			return Math.round( value * 65535.0 );
+
+		case Uint8Array:
+
+			return Math.round( value * 255.0 );
+
+		case Int16Array:
+
+			return Math.round( value * 32767.0 );
+
+		case Int8Array:
+
+			return Math.round( value * 127.0 );
+
+		default:
+
+			throw new Error( 'Invalid component type.' );
+
+	}
+
+}
+
+
+
+
+
+
 /***/ })
 
 /******/ 	});
@@ -17454,11 +18136,14 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_three__;
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	__webpack_require__("./Assets/Component/Bot.re.ts");
 /******/ 	__webpack_require__("./Assets/Component/Collectable.re.ts");
 /******/ 	__webpack_require__("./Assets/Component/CollisionDetection.re.ts");
 /******/ 	__webpack_require__("./Assets/Component/Door.re.ts");
 /******/ 	__webpack_require__("./Assets/Component/GameLogic.re.ts");
 /******/ 	__webpack_require__("./Assets/Component/PlayerController.re.ts");
+/******/ 	__webpack_require__("./Assets/Component/RemoteFire.re.ts");
+/******/ 	__webpack_require__("./Assets/Component/RemoteMovement.re.ts");
 /******/ 	__webpack_require__("./Assets/Component/UIComponent.re.ts");
 /******/ 	__webpack_require__("./Assets/Component/UIInGame.re.ts");
 /******/ 	__webpack_require__("./Assets/rogue_packages/BeardScript/rogue-cannon/Components/CannonBody.re.ts");
