@@ -13295,30 +13295,101 @@ const endShapeContactEvent = {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Building": () => (/* binding */ Building),
+/* harmony export */   "Direction": () => (/* binding */ Direction),
 /* harmony export */   "default": () => (/* binding */ Collectable)
 /* harmony export */ });
 /* harmony import */ var _RE_RogueEngine_rogue_rapier_Components_RapierBody_re__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @RE/RogueEngine/rogue-rapier/Components/RapierBody.re */ "./Assets/rogue_packages/RogueEngine/rogue-rapier/Components/RapierBody.re.ts");
 /* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
 /* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_1__);
 var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+var __decorateClass = (decorators, target, key, kind) => {
+  var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc(target, key) : target;
+  for (var i = decorators.length - 1, decorator; i >= 0; i--)
+    if (decorator = decorators[i])
+      result = (kind ? decorator(target, key, result) : decorator(result)) || result;
+  if (kind && result)
+    __defProp(target, key, result);
+  return result;
+};
 
 
+var Building;
+(function(Building2) {
+  Building2[Building2["Right"] = 0] = "Right";
+  Building2[Building2["Left1stFloor"] = 1] = "Left1stFloor";
+  Building2[Building2["Left2ndFloor"] = 2] = "Left2ndFloor";
+})(Building || (Building = {}));
+var Direction;
+(function(Direction2) {
+  Direction2[Direction2["South"] = 0] = "South";
+  Direction2[Direction2["East"] = 1] = "East";
+  Direction2[Direction2["West"] = 2] = "West";
+  Direction2[Direction2["North"] = 3] = "North";
+})(Direction || (Direction = {}));
 class Collectable extends rogue_engine__WEBPACK_IMPORTED_MODULE_1__.Component {
+  constructor() {
+    super(...arguments);
+    this.bouncing = true;
+    this.bouncingHeight = 0.01;
+    this.bouncingSpeed = 100;
+    this.bookHeight = 0.7;
+    this.curBook = [];
+    this.floorHeight = [
+      0,
+      0,
+      5.052
+    ];
+    this.startTime = 0;
+  }
   get rapierBody() {
     if (!this._rapierBody) {
       this._rapierBody = rogue_engine__WEBPACK_IMPORTED_MODULE_1__.getComponent(_RE_RogueEngine_rogue_rapier_Components_RapierBody_re__WEBPACK_IMPORTED_MODULE_0__["default"], this.object3d);
     }
     return this._rapierBody;
   }
-  awake() {
-  }
-  start() {
+  generateRandomPosition(Build) {
+    var constraintX;
+    var constraintZ;
+    var fixedY;
+    if (Build = 0) {
+      constraintX = { min: 2.681, max: 97.681 };
+      constraintZ = { min: 20.877, max: 51.2 };
+      fixedY = 0 + this.bookHeight;
+    } else if (Build = 1) {
+      constraintX = { min: 2.524, max: 27.524 };
+      constraintZ = { min: -1.523, max: -21.523 };
+      fixedY = 0 + this.bookHeight;
+    } else {
+      constraintX = { min: 2.524, max: 125.524 };
+      constraintZ = { min: -1.523, max: -93 };
+      fixedY = 5.052 + this.bookHeight;
+    }
+    const x = Math.floor(Math.random() * (constraintX.max - constraintX.min + 1)) + constraintX.min;
+    const z = Math.floor(Math.random() * (constraintZ.max - constraintZ.min + 1)) + constraintZ.min;
+    return { x, y: fixedY, z, direction: 1 };
   }
   update() {
+    this.startTime = (this.startTime + rogue_engine__WEBPACK_IMPORTED_MODULE_1__.Runtime.deltaTime) % 1e3;
+    let y = Math.cos(this.startTime / this.bouncingSpeed * 360) * this.bouncingHeight;
+    this.object3d.translateY(y);
   }
 }
 __name(Collectable, "Collectable");
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_1__.props.num()
+], Collectable.prototype, "bouncing", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_1__.props.num()
+], Collectable.prototype, "bouncingHeight", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_1__.props.num()
+], Collectable.prototype, "bouncingSpeed", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_1__.props.num()
+], Collectable.prototype, "bookHeight", 2);
 rogue_engine__WEBPACK_IMPORTED_MODULE_1__.registerComponent(Collectable);
 
 
@@ -13452,15 +13523,40 @@ var __decorateClass = (decorators, target, key, kind) => {
 
 
 
+
 class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
   constructor() {
     super(...arguments);
+    this.collectableHeight = 4;
+    this.bookPosition = [
+      { x: 58, y: 1, z: 48.9, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.West },
+      { x: 27, y: 1, z: 47, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.West },
+      { x: 22, y: 1, z: 44, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.West },
+      { x: 95, y: 2, z: 48, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.West },
+      { x: 96, y: 1, z: 43, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.West },
+      { x: 87, y: 1, z: 30, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.South },
+      { x: 67, y: 1, z: 30, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.South },
+      { x: 41, y: 5, z: -90, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.East },
+      { x: 47, y: 5, z: -7.7, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.South },
+      { x: 44, y: 5, z: -42, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.South },
+      { x: 5, y: 5, z: -57, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.South },
+      { x: 7, y: 5, z: -53, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.South },
+      { x: 2.8, y: 5, z: -61, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.South },
+      { x: 47, y: 5, z: -46, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.North },
+      { x: 51, y: 5, z: -14, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.South },
+      { x: 51, y: 5, z: -4, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.South },
+      { x: 45, y: 5, z: -60, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.North },
+      { x: 46, y: 5, z: -24, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.North },
+      { x: 45, y: 5, z: -30, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.North },
+      { x: 30, y: 5, z: -32, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.North },
+      { x: 45, y: 5, z: -62, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.North }
+    ];
     this.gameStarted = false;
     this.collectableSet = [];
     this.doorSet = [];
+    this.collectableCount = 100;
     this.score = 0;
     this.collectedFlags = [];
-    this.collectableCount = 5;
     this.doorCount = 10;
   }
   awake() {
@@ -13534,12 +13630,23 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
       const collectableInstance = this.collectable.instantiate();
       if (collectableInstance) {
         this.collectableSet[i] = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_Collectable_re__WEBPACK_IMPORTED_MODULE_1__["default"], collectableInstance);
-        this.addCollectable(this.collectableSet[i], i * 3 + 18, -12);
+        const buildingPosition = this.bookPosition[i];
+        rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log(buildingPosition.x.toPrecision() + " " + buildingPosition.y.toPrecision() + " " + buildingPosition.z.toPrecision() + " " + buildingPosition.direction);
+        this.addCollectable(this.collectableSet[i], buildingPosition.x, buildingPosition.y, buildingPosition.z, buildingPosition.direction);
       }
     }
   }
-  addCollectable(collectableObject, x, z) {
-    collectableObject.object3d.position.set(x, 0.5, z);
+  addCollectable(collectableObject, x, y, z, direction) {
+    collectableObject.object3d.position.set(x, y, z);
+    if (direction == _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.East) {
+      collectableObject.object3d.rotation.set(Math.PI / 4, Math.PI, 0);
+    } else if (direction == _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.West) {
+      collectableObject.object3d.rotation.set(-Math.PI / 4, Math.PI, 0);
+    } else if (direction == _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.South) {
+      collectableObject.object3d.rotation.set(Math.PI / 2, -Math.PI / 4, Math.PI / 2);
+    } else if (direction == _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.North) {
+      collectableObject.object3d.rotation.set(Math.PI / 2, Math.PI / 4, Math.PI / 2);
+    }
     this.collectableSet.push(collectableObject);
   }
   addDoors() {
@@ -13582,6 +13689,9 @@ __decorateClass([
 __decorateClass([
   rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.prefab()
 ], GameLogic.prototype, "door", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.num()
+], GameLogic.prototype, "collectableHeight", 2);
 rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(GameLogic);
 
 

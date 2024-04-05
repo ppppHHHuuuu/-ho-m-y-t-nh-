@@ -15,7 +15,6 @@
 		root["rogue-engine-user-scripts"] = factory(root["rogue-engine"], root["three"]);
 })(self, function(__WEBPACK_EXTERNAL_MODULE_rogue_engine__, __WEBPACK_EXTERNAL_MODULE_three__) {
 return /******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./node_modules/@dimforge/rapier3d-compat/rapier.es.js":
@@ -24,6 +23,7 @@ return /******/ (() => { // webpackBootstrap
   \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ActiveCollisionTypes": () => (/* binding */ UA),
@@ -124,6 +124,7 @@ let A;const I=new Array(32).fill(void 0);function g(A){return I[A]}I.push(void 0
   \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "AABB": () => (/* binding */ AABB),
@@ -13297,36 +13298,9 @@ const endShapeContactEvent = {
 /*!********************************************!*\
   !*** ./Assets/Component/Collectable.re.ts ***!
   \********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ (() => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Collectable)
-/* harmony export */ });
-/* harmony import */ var _RE_RogueEngine_rogue_rapier_Components_RapierBody_re__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @RE/RogueEngine/rogue-rapier/Components/RapierBody.re */ "./Assets/rogue_packages/RogueEngine/rogue-rapier/Components/RapierBody.re.ts");
-/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
-/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_1__);
-var __defProp = Object.defineProperty;
-var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
-
-
-class Collectable extends rogue_engine__WEBPACK_IMPORTED_MODULE_1__.Component {
-  get rapierBody() {
-    if (!this._rapierBody) {
-      this._rapierBody = rogue_engine__WEBPACK_IMPORTED_MODULE_1__.getComponent(_RE_RogueEngine_rogue_rapier_Components_RapierBody_re__WEBPACK_IMPORTED_MODULE_0__["default"], this.object3d);
-    }
-    return this._rapierBody;
-  }
-  awake() {
-  }
-  start() {
-  }
-  update() {
-  }
-}
-__name(Collectable, "Collectable");
-rogue_engine__WEBPACK_IMPORTED_MODULE_1__.registerComponent(Collectable);
-
+throw new Error("Module build failed (from ./node_modules/esbuild-loader/dist/index.js):\nError: Transform failed with 1 error:\nD:\\University\\Nam_3\\Semester_2\\ComputerGraphic\\CGG6\\Computer-Graphic\\Assets\\Component\\Collectable.re.ts:23:0: error: Unexpected \"}\"\n    at failureErrorWithLog (D:\\University\\Nam_3\\Semester_2\\ComputerGraphic\\CGG6\\Computer-Graphic\\node_modules\\esbuild\\lib\\main.js:1493:15)\n    at D:\\University\\Nam_3\\Semester_2\\ComputerGraphic\\CGG6\\Computer-Graphic\\node_modules\\esbuild\\lib\\main.js:1282:29\n    at D:\\University\\Nam_3\\Semester_2\\ComputerGraphic\\CGG6\\Computer-Graphic\\node_modules\\esbuild\\lib\\main.js:629:9\n    at handleIncomingPacket (D:\\University\\Nam_3\\Semester_2\\ComputerGraphic\\CGG6\\Computer-Graphic\\node_modules\\esbuild\\lib\\main.js:726:9)\n    at Socket.readFromStdout (D:\\University\\Nam_3\\Semester_2\\ComputerGraphic\\CGG6\\Computer-Graphic\\node_modules\\esbuild\\lib\\main.js:596:7)\n    at Socket.emit (node:events:513:28)\n    at addChunk (node:internal/streams/readable:324:12)\n    at readableAddChunk (node:internal/streams/readable:297:9)\n    at Readable.push (node:internal/streams/readable:234:10)\n    at Pipe.onStreamRead (node:internal/stream_base_commons:190:23)");
 
 /***/ }),
 
@@ -13336,6 +13310,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_1__.registerComponent(Collectable);
   \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CollisionDetection)
@@ -13364,6 +13339,7 @@ __name(CollisionDetection, "CollisionDetection");
   \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Door)
@@ -13401,6 +13377,8 @@ class Door extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
     }
     return this._rapierBody;
   }
+  start() {
+  }
   update() {
   }
   openDoor() {
@@ -13431,6 +13409,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(Door);
   \******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ GameLogic)
@@ -13438,6 +13417,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
 /* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Collectable_re__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Collectable.re */ "./Assets/Component/Collectable.re.ts");
+/* harmony import */ var _Collectable_re__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_Collectable_re__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _PlayerController_re__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PlayerController.re */ "./Assets/Component/PlayerController.re.ts");
 /* harmony import */ var _CollisionDetection_re__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CollisionDetection.re */ "./Assets/Component/CollisionDetection.re.ts");
 /* harmony import */ var _Door_re__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Door.re */ "./Assets/Component/Door.re.ts");
@@ -13458,15 +13438,22 @@ var __decorateClass = (decorators, target, key, kind) => {
 
 
 
+
 class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
   constructor() {
     super(...arguments);
+    this.collectableHeight = 4;
+    this.bookPosition = [
+      { x: 30, y: 1, z: 30, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.North },
+      { x: 55, y: 1, z: 24, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.East },
+      { x: 90, y: 1, z: 42, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.East }
+    ];
     this.gameStarted = false;
     this.collectableSet = [];
     this.doorSet = [];
+    this.collectableCount = 4;
     this.score = 0;
     this.collectedFlags = [];
-    this.collectableCount = 5;
     this.doorCount = 10;
   }
   awake() {
@@ -13539,13 +13526,24 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
     for (let i = 1; i <= this.collectableCount; i++) {
       const collectableInstance = this.collectable.instantiate();
       if (collectableInstance) {
-        this.collectableSet[i] = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_Collectable_re__WEBPACK_IMPORTED_MODULE_1__["default"], collectableInstance);
-        this.addCollectable(this.collectableSet[i], i * 3 + 18, -12);
+        this.collectableSet[i] = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent((_Collectable_re__WEBPACK_IMPORTED_MODULE_1___default()), collectableInstance);
+        const buildingPosition = this.bookPosition[i];
+        rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log(buildingPosition.x.toPrecision() + " " + buildingPosition.y.toPrecision() + " " + buildingPosition.z.toPrecision());
+        this.addCollectable(this.collectableSet[i], buildingPosition.x, buildingPosition.y, buildingPosition.z, buildingPosition.direction);
       }
     }
   }
-  addCollectable(collectableObject, x, z) {
-    collectableObject.object3d.position.set(x, 0.5, z);
+  addCollectable(collectableObject, x, y, z, direction) {
+    collectableObject.object3d.position.set(x, y, z);
+    if (direction == _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.East) {
+      collectableObject.object3d.rotateY(0);
+    } else if (direction == _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.West) {
+      collectableObject.object3d.rotateY(Math.PI);
+    } else if (direction == _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.South) {
+      collectableObject.object3d.rotateY(0.5 * Math.PI);
+    } else {
+      collectableObject.object3d.rotateY(-0.5 * Math.PI);
+    }
     this.collectableSet.push(collectableObject);
   }
   addDoors() {
@@ -13588,6 +13586,9 @@ __decorateClass([
 __decorateClass([
   rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.prefab()
 ], GameLogic.prototype, "door", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.num()
+], GameLogic.prototype, "collectableHeight", 2);
 rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(GameLogic);
 
 
@@ -13599,6 +13600,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(GameLogic);
   \*************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ PlayerController)
@@ -13634,6 +13636,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_1__.registerComponent(PlayerController);
   \********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ UIComponent)
@@ -13698,6 +13701,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(UIComponent);
   \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ UIInGame)
@@ -13730,6 +13734,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(UIInGame);
   \************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CannonBody)
@@ -14005,6 +14010,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(CannonBody);
   \**************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CannonConfig)
@@ -14181,6 +14187,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(CannonConfig);
   \***************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CannonConstraint)
@@ -14222,6 +14229,7 @@ __name(CannonConstraint, "CannonConstraint");
   \**************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CannonDistanceConstraint)
@@ -14283,6 +14291,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(CannonDistanceConstr
   \***********************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CannonHingeConstraint)
@@ -14369,6 +14378,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(CannonHingeConstrain
   \**********************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CannonLockConstraint)
@@ -14428,6 +14438,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(CannonLockConstraint
   \******************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CannonPointToPointConstraint)
@@ -14496,6 +14507,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(CannonPointToPointCo
   \*********************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CannonSimpleCharacterController)
@@ -14592,6 +14604,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(CannonSimpleCharacte
   \*************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CannonVehicleController)
@@ -14711,6 +14724,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(CannonVehicleControl
   \********************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CannonContactMaterial)
@@ -14779,6 +14793,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(CannonContactMateria
   \*************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CannonMaterial)
@@ -14842,6 +14857,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(CannonMaterial);
   \****************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ SetCannonMaterial)
@@ -14898,6 +14914,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(SetCannonMaterial);
   \******************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CannonRaycastVehicle)
@@ -15005,6 +15022,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(CannonRaycastVehicle
   \**********************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CannonSpring)
@@ -15103,6 +15121,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(CannonSpring);
   \*********************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CannonWheel)
@@ -15203,6 +15222,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(CannonWheel);
   \******************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CannonBox)
@@ -15269,6 +15289,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(CannonBox);
   \***********************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CannonCylinder)
@@ -15347,6 +15368,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(CannonCylinder);
   \*****************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CannonShape)
@@ -15469,6 +15491,7 @@ __name(CannonShape, "CannonShape");
   \*********************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CannonSphere)
@@ -15532,6 +15555,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(CannonSphere);
   \**********************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CannonTrimesh)
@@ -15630,6 +15654,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(CannonTrimesh);
   \***************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getWorld": () => (/* binding */ getWorld),
@@ -15680,6 +15705,7 @@ __name(copyCannonQuaternion, "copyCannonQuaternion");
   \*****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "RogueCannon": () => (/* reexport module object */ _Lib_RogueCannon__WEBPACK_IMPORTED_MODULE_0__)
@@ -15696,6 +15722,7 @@ __webpack_require__.r(__webpack_exports__);
   \**********************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ RapierBall)
@@ -15763,6 +15790,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(RapierBall);
   \*************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ RapierCapsule)
@@ -15845,6 +15873,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(RapierCapsule);
   \***********************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ RapierCollider)
@@ -15966,6 +15995,7 @@ __decorateClass([
   \**********************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ RapierCone)
@@ -16048,6 +16078,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(RapierCone);
   \************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ RapierCuboid)
@@ -16144,6 +16175,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(RapierCuboid);
   \**************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ RapierCylinder)
@@ -16226,6 +16258,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(RapierCylinder);
   \*************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ RapierTrimesh)
@@ -16302,6 +16335,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(RapierTrimesh);
   \*****************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ RapierFirstPersonController)
@@ -16464,6 +16498,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(RapierFirstPersonCon
   \*****************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ RapierThirdPersonController)
@@ -16733,6 +16768,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(RapierThirdPersonCon
   \************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ RapierBody)
@@ -16951,6 +16987,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(RapierBody);
   \**************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ RapierConfig)
@@ -17058,6 +17095,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(RapierConfig);
   \************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ RapierKinematicCharacterController)
@@ -17252,6 +17290,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(RapierKinematicChara
   \***************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ RogueRapier)
@@ -17286,6 +17325,7 @@ RogueRapier.initialized = false;
   \******************************************************************************************************************/
 /***/ ((module) => {
 
+"use strict";
 module.exports = __WEBPACK_EXTERNAL_MODULE_rogue_engine__;
 
 /***/ }),
@@ -17296,6 +17336,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_rogue_engine__;
   \**************************************************************************************/
 /***/ ((module) => {
 
+"use strict";
 module.exports = __WEBPACK_EXTERNAL_MODULE_three__;
 
 /***/ })
@@ -17509,4 +17550,4 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_three__;
 ;
 });
 //# sourceMappingURL=rogue-engine-user-scripts.js.map
-window['rogue-engine'].App.play({"title":"Projfect","scenes":[{"name":"OnWallSuccess","uuid":"b840e184-f3bb-4ee8-b51a-55ca3f383542"}],"assetPaths":{"afcfc3ac-20c0-4c98-b201-02ed3f2748d5":"AppData/afcfc3ac-20c0-4c98-b201-02ed3f2748d5.roguePrefab","1cf15f58-f5de-4028-8077-fcf0f0c3e020":"AppData/1cf15f58-f5de-4028-8077-fcf0f0c3e020.roguePrefab","9cf4791e-5e7a-4a5b-8076-1a451cd7a690":"AppData/9cf4791e-5e7a-4a5b-8076-1a451cd7a690.roguePrefab","b840e184-f3bb-4ee8-b51a-55ca3f383542":"AppData/b840e184-f3bb-4ee8-b51a-55ca3f383542.rogueScene"}});
+window['rogue-engine'].App.play({"title":"Projfect","scenes":[{"name":"OnWallSuccess","uuid":"b840e184-f3bb-4ee8-b51a-55ca3f383542"}],"assetPaths":{"b840e184-f3bb-4ee8-b51a-55ca3f383542":"AppData/b840e184-f3bb-4ee8-b51a-55ca3f383542.rogueScene"}});

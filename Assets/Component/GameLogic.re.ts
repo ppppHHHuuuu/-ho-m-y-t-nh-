@@ -6,19 +6,45 @@ import UIComponent from "./UIComponent.re";
 import UIInGame from "./UIInGame.re";
 import CollisionDetection from "./CollisionDetection.re";
 import Door from "./Door.re";
+import {BookPosition, Direction } from "./Collectable.re";
 export default class GameLogic extends RE.Component {
   @RE.props.prefab() collectable: RE.Prefab;
   @RE.props.prefab() player: RE.Prefab;
   @RE.props.prefab() door: RE.Prefab;
+  @RE.props.num() collectableHeight = 4;
 
+  private bookPosition: BookPosition[] = [
+    { x: 58, y: 1, z: 48.9, direction: Direction.West },
+    { x: 27, y: 1, z: 47, direction: Direction.West },
+    { x: 22, y: 1, z: 44, direction: Direction.West },
+    { x: 95, y: 2, z: 48, direction: Direction.West },
+    { x: 96, y: 1, z: 43, direction: Direction.West },
+    { x: 87, y: 1, z: 30, direction: Direction.South },
+    { x: 67, y: 1, z: 30, direction: Direction.South },
+
+    { x: 41, y: 5, z: -90, direction: Direction.East },
+    { x: 47, y: 5, z: -7.7, direction: Direction.South },
+    { x: 44, y: 5, z: -42, direction: Direction.South },
+    { x: 5, y: 5, z: -57, direction: Direction.South },
+    { x: 7, y: 5, z: -53, direction: Direction.South },
+    { x: 2.8, y: 5, z: -61, direction: Direction.South },
+    { x: 47, y: 5, z: - 46, direction: Direction.North },
+    { x: 51, y: 5, z: -14, direction: Direction.South },
+    { x: 51, y: 5, z: -4, direction: Direction.South },
+    { x: 45, y: 5, z: -60, direction: Direction.North },
+    { x: 46, y: 5, z: -24, direction: Direction.North },
+    { x: 45, y: 5, z: -30, direction: Direction.North },
+    { x: 30, y: 5, z: -32, direction: Direction.North },
+    { x: 45, y: 5, z: -62, direction: Direction.North },
+  ];
   gameStarted = false;
   collectableSet: Collectable[] = [];
   playerController: PlayerController;
   doorSet: Door[] = [];
+  collectableCount = 100
 
   score = 0;
   collectedFlags: Boolean[] = [];
-  collectableCount = 5;
   doorCount = 10;
 
   stylesUI: UIComponent;
@@ -125,13 +151,29 @@ export default class GameLogic extends RE.Component {
           Collectable,
           collectableInstance
         ) as Collectable;
-        this.addCollectable(this.collectableSet[i], i * 3 + 18, -12);
+        // const buildingPosition = this.collectableSet[i].generateRandomPosition(Building.Left1stFloor)
+        const buildingPosition = this.bookPosition[i]
+        RE.Debug.log(buildingPosition.x.toPrecision() + " " + buildingPosition.y.toPrecision() + " " + buildingPosition.z.toPrecision() + " " + buildingPosition.direction)
+        this.addCollectable(this.collectableSet[i], buildingPosition.x, buildingPosition.y, buildingPosition.z, buildingPosition.direction);
       }
     }
   }
 
-  addCollectable(collectableObject: Collectable, x: number, z: number) {
-    collectableObject.object3d.position.set(x, 0.5, z);
+  addCollectable(collectableObject: Collectable, x: number, y: number, z: number, direction: number) {
+    collectableObject.object3d.position.set(x, y, z);
+    if (direction == Direction.East) {
+      collectableObject.object3d.rotation.set(Math.PI / 4, Math.PI, 0)
+    }
+    else if (direction == Direction.West) {
+      collectableObject.object3d.rotation.set(-Math.PI / 4, Math.PI, 0)
+
+    }
+    else if (direction == Direction.South) {
+      collectableObject.object3d.rotation.set(Math.PI / 2, -Math.PI / 4, Math.PI / 2)
+    }
+    else if (direction == Direction.North) {
+      collectableObject.object3d.rotation.set(Math.PI / 2, Math.PI / 4, Math.PI / 2)
+    }
     this.collectableSet.push(collectableObject);
   }
 
