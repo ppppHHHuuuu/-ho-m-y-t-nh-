@@ -6,11 +6,14 @@ import UIComponent from "./UIComponent.re";
 import UIInGame from "./UIInGame.re";
 import CollisionDetection from "./CollisionDetection.re";
 import Door from "./Door.re";
+import Bot from "./Bot.re";
 export default class GameLogic extends RE.Component {
   @RE.props.prefab() collectable: RE.Prefab;
   @RE.props.prefab() player: RE.Prefab;
   @RE.props.prefab() singleDoor: RE.Prefab;
   @RE.props.prefab() doubleDoor: RE.Prefab;
+  @RE.props.prefab() door: RE.Prefab;
+  @RE.props.prefab() bot: RE.Prefab;
 
   gameStarted = false;
   collectableSet: Collectable[] = [];
@@ -21,6 +24,12 @@ export default class GameLogic extends RE.Component {
   collectedFlags: Boolean[] = [];
   collectableCount = 5;
   doorCount = Door.dimensions.length;
+
+  //Bot properties
+  botSet: Bot[] = [];
+  botCount = 5;
+  health = 100;
+  damageFlags: Boolean[] = [];
 
   stylesUI: UIComponent;
   startMenuUI: UIComponent;
@@ -66,6 +75,13 @@ export default class GameLogic extends RE.Component {
         this.doorSet.forEach((door, index) => {
           this.openDoorIn(this.playerController, this.doorSet, index);
         });
+
+        this.botSet.forEach((boot, index) => {
+          this.botDamage(this.playerController, this.botSet, index);
+        });
+
+        if (this.health <= 0) {
+        }
       }
     } else {
       const startAction = RE.Input.keyboard.getKeyDown("Space");
@@ -177,11 +193,51 @@ export default class GameLogic extends RE.Component {
     this.doorSet.push(doorObject);
   }
 
+  ///add Bot
+  addBots() {
+    for (let i = 1; i <= this.botCount; i++) {
+      const botInstance = this.bot.instantiate();
+      if (botInstance) {
+        this.botSet[i] = RE.getComponent(Bot, botInstance) as Bot;
+        this.addBot(this.botSet[i], i * 3 + 20, -20);
+      }
+    }
+  }
+
+  addBot(botObject: Bot, x: number, z: number) {
+    botObject.object3d.position.set(x, 1, z);
+    this.botSet.push(botObject);
+  }
+
+  //Bot Damage
+  botDamage(obj1: RE.Component, obj2: RE.Component[], index: number) {
+    const collide = CollisionDetection.colliding(obj1, obj2[index], 2);
+
+    if (collide) {
+      RE.Debug.log("true");
+    } else {
+      RE.Debug.log("false");
+    }
+    if (collide && !this.damageFlags[index]) {
+      this.botSet[index].object3d.parent?.remove(this.botSet[index].object3d);
+      this.health -= 20;
+      this.damageFlags[index] = true;
+      this.inGameUI.setHealth(this.health);
+      if (this.health >= 0) {
+        this.inGameUI.setHealthText(this.health);
+      } else {
+        this.inGameUI.setHealthText(0);
+      }
+      obj1.object3d.translateX(-5);
+    }
+  }
+
   startGame() {
     if (this.gameStarted === false) {
       this.startMenuUI.hide();
       this.inGameUI.show();
       this.inGameUI.setScore(0);
+      this.inGameUI.setHealth(100);
       this.gameStarted = true;
       const playerInstance = this.player.instantiate();
 
@@ -194,6 +250,7 @@ export default class GameLogic extends RE.Component {
 
         this.addCollectables();
         this.addDoors();
+        this.addBots();
         this.collectedFlags.push(false);
       }
     }
