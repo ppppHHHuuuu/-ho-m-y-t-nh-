@@ -1,31 +1,41 @@
 import * as RE from "rogue-engine";
 import Collectable from "./Collectable.re";
 import PlayerController from "./PlayerController.re";
-import { Vector3 } from "three";
 import UIComponent from "./UIComponent.re";
 import UIInGame from "./UIInGame.re";
 import CollisionDetection from "./CollisionDetection.re";
 import Door from "./Door.re";
 import Bot from "./Bot.re";
+import AudioManager from "./AudioManager.re";
 export default class GameLogic extends RE.Component {
   @RE.props.prefab() collectable: RE.Prefab;
   @RE.props.prefab() player: RE.Prefab;
   @RE.props.prefab() singleDoor: RE.Prefab;
+  @RE.props.prefab() lockedDoorModel: RE.Prefab;
   @RE.props.prefab() doubleDoor: RE.Prefab;
-  @RE.props.prefab() door: RE.Prefab;
   @RE.props.prefab() bot: RE.Prefab;
+  @RE.props.prefab() key: RE.Prefab;
+  @RE.props.prefab() degree: RE.Prefab;
 
+  audioManager: AudioManager;
   gameStarted = false;
+  gameLost = false;
+  gameWinCondition = false;
   collectableSet: Collectable[] = [];
+  keyCollectable: Collectable;
+  degreeCollectable: Collectable;
   playerController: PlayerController;
   doorSet: Door[] = [];
+  lockedDoor: Door;
 
   score = 0;
   collectedFlags: Boolean[] = [];
+  showKey: Boolean;
+  keyCollected: Boolean;
+  degreeCollected: Boolean;
   collectableCount = 5;
   doorCount = Door.dimensions.length;
 
-  //Bot properties
   botSet: Bot[] = [];
   botCount = 5;
   health = 100;
@@ -35,8 +45,13 @@ export default class GameLogic extends RE.Component {
   startMenuUI: UIComponent;
   inGameUI: UIInGame;
   interactUI: UIComponent;
-
-  awake() {}
+  lockedDoorUI: UIComponent;
+  gameWinUI: UIComponent;
+  endGameUI: UIComponent;
+  collectKeyUI: UIComponent;
+  hint1UI: UIComponent;
+  showHintUI: UIComponent;
+  showKeyUI: UIComponent;
 
   start() {
     this.stylesUI = RE.getComponentByName(
@@ -59,10 +74,42 @@ export default class GameLogic extends RE.Component {
       this.object3d
     ) as UIComponent;
 
+    this.gameWinUI = RE.getComponentByName("UIWin", this.object3d) as UIInGame;
+    this.endGameUI = RE.getComponentByName("UILose", this.object3d) as UIInGame;
+    this.lockedDoorUI = RE.getComponentByName(
+      "UILockedDoor",
+      this.object3d
+    ) as UIComponent;
+
     if (this.stylesUI && this.startMenuUI) {
       this.stylesUI.show();
       this.startMenuUI.show();
     }
+
+    this.collectKeyUI = RE.getComponentByName(
+      "UICollectKey",
+      this.object3d
+    ) as UIComponent;
+
+    this.hint1UI = RE.getComponentByName(
+      "UIHint1",
+      this.object3d
+    ) as UIComponent;
+
+    this.showHintUI = RE.getComponentByName(
+      "UIShowHint",
+      this.object3d
+    ) as UIComponent;
+
+    this.showKeyUI = RE.getComponentByName(
+      "UIShowKey",
+      this.object3d
+    ) as UIComponent;
+
+    this.audioManager = RE.getComponentByName(
+      "AudioManager",
+      this.object3d
+    ) as AudioManager;
   }
 
   update() {
@@ -73,20 +120,42 @@ export default class GameLogic extends RE.Component {
         });
 
         this.doorSet.forEach((door, index) => {
-          this.openDoorIn(this.playerController, this.doorSet, index);
+          this.openDoorIn(this.playerController, door);
         });
+
+        this.openLockedDoor(this.playerController, this.lockedDoor);
 
         this.botSet.forEach((boot, index) => {
           this.botDamage(this.playerController, this.botSet, index);
         });
 
+        this.collectDegree(this.playerController, this.degreeCollectable);
+
         if (this.health <= 0) {
+          this.gameOver();
+        }
+
+        this.instantiateKey();
+
+        if (this.keyCollectable) {
+          this.collectKey(this.playerController, this.keyCollectable);
+        }
+
+        if (this.degreeCollected) {
+          this.gameWin();
         }
       }
     } else {
-      const startAction = RE.Input.keyboard.getKeyDown("Space");
-      if (startAction) {
-        this.startGame();
+      if (this.gameLost == true || this.gameWinCondition == true) {
+        const replayAction = RE.Input.keyboard.getKeyDown("KeyR");
+        if (replayAction) {
+          this.startGame();
+        }
+      } else {
+        const startAction = RE.Input.keyboard.getKeyDown("Space");
+        if (startAction) {
+          this.startGame();
+        }
       }
     }
   }
@@ -98,6 +167,7 @@ export default class GameLogic extends RE.Component {
       this.interactUI.show();
       const interactAction = RE.Input.mouse.isLeftButtonDown;
       if (interactAction) {
+        this.audioManager.playSFX(this.audioManager.sfx_collect);
         this.interactUI.hide();
         this.collectableSet[index].object3d.parent?.remove(
           this.collectableSet[index].object3d
@@ -113,18 +183,61 @@ export default class GameLogic extends RE.Component {
     }
   }
 
-  openDoorIn(obj1: RE.Component, obj2: RE.Component[], index: number) {
-    const collide = CollisionDetection.colliding(obj1, obj2[index], 8);
+  collectKey(obj1: RE.Component, obj2: RE.Component) {
+    const collide = CollisionDetection.colliding(obj1, obj2, 10);
+
+    if (collide && !this.keyCollected) {
+      this.collectKeyUI.show();
+      const interactAction = RE.Input.mouse.isLeftButtonDown;
+      if (interactAction) {
+        this.showKeyUI.show();
+        this.audioManager.playSFX(this.audioManager.sfx_key);
+        this.collectKeyUI.hide();
+        this.keyCollectable.object3d.parent?.remove(
+          this.keyCollectable.object3d
+        );
+        this.keyCollected = true;
+      }
+    } else {
+      setTimeout(() => {
+        this.collectKeyUI.hide();
+      }, 100);
+    }
+  }
+
+  collectDegree(obj1: RE.Component, obj2: RE.Component) {
+    const collide = CollisionDetection.colliding(obj1, obj2, 10);
+    if (collide && !this.degreeCollected) {
+      this.interactUI.show();
+      const interactAction = RE.Input.mouse.isLeftButtonDown;
+      if (interactAction) {
+        this.interactUI.hide();
+        this.degreeCollectable.object3d.parent?.remove(
+          this.degreeCollectable.object3d
+        );
+        this.degreeCollected = true;
+      }
+    } else {
+      setTimeout(() => {
+        this.interactUI.hide();
+      }, 100);
+    }
+  }
+
+  openDoorIn(obj1: RE.Component, obj2: Door) {
+    const collide = CollisionDetection.colliding(obj1, obj2, 8);
 
     if (collide) {
       this.interactUI.show();
       const interactAction = RE.Input.mouse.isLeftButtonDown;
       if (interactAction) {
+        this.audioManager.playSFX(this.audioManager.sfx_door);
         this.interactUI.hide();
-        if (!this.doorSet[index].isOpen) {
-          this.doorSet[index].openDoor();
+        RE.Debug.log(obj2.isOpen.toString());
+        if (!obj2.isOpen) {
+          obj2.openDoor();
         } else {
-          this.doorSet[index].closeDoor();
+          obj2.closeDoor();
         }
       }
     } else {
@@ -134,8 +247,40 @@ export default class GameLogic extends RE.Component {
     }
   }
 
+  openLockedDoor(obj1: RE.Component, obj2: Door) {
+    const collide = CollisionDetection.colliding(obj1, obj2, 8);
+
+    if (collide) {
+      if (!this.keyCollected) {
+        this.lockedDoorUI.show();
+        const interactAction = RE.Input.mouse.isLeftButtonDown;
+        if (interactAction) {
+          this.audioManager.playSFX(this.audioManager.sfx_locked_door);
+        }
+      } else {
+        this.interactUI.show();
+        const interactAction = RE.Input.mouse.isLeftButtonDown;
+        if (interactAction) {
+          this.showKeyUI.hide();
+          this.audioManager.playSFX(this.audioManager.sfx_unlock_door);
+          this.interactUI.hide();
+          if (!obj2.isOpen) {
+            obj2.openDoor();
+          } else {
+            obj2.closeDoor();
+          }
+        }
+      }
+    } else {
+      setTimeout(() => {
+        this.interactUI.hide();
+        this.lockedDoorUI.hide();
+      }, 100);
+    }
+  }
+
   addCollectables() {
-    for (let i = 1; i <= this.collectableCount; i++) {
+    for (let i = 0; i < this.collectableCount; i++) {
       const collectableInstance = this.collectable.instantiate();
       if (collectableInstance) {
         this.collectableSet[i] = RE.getComponent(
@@ -176,6 +321,7 @@ export default class GameLogic extends RE.Component {
           Door.dimensions[i][2],
           Door.dimensions[i][4]
         );
+        this.doorSet[i].closeDoor();
       }
     }
   }
@@ -189,7 +335,6 @@ export default class GameLogic extends RE.Component {
   ) {
     doorObject.object3d.position.set(x, y, z);
     doorObject.object3d.rotateY(rotationY);
-    // RE.Debug.log(x.toString() + "," + z.toString());
     this.doorSet.push(doorObject);
   }
 
@@ -205,20 +350,15 @@ export default class GameLogic extends RE.Component {
   }
 
   addBot(botObject: Bot, x: number, z: number) {
-    botObject.object3d.position.set(x, 1, z);
+    botObject.object3d.position.set(x, 6, z);
     this.botSet.push(botObject);
   }
 
   //Bot Damage
   botDamage(obj1: RE.Component, obj2: RE.Component[], index: number) {
     const collide = CollisionDetection.colliding(obj1, obj2[index], 2);
-
-    if (collide) {
-      RE.Debug.log("true");
-    } else {
-      RE.Debug.log("false");
-    }
     if (collide && !this.damageFlags[index]) {
+      this.audioManager.playSFX(this.audioManager.sfx_damage);
       this.botSet[index].object3d.parent?.remove(this.botSet[index].object3d);
       this.health -= 20;
       this.damageFlags[index] = true;
@@ -234,12 +374,20 @@ export default class GameLogic extends RE.Component {
 
   startGame() {
     if (this.gameStarted === false) {
+      this.gameLost = false;
       this.startMenuUI.hide();
+      this.gameWinUI.hide();
+      this.endGameUI.hide();
       this.inGameUI.show();
       this.inGameUI.setScore(0);
       this.inGameUI.setHealth(100);
       this.gameStarted = true;
       const playerInstance = this.player.instantiate();
+      const degreeInstance = this.degree.instantiate();
+      const lockedDoorInstance = this.lockedDoorModel.instantiate();
+      this.showKey = false;
+      this.keyCollected = false;
+      this.degreeCollected = false;
 
       if (playerInstance) {
         playerInstance.position.set(20, 0.8, -18);
@@ -251,9 +399,114 @@ export default class GameLogic extends RE.Component {
         this.addCollectables();
         this.addDoors();
         this.addBots();
-        this.collectedFlags.push(false);
+        for (let i = 0; i < this.collectableCount; i++) {
+          this.collectedFlags.push(false);
+        }
+      }
+
+      if (degreeInstance) {
+        degreeInstance.position.set(41, 5.1, -5);
+        this.degreeCollectable = RE.getComponent(
+          Collectable,
+          degreeInstance
+        ) as Collectable;
+      }
+
+      if (lockedDoorInstance) {
+        lockedDoorInstance.position.set(42.226, 5.052, -16.081);
+        this.lockedDoor = RE.getComponent(Door, lockedDoorInstance) as Door;
       }
     }
+  }
+
+  deleteAll() {
+    RE.Debug.log(this.doorSet.length.toString());
+    this.collectableSet.forEach((collectable) => {
+      collectable.object3d.parent?.remove(collectable.object3d);
+    });
+
+    this.collectableSet = [];
+
+    this.doorSet.forEach((door) => {
+      door.object3d.parent?.remove(door.object3d);
+    });
+
+    this.doorSet = [];
+
+    this.botSet.forEach((bot) => {
+      bot.object3d.parent?.remove(bot.object3d);
+    });
+
+    this.botSet = [];
+  }
+
+  gameOver() {
+    this.gameStarted = false;
+    this.gameLost = true;
+    this.health = 100;
+    this.inGameUI.hide();
+    this.endGameUI.show();
+    this.collectedFlags = [];
+    this.damageFlags = [];
+    this.degreeCollected = false;
+    this.keyCollected = false;
+    this.deleteAll();
+    this.showHintUI.hide();
+  }
+
+  gameWin() {
+    this.gameStarted = false;
+    this.gameWinCondition = true;
+    this.health = 100;
+    this.inGameUI.hide();
+    this.gameWinUI.show();
+    this.collectedFlags = [];
+    this.damageFlags = [];
+    this.degreeCollected = false;
+    this.keyCollected = false;
+    this.deleteAll();
+    this.showHintUI.hide();
+  }
+
+  hintHidden = true;
+  hintShowHidden = false;
+
+  instantiateKey() {
+    if (this.allCollected() && !this.showKey && !this.keyCollectable) {
+      this.hint1UI.show();
+      this.hintHidden = false;
+      const keyInstance = this.key.instantiate();
+      if (keyInstance) {
+        keyInstance.position.set(37.731, 1.034, 36.92);
+        this.keyCollectable = RE.getComponent(
+          Collectable,
+          keyInstance
+        ) as Collectable;
+
+        this.showKey = true;
+      }
+    }
+
+    // Check for the X key press regardless of whether the hint is shown or not
+    const interaction = RE.Input.keyboard.getKeyDown("KeyX");
+    if (interaction) {
+      if (!this.hintHidden) {
+        this.hint1UI.hide();
+        this.showHintUI.show();
+        this.hintShowHidden = false;
+        this.hintHidden = true;
+      } else {
+        this.hint1UI.show();
+        this.showHintUI.hide();
+        this.hintShowHidden = true;
+        this.hintHidden = false;
+      }
+    }
+  }
+
+  allCollected() {
+    return this.collectedFlags.every((flag) => flag === true);
+    // return true;
   }
 }
 RE.registerComponent(GameLogic);
