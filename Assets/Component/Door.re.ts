@@ -23,7 +23,7 @@ export default class Door extends RE.Component {
     [28.167, 5.052, -43.752, 0.0, 0.5 * Math.PI, 206],
     [28.075, 5.052, -58.842, 0.0, 0.5 * Math.PI, 207],
     [31.535, 5.052, -16.081, 0.0, 0, 1.0],
-    [42.226, 5.052, -16.081, 0.0, 0, 2],
+    // [42.226, 5.052, -16.081, 0.0, 0, 2],
     [20.353, 5.052, -21.673, 1.0, 0, 3],
     [21.693, 5.052, -21.673, 1.0, Math.PI, 4],
     [67.65, 5.052, -57.93, 0.0, 0.5 * Math.PI, 208],
@@ -62,18 +62,17 @@ export default class Door extends RE.Component {
   }
 
   openDoor() {
-    const rotation = new THREE.Quaternion().setFromAxisAngle(
-      vZero,
-      this.openAngle
-    );
-
-    this.object3d.rotateY(this.openAngle);
-    this.isOpen = true;
+    if (!this.isOpen) {
+      this.object3d.rotateY(this.openAngle);
+      this.isOpen = true;
+    }
   }
 
   closeDoor() {
-    this.object3d.rotateY(-this.openAngle);
-    this.isOpen = false;
+    if (this.isOpen) {
+      this.object3d.rotateY(-this.openAngle);
+      this.isOpen = false;
+    }
   }
 
   awake() {}

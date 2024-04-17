@@ -2,3 +2,6 @@ node_modules
 *.glb
 *gltf
 *.zip
+dist/
+Build/
+*.rogueScene

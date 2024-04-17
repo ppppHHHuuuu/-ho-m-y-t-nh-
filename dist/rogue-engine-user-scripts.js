@@ -13287,6 +13287,130 @@ const endShapeContactEvent = {
 
 /***/ }),
 
+/***/ "./Assets/Component/AudioManager.re.ts":
+/*!*********************************************!*\
+  !*** ./Assets/Component/AudioManager.re.ts ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ AudioManager)
+/* harmony export */ });
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_0__);
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+var __decorateClass = (decorators, target, key, kind) => {
+  var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc(target, key) : target;
+  for (var i = decorators.length - 1, decorator; i >= 0; i--)
+    if (decorator = decorators[i])
+      result = (kind ? decorator(target, key, result) : decorator(result)) || result;
+  if (kind && result)
+    __defProp(target, key, result);
+  return result;
+};
+
+class AudioManager extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
+  awake() {
+    if (this.backgroundSong) {
+      this.object3d.add(this.backgroundSong);
+      this.object3d.add(this.breathing);
+      this.object3d.add(this.heartbeat);
+      this.object3d.add(this.ambience);
+      this.backgroundSong.setVolume(7);
+      this.backgroundSong.setLoop(true);
+      this.backgroundSong.play();
+      this.breathing.setVolume(20);
+      this.breathing.setLoop(true);
+      this.breathing.play();
+      this.heartbeat.setVolume(15);
+      this.heartbeat.setLoop(true);
+      this.heartbeat.play();
+      this.ambience.setVolume(15);
+      this.ambience.setLoop(true);
+      this.ambience.play();
+    }
+  }
+  playSFX(sfx) {
+    sfx.setVolume(30);
+    sfx.play();
+  }
+}
+__name(AudioManager, "AudioManager");
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.audio(true)
+], AudioManager.prototype, "backgroundSong", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.audio(true)
+], AudioManager.prototype, "breathing", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.audio(true)
+], AudioManager.prototype, "heartbeat", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.audio(true)
+], AudioManager.prototype, "ambience", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.audio(true)
+], AudioManager.prototype, "sfx_collect", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.audio(true)
+], AudioManager.prototype, "sfx_door", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.audio(true)
+], AudioManager.prototype, "sfx_locked_door", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.audio(true)
+], AudioManager.prototype, "sfx_damage", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.audio(true)
+], AudioManager.prototype, "sfx_key", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.audio(true)
+], AudioManager.prototype, "sfx_unlock_door", 2);
+rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(AudioManager);
+
+
+/***/ }),
+
+/***/ "./Assets/Component/Bot.re.ts":
+/*!************************************!*\
+  !*** ./Assets/Component/Bot.re.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Bot)
+/* harmony export */ });
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _RE_RogueEngine_rogue_rapier_Components_RapierBody_re__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @RE/RogueEngine/rogue-rapier/Components/RapierBody.re */ "./Assets/rogue_packages/RogueEngine/rogue-rapier/Components/RapierBody.re.ts");
+var __defProp = Object.defineProperty;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+
+
+class Bot extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
+  get rapierBody() {
+    if (!this._rapierBody) {
+      this._rapierBody = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_RE_RogueEngine_rogue_rapier_Components_RapierBody_re__WEBPACK_IMPORTED_MODULE_1__["default"], this.object3d);
+    }
+    return this._rapierBody;
+  }
+  awake() {
+  }
+  start() {
+  }
+  update() {
+  }
+}
+__name(Bot, "Bot");
+rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(Bot);
+
+
+/***/ }),
+
 /***/ "./Assets/Component/Collectable.re.ts":
 /*!********************************************!*\
   !*** ./Assets/Component/Collectable.re.ts ***!
@@ -13417,6 +13541,15 @@ class CollisionDetection {
     const z2 = obj2.object3d.position.z;
     return Math.abs((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) + (z1 - z2) * (z1 - z2)) <= distance;
   }
+  static getDistance(obj1, obj2) {
+    const x1 = obj1.object3d.position.x;
+    const y1 = obj1.object3d.position.y;
+    const z1 = obj1.object3d.position.z;
+    const x2 = obj2.object3d.position.x;
+    const y2 = obj2.object3d.position.y;
+    const z2 = obj2.object3d.position.z;
+    return Math.abs((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) + (z1 - z2) * (z1 - z2));
+  }
 }
 __name(CollisionDetection, "CollisionDetection");
 
@@ -13467,13 +13600,16 @@ class Door extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
     return this._rapierBody;
   }
   openDoor() {
-    const rotation = new three__WEBPACK_IMPORTED_MODULE_1__.Quaternion().setFromAxisAngle(vZero, this.openAngle);
-    this.object3d.rotateY(this.openAngle);
-    this.isOpen = true;
+    if (!this.isOpen) {
+      this.object3d.rotateY(this.openAngle);
+      this.isOpen = true;
+    }
   }
   closeDoor() {
-    this.object3d.rotateY(-this.openAngle);
-    this.isOpen = false;
+    if (this.isOpen) {
+      this.object3d.rotateY(-this.openAngle);
+      this.isOpen = false;
+    }
   }
   awake() {
   }
@@ -13488,7 +13624,6 @@ Door.dimensions = [
   [28.167, 5.052, -43.752, 0, 0.5 * Math.PI, 206],
   [28.075, 5.052, -58.842, 0, 0.5 * Math.PI, 207],
   [31.535, 5.052, -16.081, 0, 0, 1],
-  [42.226, 5.052, -16.081, 0, 0, 2],
   [20.353, 5.052, -21.673, 1, 0, 3],
   [21.693, 5.052, -21.673, 1, Math.PI, 4],
   [67.65, 5.052, -57.93, 0, 0.5 * Math.PI, 208],
@@ -13542,6 +13677,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PlayerController_re__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PlayerController.re */ "./Assets/Component/PlayerController.re.ts");
 /* harmony import */ var _CollisionDetection_re__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CollisionDetection.re */ "./Assets/Component/CollisionDetection.re.ts");
 /* harmony import */ var _Door_re__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Door.re */ "./Assets/Component/Door.re.ts");
+/* harmony import */ var _Bot_re__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Bot.re */ "./Assets/Component/Bot.re.ts");
+/* harmony import */ var _Lighting_re__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Lighting.re */ "./Assets/Component/Lighting.re.ts");
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
@@ -13560,10 +13697,106 @@ var __decorateClass = (decorators, target, key, kind) => {
 
 
 
+
+
 class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
   constructor() {
     super(...arguments);
-    this.collectableHeight = 4;
+    this.lightPosition = [
+      { x: 13.7872, y: 61.8854, z: 7.783 },
+      { x: 13.7872, y: 55.1753, z: 7.7871 },
+      { x: 7.1268, y: 55.1753, z: 7.7871 },
+      { x: 7.1268, y: 61.612, z: 7.78 },
+      { x: 13.7872, y: 42.3951, z: 7.7871 },
+      { x: 8.3762, y: 42.3951, z: 7.78 },
+      { x: 8.3762, y: 31.7277, z: 7.7871 },
+      { x: 13.7357, y: 31.7277, z: 7.7871 },
+      { x: 32.9576, y: 40.3939, z: 7.7871 },
+      { x: 37.3894, y: 40.3939, z: 7.7871 },
+      { x: 41.4606, y: 40.3939, z: 7.7871 },
+      { x: 45.5317, y: 40.3939, z: 7.7871 },
+      { x: 54.3789, y: 55.0896, z: 7.7871 },
+      { x: 57.9454, y: 55.0789, z: 7.7871 },
+      { x: 61.3994, y: 55.1158, z: 7.7871 },
+      { x: 54.3789, y: 48.2636, z: 7.7871 },
+      { x: 57.9454, y: 48.2529, z: 7.7871 },
+      { x: 61.3994, y: 48.2898, z: 7.7871 },
+      { x: 54.3789, y: 40.7054, z: 7.7871 },
+      { x: 57.9454, y: 40.6947, z: 7.7871 },
+      { x: 54.3789, y: 62.6478, z: 7.7871 },
+      { x: 57.9454, y: 62.6371, z: 7.7871 },
+      { x: 61.3994, y: 62.674, z: 7.7871 },
+      { x: 61.3994, y: 40.7316, z: 7.7871 },
+      { x: 54.3789, y: 32.2251, z: 7.7871 },
+      { x: 57.9454, y: 32.2144, z: 7.7871 },
+      { x: 61.3994, y: 32.2514, z: 7.7871 },
+      { x: 54.3789, y: 24.6669, z: 7.7871 },
+      { x: 48.1084, y: 88.3075, z: 7.7871 },
+      { x: 48.1084, y: 80.7868, z: 7.7871 },
+      { x: 71.3518, y: 88.3075, z: 7.7871 },
+      { x: 71.3518, y: 80.7868, z: 7.7871 },
+      { x: 55.7854, y: 88.3075, z: 7.7871 },
+      { x: 64.331, y: 88.3075, z: 7.7871 },
+      { x: 32.5247, y: 33.5933, z: 7.7871 },
+      { x: 36.9566, y: 33.5933, z: 7.7871 },
+      { x: 41.0277, y: 33.5933, z: 7.7871 },
+      { x: 45.0988, y: 33.5933, z: 7.7871 },
+      { x: 109.0001, y: 43.1218, z: 7.7871 },
+      { x: 116.7816, y: 43.1218, z: 7.7871 },
+      { x: 109.0001, y: 35.3344, z: 7.7871 },
+      { x: 116.7816, y: 35.3344, z: 7.7871 },
+      { x: 109.0001, y: 57.7666, z: 7.7871 },
+      { x: 116.7816, y: 57.7666, z: 7.7871 },
+      { x: 109.0001, y: 28.5334, z: 7.7871 },
+      { x: 116.7816, y: 28.5334, z: 7.7871 },
+      { x: 88.1683, y: 8.6964, z: 7.7871 },
+      { x: 102.8408, y: 8.6964, z: 7.7871 },
+      { x: 111.4387, y: 8.6964, z: 7.7871 },
+      { x: 119.8139, y: 8.6964, z: 7.7871 },
+      { x: 94.1791, y: 8.6964, z: 7.7871 },
+      { x: 32.9576, y: 47.9833, z: 7.7871 },
+      { x: 37.3894, y: 47.9833, z: 7.7871 },
+      { x: 41.4606, y: 47.9833, z: 7.7871 },
+      { x: 45.5317, y: 47.9833, z: 7.7871 },
+      { x: 32.5247, y: 63.4651, z: 7.7871 },
+      { x: 36.9566, y: 63.4651, z: 7.7871 },
+      { x: 41.0277, y: 63.4651, z: 7.78 },
+      { x: 45.0988, y: 63.4651, z: 7.7871 },
+      { x: 32.5247, y: 55.0217, z: 7.7871 },
+      { x: 36.9566, y: 55.0217, z: 7.7871 },
+      { x: 41.0277, y: 55.0217, z: 7.7871 },
+      { x: 45.0988, y: 55.0217, z: 7.7871 },
+      { x: 32.5247, y: 25.9839, z: 7.7871 },
+      { x: 36.9566, y: 25.9839, z: 7.7871 },
+      { x: 41.0277, y: 25.9839, z: 7.7871 },
+      { x: 45.0988, y: 25.9839, z: 7.7871 },
+      { x: 57.9454, y: 24.6562, z: 7.7871 },
+      { x: 61.3994, y: 24.6931, z: 7.7871 },
+      { x: 54.3789, y: 15.3359, z: 7.7871 },
+      { x: 57.9454, y: 15.3251, z: 7.7871 },
+      { x: 61.3994, y: 15.3621, z: 7.7871 },
+      { x: 54.3789, y: 7.7776, z: 7.7871 },
+      { x: 57.9454, y: 7.7669, z: 7.7871 },
+      { x: 61.3994, y: 7.8039, z: 7.7871 },
+      { x: 109.0001, y: 20.7459, z: 7.7871 },
+      { x: 116.7816, y: 20.7459, z: 7.7871 },
+      { x: 109.907, y: 50.7215, z: 7.7871 },
+      { x: 117.2357, y: 50.7215, z: 7.7871 },
+      { x: 109.0001, y: 72.529, z: 7.7871 },
+      { x: 116.7816, y: 72.529, z: 7.7871 },
+      { x: 109.0001, y: 64.7416, z: 7.7871 },
+      { x: 116.7816, y: 64.7416, z: 7.7871 },
+      { x: 55.7854, y: 80.7868, z: 7.7871 },
+      { x: 64.331, y: 80.7868, z: 7.7871 },
+      { x: 14.1312, y: 88.3075, z: 7.7871 },
+      { x: 38.1447, y: 88.3075, z: 7.7871 },
+      { x: 21.8083, y: 88.3075, z: 7.7871 },
+      { x: 30.3539, y: 88.3075, z: 7.7871 },
+      { x: 14.1312, y: 80.7868, z: 7.7871 },
+      { x: 38.1344, y: 80.3159, z: 7.7871 },
+      { x: 21.8083, y: 80.7868, z: 7.7871 },
+      { x: 30.3539, y: 80.224, z: 7.7871 }
+    ];
     this.bookPosition = [
       { x: 58, y: 1, z: 48.9, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.West },
       { x: 27, y: 1, z: 47, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.West },
@@ -13588,24 +13821,39 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
       { x: 45, y: 5, z: -62, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.North }
     ];
     this.gameStarted = false;
+    this.gameLost = false;
+    this.gameWinCondition = false;
     this.collectableSet = [];
     this.doorSet = [];
-    this.collectableCount = 100;
     this.score = 0;
     this.collectedFlags = [];
-    this.doorCount = 10;
-  }
-  awake() {
+    this.collectableCount = 5;
+    this.doorCount = _Door_re__WEBPACK_IMPORTED_MODULE_4__["default"].dimensions.length;
+    this.botSet = [];
+    this.botCount = 5;
+    this.health = 100;
+    this.damageFlags = [];
+    this.lightingSet = [];
+    this.hintHidden = true;
+    this.hintShowHidden = false;
   }
   start() {
     this.stylesUI = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponentByName("UIStyles", this.object3d);
     this.startMenuUI = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponentByName("UIStartMenu", this.object3d);
     this.inGameUI = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponentByName("UIInGame", this.object3d);
     this.interactUI = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponentByName("UIInteract", this.object3d);
+    this.gameWinUI = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponentByName("UIWin", this.object3d);
+    this.endGameUI = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponentByName("UILose", this.object3d);
+    this.lockedDoorUI = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponentByName("UILockedDoor", this.object3d);
     if (this.stylesUI && this.startMenuUI) {
       this.stylesUI.show();
       this.startMenuUI.show();
     }
+    this.collectKeyUI = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponentByName("UICollectKey", this.object3d);
+    this.hint1UI = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponentByName("UIHint1", this.object3d);
+    this.showHintUI = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponentByName("UIShowHint", this.object3d);
+    this.showKeyUI = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponentByName("UIShowKey", this.object3d);
+    this.audioManager = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponentByName("AudioManager", this.object3d);
   }
   update() {
     if (this.gameStarted) {
@@ -13614,13 +13862,35 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
           this.collectItem(this.playerController, this.collectableSet, index);
         });
         this.doorSet.forEach((door, index) => {
-          this.openDoorIn(this.playerController, this.doorSet, index);
+          this.openDoorIn(this.playerController, door);
         });
+        this.openLockedDoor(this.playerController, this.lockedDoor);
+        this.botSet.forEach((boot, index) => {
+          this.botDamage(this.playerController, this.botSet, index);
+        });
+        this.collectDegree(this.playerController, this.degreeCollectable);
+        if (this.health <= 0) {
+          this.gameOver();
+        }
+        this.instantiateKey();
+        if (this.keyCollectable) {
+          this.collectKey(this.playerController, this.keyCollectable);
+        }
+        if (this.degreeCollected) {
+          this.gameWin();
+        }
       }
     } else {
-      const startAction = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.keyboard.getKeyDown("Space");
-      if (startAction) {
-        this.startGame();
+      if (this.gameLost == true || this.gameWinCondition == true) {
+        const replayAction = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.keyboard.getKeyDown("KeyR");
+        if (replayAction) {
+          this.startGame();
+        }
+      } else {
+        const startAction = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.keyboard.getKeyDown("Space");
+        if (startAction) {
+          this.startGame();
+        }
       }
     }
   }
@@ -13630,6 +13900,7 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
       this.interactUI.show();
       const interactAction = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.mouse.isLeftButtonDown;
       if (interactAction) {
+        this.audioManager.playSFX(this.audioManager.sfx_collect);
         this.interactUI.hide();
         this.collectableSet[index].object3d.parent?.remove(this.collectableSet[index].object3d);
         this.collectedFlags[index] = true;
@@ -13642,17 +13913,53 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
       }, 100);
     }
   }
-  openDoorIn(obj1, obj2, index) {
-    const collide = _CollisionDetection_re__WEBPACK_IMPORTED_MODULE_3__["default"].colliding(obj1, obj2[index], 4);
-    if (collide) {
+  collectKey(obj1, obj2) {
+    const collide = _CollisionDetection_re__WEBPACK_IMPORTED_MODULE_3__["default"].colliding(obj1, obj2, 10);
+    if (collide && !this.keyCollected) {
+      this.collectKeyUI.show();
+      const interactAction = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.mouse.isLeftButtonDown;
+      if (interactAction) {
+        this.showKeyUI.show();
+        this.audioManager.playSFX(this.audioManager.sfx_key);
+        this.collectKeyUI.hide();
+        this.keyCollectable.object3d.parent?.remove(this.keyCollectable.object3d);
+        this.keyCollected = true;
+      }
+    } else {
+      setTimeout(() => {
+        this.collectKeyUI.hide();
+      }, 100);
+    }
+  }
+  collectDegree(obj1, obj2) {
+    const collide = _CollisionDetection_re__WEBPACK_IMPORTED_MODULE_3__["default"].colliding(obj1, obj2, 10);
+    if (collide && !this.degreeCollected) {
       this.interactUI.show();
       const interactAction = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.mouse.isLeftButtonDown;
       if (interactAction) {
         this.interactUI.hide();
-        if (!this.doorSet[index].isOpen) {
-          this.doorSet[index].openDoor();
+        this.degreeCollectable.object3d.parent?.remove(this.degreeCollectable.object3d);
+        this.degreeCollected = true;
+      }
+    } else {
+      setTimeout(() => {
+        this.interactUI.hide();
+      }, 100);
+    }
+  }
+  openDoorIn(obj1, obj2) {
+    const collide = _CollisionDetection_re__WEBPACK_IMPORTED_MODULE_3__["default"].colliding(obj1, obj2, 8);
+    if (collide) {
+      this.interactUI.show();
+      const interactAction = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.mouse.isLeftButtonDown;
+      if (interactAction) {
+        this.audioManager.playSFX(this.audioManager.sfx_door);
+        this.interactUI.hide();
+        rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log(obj2.isOpen.toString());
+        if (!obj2.isOpen) {
+          obj2.openDoor();
         } else {
-          this.doorSet[index].closeDoor();
+          obj2.closeDoor();
         }
       }
     } else {
@@ -13661,58 +13968,230 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
       }, 100);
     }
   }
+  openLockedDoor(obj1, obj2) {
+    const collide = _CollisionDetection_re__WEBPACK_IMPORTED_MODULE_3__["default"].colliding(obj1, obj2, 8);
+    if (collide) {
+      if (!this.keyCollected) {
+        this.lockedDoorUI.show();
+        const interactAction = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.mouse.isLeftButtonDown;
+        if (interactAction) {
+          this.audioManager.playSFX(this.audioManager.sfx_locked_door);
+        }
+      } else {
+        this.interactUI.show();
+        const interactAction = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.mouse.isLeftButtonDown;
+        if (interactAction) {
+          this.showKeyUI.hide();
+          this.audioManager.playSFX(this.audioManager.sfx_unlock_door);
+          this.interactUI.hide();
+          if (!obj2.isOpen) {
+            obj2.openDoor();
+          } else {
+            obj2.closeDoor();
+          }
+        }
+      }
+    } else {
+      setTimeout(() => {
+        this.interactUI.hide();
+        this.lockedDoorUI.hide();
+      }, 100);
+    }
+  }
   addCollectables() {
-    for (let i = 1; i <= this.collectableCount; i++) {
+    for (let i = 0; i < this.collectableCount; i++) {
       const collectableInstance = this.collectable.instantiate();
       if (collectableInstance) {
         this.collectableSet[i] = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_Collectable_re__WEBPACK_IMPORTED_MODULE_1__["default"], collectableInstance);
-        const buildingPosition = this.bookPosition[i];
-        rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log(buildingPosition.x.toPrecision() + " " + buildingPosition.y.toPrecision() + " " + buildingPosition.z.toPrecision() + " " + buildingPosition.direction);
-        this.addCollectable(this.collectableSet[i], buildingPosition.x, buildingPosition.y, buildingPosition.z, buildingPosition.direction);
+        this.addCollectable(this.collectableSet[i], i * 3 + 18, 0, -12);
       }
     }
   }
-  addCollectable(collectableObject, x, y, z, direction) {
-    collectableObject.object3d.position.set(x, y, z);
-    if (direction == _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.East) {
-      collectableObject.object3d.rotation.set(Math.PI / 4, Math.PI, 0);
-    } else if (direction == _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.West) {
-      collectableObject.object3d.rotation.set(-Math.PI / 4, Math.PI, 0);
-    } else if (direction == _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.South) {
-      collectableObject.object3d.rotation.set(Math.PI / 2, -Math.PI / 4, Math.PI / 2);
-    } else if (direction == _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.North) {
-      collectableObject.object3d.rotation.set(Math.PI / 2, Math.PI / 4, Math.PI / 2);
-    }
+  addCollectable(collectableObject, x, y, z) {
+    collectableObject.object3d.position.set(x, 5.052, z);
     this.collectableSet.push(collectableObject);
   }
   addDoors() {
-    for (let i = 1; i <= this.doorCount; i++) {
-      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("Add Doors");
-      const doorInstance = this.door.instantiate();
+    for (let i = 0; i < this.doorCount; i++) {
+      let doorInstance;
+      if (_Door_re__WEBPACK_IMPORTED_MODULE_4__["default"].dimensions[i][3] === 0) {
+        doorInstance = this.singleDoor.instantiate();
+      } else {
+        doorInstance = this.doubleDoor.instantiate();
+      }
       if (doorInstance) {
         this.doorSet[i] = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_Door_re__WEBPACK_IMPORTED_MODULE_4__["default"], doorInstance);
-        this.addDoor(this.doorSet[i], i * 2 + 18, -16);
+        this.addDoor(this.doorSet[i], _Door_re__WEBPACK_IMPORTED_MODULE_4__["default"].dimensions[i][0], _Door_re__WEBPACK_IMPORTED_MODULE_4__["default"].dimensions[i][1], _Door_re__WEBPACK_IMPORTED_MODULE_4__["default"].dimensions[i][2], _Door_re__WEBPACK_IMPORTED_MODULE_4__["default"].dimensions[i][4]);
+        this.doorSet[i].closeDoor();
       }
     }
   }
-  addDoor(doorObject, x, z) {
-    doorObject.object3d.position.set(x, 1, z);
+  addDoor(doorObject, x, y, z, rotationY) {
+    doorObject.object3d.position.set(x, y, z);
+    doorObject.object3d.rotateY(rotationY);
     this.doorSet.push(doorObject);
   }
-  startGame() {
-    if (this.gameStarted === false) {
-      this.startMenuUI.hide();
-      this.inGameUI.show();
-      this.inGameUI.setScore(0);
-      this.gameStarted = true;
-      const playerInstance = this.player.instantiate();
-      if (playerInstance) {
-        this.playerController = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_PlayerController_re__WEBPACK_IMPORTED_MODULE_2__["default"], playerInstance);
-        this.addCollectables();
-        this.addDoors();
-        this.collectedFlags.push(false);
+  addLights() {
+    rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("this.lightPosition.length");
+    rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log(this.lightPosition.length.toFixed());
+    for (let i = 0; i < this.lightPosition.length; i++) {
+      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("Add Lightings");
+      const lightInstance = this.light.instantiate();
+      if (lightInstance) {
+        this.lightingSet[i] = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_Lighting_re__WEBPACK_IMPORTED_MODULE_6__.Light, lightInstance);
+        rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log(this.lightPosition[i].x.toPrecision() + " " + this.lightPosition[i].y.toPrecision() + " " + this.lightPosition[i].z.toPrecision());
       }
     }
+  }
+  addLight(lightObject, x, y, z) {
+    lightObject.object3d.position.set(x, y, z);
+    this.lightingSet.push(lightObject);
+  }
+  addBots() {
+    for (let i = 1; i <= this.botCount; i++) {
+      const botInstance = this.bot.instantiate();
+      if (botInstance) {
+        this.botSet[i] = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_Bot_re__WEBPACK_IMPORTED_MODULE_5__["default"], botInstance);
+        this.addBot(this.botSet[i], i * 3 + 20, -20);
+      }
+    }
+  }
+  addBot(botObject, x, z) {
+    botObject.object3d.position.set(x, 6, z);
+    this.botSet.push(botObject);
+  }
+  botDamage(obj1, obj2, index) {
+    const collide = _CollisionDetection_re__WEBPACK_IMPORTED_MODULE_3__["default"].colliding(obj1, obj2[index], 2);
+    if (collide && !this.damageFlags[index]) {
+      this.audioManager.playSFX(this.audioManager.sfx_damage);
+      this.botSet[index].object3d.parent?.remove(this.botSet[index].object3d);
+      this.health -= 20;
+      this.damageFlags[index] = true;
+      this.inGameUI.setHealth(this.health);
+      if (this.health >= 0) {
+        this.inGameUI.setHealthText(this.health);
+      } else {
+        this.inGameUI.setHealthText(0);
+      }
+      obj1.object3d.translateX(-5);
+    }
+  }
+  startGame() {
+    rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("StartGame");
+    if (this.gameStarted === false) {
+      this.gameLost = false;
+      this.startMenuUI.hide();
+      this.gameWinUI.hide();
+      this.endGameUI.hide();
+      this.inGameUI.show();
+      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("After inGameUI");
+      this.inGameUI.setScore(0);
+      this.inGameUI.setHealth(100);
+      this.gameStarted = true;
+      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("gameStarted");
+      const playerInstance = this.player.instantiate();
+      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("playerInst");
+      const degreeInstance = this.degree.instantiate();
+      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("degreeInstance");
+      const lockedDoorInstance = this.lockedDoorModel.instantiate();
+      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("lockedDoorInstance");
+      this.showKey = false;
+      this.keyCollected = false;
+      this.degreeCollected = false;
+      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("Player Inst");
+      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log(playerInstance.toJSON());
+      if (playerInstance) {
+        playerInstance.position.set(20, 0.8, -18);
+        this.playerController = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_PlayerController_re__WEBPACK_IMPORTED_MODULE_2__["default"], playerInstance);
+        rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("Before adding stuff");
+        this.addCollectables();
+        this.addDoors();
+        this.addBots();
+        this.addLights();
+        rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("After adding stuff");
+        for (let i = 0; i < this.collectableCount; i++) {
+          this.collectedFlags.push(false);
+        }
+      }
+      if (degreeInstance) {
+        degreeInstance.position.set(41, 5.1, -5);
+        this.degreeCollectable = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_Collectable_re__WEBPACK_IMPORTED_MODULE_1__["default"], degreeInstance);
+      }
+      if (lockedDoorInstance) {
+        lockedDoorInstance.position.set(42.226, 5.052, -16.081);
+        this.lockedDoor = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_Door_re__WEBPACK_IMPORTED_MODULE_4__["default"], lockedDoorInstance);
+      }
+    }
+  }
+  deleteAll() {
+    rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log(this.doorSet.length.toString());
+    this.collectableSet.forEach((collectable) => {
+      collectable.object3d.parent?.remove(collectable.object3d);
+    });
+    this.collectableSet = [];
+    this.doorSet.forEach((door) => {
+      door.object3d.parent?.remove(door.object3d);
+    });
+    this.doorSet = [];
+    this.botSet.forEach((bot) => {
+      bot.object3d.parent?.remove(bot.object3d);
+    });
+    this.botSet = [];
+  }
+  gameOver() {
+    this.gameStarted = false;
+    this.gameLost = true;
+    this.health = 100;
+    this.inGameUI.hide();
+    this.endGameUI.show();
+    this.collectedFlags = [];
+    this.damageFlags = [];
+    this.degreeCollected = false;
+    this.keyCollected = false;
+    this.deleteAll();
+    this.showHintUI.hide();
+  }
+  gameWin() {
+    this.gameStarted = false;
+    this.gameWinCondition = true;
+    this.health = 100;
+    this.inGameUI.hide();
+    this.gameWinUI.show();
+    this.collectedFlags = [];
+    this.damageFlags = [];
+    this.degreeCollected = false;
+    this.keyCollected = false;
+    this.deleteAll();
+    this.showHintUI.hide();
+  }
+  instantiateKey() {
+    if (this.allCollected() && !this.showKey && !this.keyCollectable) {
+      this.hint1UI.show();
+      this.hintHidden = false;
+      const keyInstance = this.key.instantiate();
+      if (keyInstance) {
+        keyInstance.position.set(37.731, 1.034, 36.92);
+        this.keyCollectable = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_Collectable_re__WEBPACK_IMPORTED_MODULE_1__["default"], keyInstance);
+        this.showKey = true;
+      }
+    }
+    const interaction = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.keyboard.getKeyDown("KeyX");
+    if (interaction) {
+      if (!this.hintHidden) {
+        this.hint1UI.hide();
+        this.showHintUI.show();
+        this.hintShowHidden = false;
+        this.hintHidden = true;
+      } else {
+        this.hint1UI.show();
+        this.showHintUI.hide();
+        this.hintShowHidden = true;
+        this.hintHidden = false;
+      }
+    }
+  }
+  allCollected() {
+    return this.collectedFlags.every((flag) => flag === true);
   }
 }
 __name(GameLogic, "GameLogic");
@@ -13724,11 +14203,56 @@ __decorateClass([
 ], GameLogic.prototype, "player", 2);
 __decorateClass([
   rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.prefab()
-], GameLogic.prototype, "door", 2);
+], GameLogic.prototype, "singleDoor", 2);
 __decorateClass([
-  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.num()
-], GameLogic.prototype, "collectableHeight", 2);
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.prefab()
+], GameLogic.prototype, "lockedDoorModel", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.prefab()
+], GameLogic.prototype, "doubleDoor", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.prefab()
+], GameLogic.prototype, "bot", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.prefab()
+], GameLogic.prototype, "key", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.prefab()
+], GameLogic.prototype, "light", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.prefab()
+], GameLogic.prototype, "degree", 2);
 rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(GameLogic);
+
+
+/***/ }),
+
+/***/ "./Assets/Component/Lighting.re.ts":
+/*!*****************************************!*\
+  !*** ./Assets/Component/Lighting.re.ts ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Light": () => (/* binding */ Light)
+/* harmony export */ });
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _RE_RogueEngine_rogue_rapier_Components_RapierBody_re__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @RE/RogueEngine/rogue-rapier/Components/RapierBody.re */ "./Assets/rogue_packages/RogueEngine/rogue-rapier/Components/RapierBody.re.ts");
+var __defProp = Object.defineProperty;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+
+
+class Light extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
+  get rapierBody() {
+    if (!this._rapierBody) {
+      this._rapierBody = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_RE_RogueEngine_rogue_rapier_Components_RapierBody_re__WEBPACK_IMPORTED_MODULE_1__["default"], this.object3d);
+    }
+    return this._rapierBody;
+  }
+}
+__name(Light, "Light");
 
 
 /***/ }),
@@ -13764,6 +14288,107 @@ class PlayerController extends rogue_engine__WEBPACK_IMPORTED_MODULE_1__.Compone
 }
 __name(PlayerController, "PlayerController");
 rogue_engine__WEBPACK_IMPORTED_MODULE_1__.registerComponent(PlayerController);
+
+
+/***/ }),
+
+/***/ "./Assets/Component/RemoteMovement.re.ts":
+/*!***********************************************!*\
+  !*** ./Assets/Component/RemoteMovement.re.ts ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ RemoteMovement)
+/* harmony export */ });
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var three_src_math_MathUtils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three/src/math/MathUtils */ "./node_modules/three/src/math/MathUtils.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three */ "three");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_1__);
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+var __decorateClass = (decorators, target, key, kind) => {
+  var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc(target, key) : target;
+  for (var i = decorators.length - 1, decorator; i >= 0; i--)
+    if (decorator = decorators[i])
+      result = (kind ? decorator(target, key, result) : decorator(result)) || result;
+  if (kind && result)
+    __defProp(target, key, result);
+  return result;
+};
+
+
+
+
+const vector = new three__WEBPACK_IMPORTED_MODULE_1__.Vector3();
+class RemoteMovement extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
+  constructor() {
+    super(...arguments);
+    this.nextPosition = 0;
+    this.nextRotation = 0;
+    this.speed = 200;
+  }
+  start() {
+    this.setupPosition();
+  }
+  update() {
+    if (this.positionTime > 0) {
+      this.updatePosition();
+    }
+    this.nextPosition -= rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Runtime.deltaTime;
+    if (this.nextPosition < 0) {
+      this.setupPosition();
+      this.nextPosition = 1 + Math.abs(Math.random()) * 5;
+    }
+    if (this.rotationTime > 0) {
+      this.updateRotation();
+    }
+    this.nextRotation -= rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Runtime.deltaTime;
+    if (this.nextRotation < 0) {
+      this.setupRotation();
+      this.nextRotation = 1 + Math.abs(Math.random()) * 5;
+    }
+    if (!this.model) {
+      return;
+    }
+    rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Runtime.camera.getWorldPosition(vector);
+    this.model.lookAt(vector);
+  }
+  updatePosition() {
+    const { positionDirection } = this;
+    const change = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Runtime.deltaTime;
+    this.object3d.position.y = Math.max(-1.5, Math.min(0.5, this.object3d.position.y + positionDirection * change));
+    this.positionTime -= change;
+  }
+  updateRotation() {
+    const { rotationDirection, speed } = this;
+    const change = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Runtime.deltaTime * speed;
+    this.object3d.rotateZ((0,three_src_math_MathUtils__WEBPACK_IMPORTED_MODULE_2__.degToRad)(change * rotationDirection));
+    this.rotationTime -= change;
+  }
+  setupPosition() {
+    const { y } = this.object3d.position;
+    this.positionDirection = Math.abs(Math.random()) < 1 ? 1 : 2;
+    if (y < -1) {
+      this.positionDirection = 1;
+    } else if (y > 0.4) {
+      this.positionDirection = -1;
+    }
+    this.positionTime = Math.abs(Math.random()) * 1;
+  }
+  setupRotation() {
+    this.rotationDirection = Math.random() < 0.5 ? -1.5 : 1.5;
+    this.rotationTime = Math.random() * 45;
+  }
+}
+__name(RemoteMovement, "RemoteMovement");
+__decorateClass([
+  (0,rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Prop)("Object3D")
+], RemoteMovement.prototype, "model", 2);
+rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(RemoteMovement);
 
 
 /***/ }),
@@ -13853,9 +14478,17 @@ class UIInGame extends _UIComponent_re__WEBPACK_IMPORTED_MODULE_1__["default"] {
   show() {
     super.show();
     this.scoreDiv = document.getElementById("score");
+    this.healthDiv = document.getElementById("health-fill");
+    this.healthText = document.getElementById("health-bar-circle");
   }
   setScore(score) {
     this.scoreDiv.innerHTML = score.toString();
+  }
+  setHealth(health) {
+    this.healthDiv.style.width = `${health.toString()}%`;
+  }
+  setHealthText(health) {
+    this.healthText.innerHTML = health.toString();
   }
 }
 __name(UIInGame, "UIInGame");
@@ -17438,6 +18071,339 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_rogue_engine__;
 
 module.exports = __WEBPACK_EXTERNAL_MODULE_three__;
 
+/***/ }),
+
+/***/ "./node_modules/three/src/math/MathUtils.js":
+/*!**************************************************!*\
+  !*** ./node_modules/three/src/math/MathUtils.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DEG2RAD": () => (/* binding */ DEG2RAD),
+/* harmony export */   "RAD2DEG": () => (/* binding */ RAD2DEG),
+/* harmony export */   "generateUUID": () => (/* binding */ generateUUID),
+/* harmony export */   "clamp": () => (/* binding */ clamp),
+/* harmony export */   "euclideanModulo": () => (/* binding */ euclideanModulo),
+/* harmony export */   "mapLinear": () => (/* binding */ mapLinear),
+/* harmony export */   "inverseLerp": () => (/* binding */ inverseLerp),
+/* harmony export */   "lerp": () => (/* binding */ lerp),
+/* harmony export */   "damp": () => (/* binding */ damp),
+/* harmony export */   "pingpong": () => (/* binding */ pingpong),
+/* harmony export */   "smoothstep": () => (/* binding */ smoothstep),
+/* harmony export */   "smootherstep": () => (/* binding */ smootherstep),
+/* harmony export */   "randInt": () => (/* binding */ randInt),
+/* harmony export */   "randFloat": () => (/* binding */ randFloat),
+/* harmony export */   "randFloatSpread": () => (/* binding */ randFloatSpread),
+/* harmony export */   "seededRandom": () => (/* binding */ seededRandom),
+/* harmony export */   "degToRad": () => (/* binding */ degToRad),
+/* harmony export */   "radToDeg": () => (/* binding */ radToDeg),
+/* harmony export */   "isPowerOfTwo": () => (/* binding */ isPowerOfTwo),
+/* harmony export */   "ceilPowerOfTwo": () => (/* binding */ ceilPowerOfTwo),
+/* harmony export */   "floorPowerOfTwo": () => (/* binding */ floorPowerOfTwo),
+/* harmony export */   "setQuaternionFromProperEuler": () => (/* binding */ setQuaternionFromProperEuler),
+/* harmony export */   "normalize": () => (/* binding */ normalize),
+/* harmony export */   "denormalize": () => (/* binding */ denormalize)
+/* harmony export */ });
+const _lut = [ '00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '0a', '0b', '0c', '0d', '0e', '0f', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '1a', '1b', '1c', '1d', '1e', '1f', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '2a', '2b', '2c', '2d', '2e', '2f', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '3a', '3b', '3c', '3d', '3e', '3f', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '4a', '4b', '4c', '4d', '4e', '4f', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '5a', '5b', '5c', '5d', '5e', '5f', '60', '61', '62', '63', '64', '65', '66', '67', '68', '69', '6a', '6b', '6c', '6d', '6e', '6f', '70', '71', '72', '73', '74', '75', '76', '77', '78', '79', '7a', '7b', '7c', '7d', '7e', '7f', '80', '81', '82', '83', '84', '85', '86', '87', '88', '89', '8a', '8b', '8c', '8d', '8e', '8f', '90', '91', '92', '93', '94', '95', '96', '97', '98', '99', '9a', '9b', '9c', '9d', '9e', '9f', 'a0', 'a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'aa', 'ab', 'ac', 'ad', 'ae', 'af', 'b0', 'b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8', 'b9', 'ba', 'bb', 'bc', 'bd', 'be', 'bf', 'c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8', 'c9', 'ca', 'cb', 'cc', 'cd', 'ce', 'cf', 'd0', 'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'da', 'db', 'dc', 'dd', 'de', 'df', 'e0', 'e1', 'e2', 'e3', 'e4', 'e5', 'e6', 'e7', 'e8', 'e9', 'ea', 'eb', 'ec', 'ed', 'ee', 'ef', 'f0', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9', 'fa', 'fb', 'fc', 'fd', 'fe', 'ff' ];
+
+let _seed = 1234567;
+
+
+const DEG2RAD = Math.PI / 180;
+const RAD2DEG = 180 / Math.PI;
+
+// http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript/21963136#21963136
+function generateUUID() {
+
+	const d0 = Math.random() * 0xffffffff | 0;
+	const d1 = Math.random() * 0xffffffff | 0;
+	const d2 = Math.random() * 0xffffffff | 0;
+	const d3 = Math.random() * 0xffffffff | 0;
+	const uuid = _lut[ d0 & 0xff ] + _lut[ d0 >> 8 & 0xff ] + _lut[ d0 >> 16 & 0xff ] + _lut[ d0 >> 24 & 0xff ] + '-' +
+			_lut[ d1 & 0xff ] + _lut[ d1 >> 8 & 0xff ] + '-' + _lut[ d1 >> 16 & 0x0f | 0x40 ] + _lut[ d1 >> 24 & 0xff ] + '-' +
+			_lut[ d2 & 0x3f | 0x80 ] + _lut[ d2 >> 8 & 0xff ] + '-' + _lut[ d2 >> 16 & 0xff ] + _lut[ d2 >> 24 & 0xff ] +
+			_lut[ d3 & 0xff ] + _lut[ d3 >> 8 & 0xff ] + _lut[ d3 >> 16 & 0xff ] + _lut[ d3 >> 24 & 0xff ];
+
+	// .toLowerCase() here flattens concatenated strings to save heap memory space.
+	return uuid.toLowerCase();
+
+}
+
+function clamp( value, min, max ) {
+
+	return Math.max( min, Math.min( max, value ) );
+
+}
+
+// compute euclidean modulo of m % n
+// https://en.wikipedia.org/wiki/Modulo_operation
+function euclideanModulo( n, m ) {
+
+	return ( ( n % m ) + m ) % m;
+
+}
+
+// Linear mapping from range <a1, a2> to range <b1, b2>
+function mapLinear( x, a1, a2, b1, b2 ) {
+
+	return b1 + ( x - a1 ) * ( b2 - b1 ) / ( a2 - a1 );
+
+}
+
+// https://www.gamedev.net/tutorials/programming/general-and-gameplay-programming/inverse-lerp-a-super-useful-yet-often-overlooked-function-r5230/
+function inverseLerp( x, y, value ) {
+
+	if ( x !== y ) {
+
+		return ( value - x ) / ( y - x );
+
+	} else {
+
+		return 0;
+
+	}
+
+}
+
+// https://en.wikipedia.org/wiki/Linear_interpolation
+function lerp( x, y, t ) {
+
+	return ( 1 - t ) * x + t * y;
+
+}
+
+// http://www.rorydriscoll.com/2016/03/07/frame-rate-independent-damping-using-lerp/
+function damp( x, y, lambda, dt ) {
+
+	return lerp( x, y, 1 - Math.exp( - lambda * dt ) );
+
+}
+
+// https://www.desmos.com/calculator/vcsjnyz7x4
+function pingpong( x, length = 1 ) {
+
+	return length - Math.abs( euclideanModulo( x, length * 2 ) - length );
+
+}
+
+// http://en.wikipedia.org/wiki/Smoothstep
+function smoothstep( x, min, max ) {
+
+	if ( x <= min ) return 0;
+	if ( x >= max ) return 1;
+
+	x = ( x - min ) / ( max - min );
+
+	return x * x * ( 3 - 2 * x );
+
+}
+
+function smootherstep( x, min, max ) {
+
+	if ( x <= min ) return 0;
+	if ( x >= max ) return 1;
+
+	x = ( x - min ) / ( max - min );
+
+	return x * x * x * ( x * ( x * 6 - 15 ) + 10 );
+
+}
+
+// Random integer from <low, high> interval
+function randInt( low, high ) {
+
+	return low + Math.floor( Math.random() * ( high - low + 1 ) );
+
+}
+
+// Random float from <low, high> interval
+function randFloat( low, high ) {
+
+	return low + Math.random() * ( high - low );
+
+}
+
+// Random float from <-range/2, range/2> interval
+function randFloatSpread( range ) {
+
+	return range * ( 0.5 - Math.random() );
+
+}
+
+// Deterministic pseudo-random float in the interval [ 0, 1 ]
+function seededRandom( s ) {
+
+	if ( s !== undefined ) _seed = s;
+
+	// Mulberry32 generator
+
+	let t = _seed += 0x6D2B79F5;
+
+	t = Math.imul( t ^ t >>> 15, t | 1 );
+
+	t ^= t + Math.imul( t ^ t >>> 7, t | 61 );
+
+	return ( ( t ^ t >>> 14 ) >>> 0 ) / 4294967296;
+
+}
+
+function degToRad( degrees ) {
+
+	return degrees * DEG2RAD;
+
+}
+
+function radToDeg( radians ) {
+
+	return radians * RAD2DEG;
+
+}
+
+function isPowerOfTwo( value ) {
+
+	return ( value & ( value - 1 ) ) === 0 && value !== 0;
+
+}
+
+function ceilPowerOfTwo( value ) {
+
+	return Math.pow( 2, Math.ceil( Math.log( value ) / Math.LN2 ) );
+
+}
+
+function floorPowerOfTwo( value ) {
+
+	return Math.pow( 2, Math.floor( Math.log( value ) / Math.LN2 ) );
+
+}
+
+function setQuaternionFromProperEuler( q, a, b, c, order ) {
+
+	// Intrinsic Proper Euler Angles - see https://en.wikipedia.org/wiki/Euler_angles
+
+	// rotations are applied to the axes in the order specified by 'order'
+	// rotation by angle 'a' is applied first, then by angle 'b', then by angle 'c'
+	// angles are in radians
+
+	const cos = Math.cos;
+	const sin = Math.sin;
+
+	const c2 = cos( b / 2 );
+	const s2 = sin( b / 2 );
+
+	const c13 = cos( ( a + c ) / 2 );
+	const s13 = sin( ( a + c ) / 2 );
+
+	const c1_3 = cos( ( a - c ) / 2 );
+	const s1_3 = sin( ( a - c ) / 2 );
+
+	const c3_1 = cos( ( c - a ) / 2 );
+	const s3_1 = sin( ( c - a ) / 2 );
+
+	switch ( order ) {
+
+		case 'XYX':
+			q.set( c2 * s13, s2 * c1_3, s2 * s1_3, c2 * c13 );
+			break;
+
+		case 'YZY':
+			q.set( s2 * s1_3, c2 * s13, s2 * c1_3, c2 * c13 );
+			break;
+
+		case 'ZXZ':
+			q.set( s2 * c1_3, s2 * s1_3, c2 * s13, c2 * c13 );
+			break;
+
+		case 'XZX':
+			q.set( c2 * s13, s2 * s3_1, s2 * c3_1, c2 * c13 );
+			break;
+
+		case 'YXY':
+			q.set( s2 * c3_1, c2 * s13, s2 * s3_1, c2 * c13 );
+			break;
+
+		case 'ZYZ':
+			q.set( s2 * s3_1, s2 * c3_1, c2 * s13, c2 * c13 );
+			break;
+
+		default:
+			console.warn( 'THREE.MathUtils: .setQuaternionFromProperEuler() encountered an unknown order: ' + order );
+
+	}
+
+}
+
+function denormalize( value, array ) {
+
+	switch ( array.constructor ) {
+
+		case Float32Array:
+
+			return value;
+
+		case Uint16Array:
+
+			return value / 65535.0;
+
+		case Uint8Array:
+
+			return value / 255.0;
+
+		case Int16Array:
+
+			return Math.max( value / 32767.0, - 1.0 );
+
+		case Int8Array:
+
+			return Math.max( value / 127.0, - 1.0 );
+
+		default:
+
+			throw new Error( 'Invalid component type.' );
+
+	}
+
+}
+
+function normalize( value, array ) {
+
+	switch ( array.constructor ) {
+
+		case Float32Array:
+
+			return value;
+
+		case Uint16Array:
+
+			return Math.round( value * 65535.0 );
+
+		case Uint8Array:
+
+			return Math.round( value * 255.0 );
+
+		case Int16Array:
+
+			return Math.round( value * 32767.0 );
+
+		case Int8Array:
+
+			return Math.round( value * 127.0 );
+
+		default:
+
+			throw new Error( 'Invalid component type.' );
+
+	}
+
+}
+
+
+
+
+
+
 /***/ })
 
 /******/ 	});
@@ -17599,12 +18565,16 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_three__;
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
+/******/ 	__webpack_require__("./Assets/Component/AudioManager.re.ts");
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	__webpack_require__("./Assets/Component/Bot.re.ts");
 /******/ 	__webpack_require__("./Assets/Component/Collectable.re.ts");
 /******/ 	__webpack_require__("./Assets/Component/CollisionDetection.re.ts");
 /******/ 	__webpack_require__("./Assets/Component/Door.re.ts");
 /******/ 	__webpack_require__("./Assets/Component/GameLogic.re.ts");
+/******/ 	__webpack_require__("./Assets/Component/Lighting.re.ts");
 /******/ 	__webpack_require__("./Assets/Component/PlayerController.re.ts");
+/******/ 	__webpack_require__("./Assets/Component/RemoteMovement.re.ts");
 /******/ 	__webpack_require__("./Assets/Component/UIComponent.re.ts");
 /******/ 	__webpack_require__("./Assets/Component/UIInGame.re.ts");
 /******/ 	__webpack_require__("./Assets/rogue_packages/BeardScript/rogue-cannon/Components/CannonBody.re.ts");

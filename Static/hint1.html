@@ -1,0 +1,27 @@
+<div class="container-hint">
+  <img src="https://i.ibb.co/gmhP9Mr/hint1.png" alt="hint1" />
+  <div id="hint-text">Press 'X' to close, press 'X' again to view</div>
+</div>
+
+<style>
+  .container-hint {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .container-hint img {
+    width: 30%;
+  }
+
+  #hint-text {
+    text-shadow: 1px 1px black;
+  }
+</style>
