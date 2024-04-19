@@ -1,14 +1,13 @@
 import * as RE from "rogue-engine";
-import Collectable from "./Collectable.re";
+import Collectable, { BookPosition, Direction } from "./Collectable.re";
 import PlayerController from "./PlayerController.re";
 import UIComponent from "./UIComponent.re";
 import UIInGame from "./UIInGame.re";
 import CollisionDetection from "./CollisionDetection.re";
 import Door from "./Door.re";
-import Bot from "./Bot.re";
-import { LightPosition, Light } from "./Lighting.re";
-import { BookPosition, Direction } from "./Collectable.re";
+import Bot, { BotPosition } from "./Bot.re";
 import AudioManager from "./AudioManager.re";
+import { Lighting } from "./Lighting.re"
 export default class GameLogic extends RE.Component {
   @RE.props.prefab() collectable: RE.Prefab;
   @RE.props.prefab() player: RE.Prefab;
@@ -17,105 +16,46 @@ export default class GameLogic extends RE.Component {
   @RE.props.prefab() doubleDoor: RE.Prefab;
   @RE.props.prefab() bot: RE.Prefab;
   @RE.props.prefab() key: RE.Prefab;
-  @RE.props.prefab() light: RE.Prefab;
+  @RE.props.prefab() lightClass: RE.Prefab;
+  @RE.props.prefab() lightCorridor: RE.Prefab;
   @RE.props.prefab() degree: RE.Prefab;
 
-  private lightPosition: LightPosition[] = [
-    {x: 13.7872, y: 61.8854, z: 7.783},
-    {x: 13.7872, y: 55.1753, z: 7.7871},
-    {x: 7.1268, y: 55.1753, z: 7.7871},
-    {x: 7.1268, y: 61.612, z: 7.78},
-    {x: 13.7872, y: 42.3951, z: 7.7871},
-    {x: 8.3762, y: 42.3951, z: 7.78},
-    {x: 8.3762, y: 31.7277, z: 7.7871},
-    {x: 13.7357, y: 31.7277, z: 7.7871},
-    {x: 32.9576, y: 40.3939, z: 7.7871},
-    {x: 37.3894, y: 40.3939, z: 7.7871},
-    {x: 41.4606, y: 40.3939, z: 7.7871},
-    {x: 45.5317, y: 40.3939, z: 7.7871},
-    {x: 54.3789, y: 55.0896, z: 7.7871},
-    {x: 57.9454, y: 55.0789, z: 7.7871},
-    {x: 61.3994, y: 55.1158, z: 7.7871},
-    {x: 54.3789, y: 48.2636, z: 7.7871},
-    {x: 57.9454, y: 48.2529, z: 7.7871},
-    {x: 61.3994, y: 48.2898, z: 7.7871},
-    {x: 54.3789, y: 40.7054, z: 7.7871},
-    {x: 57.9454, y: 40.6947, z: 7.7871},
-    {x: 54.3789, y: 62.6478, z: 7.7871},
-    {x: 57.9454, y: 62.6371, z: 7.7871},
-    {x: 61.3994, y: 62.674, z: 7.7871},
-    {x: 61.3994, y: 40.7316, z: 7.7871},
-    {x: 54.3789, y: 32.2251, z: 7.7871},
-    {x: 57.9454, y: 32.2144, z: 7.7871},
-    {x: 61.3994, y: 32.2514, z: 7.7871},
-    {x: 54.3789, y: 24.6669, z: 7.7871},
-    {x: 48.1084, y: 88.3075, z: 7.7871},
-    {x: 48.1084, y: 80.7868, z: 7.7871},
-    {x: 71.3518, y: 88.3075, z: 7.7871},
-    {x: 71.3518, y: 80.7868, z: 7.7871},
-    {x: 55.7854, y: 88.3075, z: 7.7871},
-    {x: 64.331, y: 88.3075, z: 7.7871},
-    {x: 32.5247, y: 33.5933, z: 7.7871},
-    {x: 36.9566, y: 33.5933, z: 7.7871},
-    {x: 41.0277, y: 33.5933, z: 7.7871},
-    {x: 45.0988, y: 33.5933, z: 7.7871},
-    {x: 109.0001, y: 43.1218, z: 7.7871},
-    {x: 116.7816, y: 43.1218, z: 7.7871},
-    {x: 109.0001, y: 35.3344, z: 7.7871},
-    {x: 116.7816, y: 35.3344, z: 7.7871},
-    {x: 109.0001, y: 57.7666, z: 7.7871},
-    {x: 116.7816, y: 57.7666, z: 7.7871},
-    {x: 109.0001, y: 28.5334, z: 7.7871},
-    {x: 116.7816, y: 28.5334, z: 7.7871},
-    {x: 88.1683, y: 8.6964, z: 7.7871},
-    {x: 102.8408, y: 8.6964, z: 7.7871},
-    {x: 111.4387, y: 8.6964, z: 7.7871},
-    {x: 119.8139, y: 8.6964, z: 7.7871},
-    {x: 94.1791, y: 8.6964, z: 7.7871},
-    {x: 32.9576, y: 47.9833, z: 7.7871},
-    {x: 37.3894, y: 47.9833, z: 7.7871},
-    {x: 41.4606, y: 47.9833, z: 7.7871},
-    {x: 45.5317, y: 47.9833, z: 7.7871},
-    {x: 32.5247, y: 63.4651, z: 7.7871},
-    {x: 36.9566, y: 63.4651, z: 7.7871},
-    {x: 41.0277, y: 63.4651, z: 7.78},
-    {x: 45.0988, y: 63.4651, z: 7.7871},
-    {x: 32.5247, y: 55.0217, z: 7.7871},
-    {x: 36.9566, y: 55.0217, z: 7.7871},
-    {x: 41.0277, y: 55.0217, z: 7.7871},
-    {x: 45.0988, y: 55.0217, z: 7.7871},
-    {x: 32.5247, y: 25.9839, z: 7.7871},
-    {x: 36.9566, y: 25.9839, z: 7.7871},
-    {x: 41.0277, y: 25.9839, z: 7.7871},
-    {x: 45.0988, y: 25.9839, z: 7.7871},
-    {x: 57.9454, y: 24.6562, z: 7.7871},
-    {x: 61.3994, y: 24.6931, z: 7.7871},
-    {x: 54.3789, y: 15.3359, z: 7.7871},
-    {x: 57.9454, y: 15.3251, z: 7.7871},
-    {x: 61.3994, y: 15.3621, z: 7.7871},
-    {x: 54.3789, y: 7.7776, z: 7.7871},
-    {x: 57.9454, y: 7.7669, z: 7.7871},
-    {x: 61.3994, y: 7.8039, z: 7.7871},
-    {x: 109.0001, y: 20.7459, z: 7.7871},
-    {x: 116.7816, y: 20.7459, z: 7.7871},
-    {x: 109.907, y: 50.7215, z: 7.7871},
-    {x: 117.2357, y: 50.7215, z: 7.7871},
-    {x: 109.0001, y: 72.529, z: 7.7871},
-    {x: 116.7816, y: 72.529, z: 7.7871},
-    {x: 109.0001, y: 64.7416, z: 7.7871},
-    {x: 116.7816, y: 64.7416, z: 7.7871},
-    {x: 55.7854, y: 80.7868, z: 7.7871},
-    {x: 64.331, y: 80.7868, z: 7.7871},
-    {x: 14.1312, y: 88.3075, z: 7.7871},
-    {x: 38.1447, y: 88.3075, z: 7.7871},
-    {x: 21.8083, y: 88.3075, z: 7.7871},
-    {x: 30.3539, y: 88.3075, z: 7.7871},
-    {x: 14.1312, y: 80.7868, z: 7.7871},
-    {x: 38.1344, y: 80.3159, z: 7.7871},
-    {x: 21.8083, y: 80.7868, z: 7.7871},
-    {x: 30.3539, y: 80.224, z: 7.7871},
-  ]
+  private playCount: Number = 0;
+  private botPosition: BotPosition[] = [
+    { x: 59.5, y: 1, z: 47.5 },
+    { x: 40.5, y: 5, z: -87.0 },
+    { x: 45.5, y: 5, z: -46.0 },
+    { x: 59.5, y: 1, z: 44.3 }, 
+    { x: 41.5, y: 5, z: -84.0 }, { x: 46.0, y: 5.2, z: -44.0 },
+    { x: 62.8, y: 1.5, z: 44.5 }, { x: 38.8, y: 5, z: -89.0 }, { x: 42.0, y: 5.1, z: -44.5 },
+    { x: 66.8, y: 1, z: 44.5 }, { x: 38.8, y: 5, z: -86.0 }, { x: 40.0, y: 5, z: -44.0 },
+    { x: 70.2, y: 1.3, z: 40.9 }, { x: 35.0, y: 5, z: -84.0 }, { x: 19.5, y: 5.3, z: -23.0 },
 
+    { x: 27.7, y: 1.2, z: 48.2 }, { x: 44.0, y: 5, z: -7.7 }, { x: 65.5, y: 5.2, z: -10.5 },
+    { x: 27.9, y: 1.2, z: 44.7 }, { x: 41.5, y: 5, z: -6.2 }, { x: 66.3, y: 5.5, z: -9.2 },
+    { x: 24.1, y: 1.2, z: 44.3 }, { x: 41.6, y: 5, z: -10.3 }, { x: 41.0, y: 5, z: -59.5 },
+    { x: 18.5, y: 1.2, z: 41.2 }, { x: 44.5, y: 5, z: -10.2 }, { x: 43.3, y: 5, z: -58.5 },
+    { x: 27.8, y: 1.2, z: 41.2 }, { x: 42.0, y: 5, z: -12.6 }, { x: 43.0, y: 5.3, z: -62.0 },
+
+    { x: 95.8, y: 1.35, z: 47.8 }, { x: 45.0, y: 5, z: -43.5 }, { x: 46.5, y: 5.3, z: -27.0 },
+    { x: 94.7, y: 1.15, z: 43.4 }, { x: 42.5, y: 5, z: -42.6 }, { x: 30.5, y: 5.3, z: -29.0 },
+    { x: 96.6, y: 1.2, z: 41.5 }, { x: 39.5, y: 5, z: -44.3 },
+    { x: 95.2, y: 1.1, z: 40.8 }, { x: 37.5, y: 5, z: -43.1 },
+    { x: 97.2, y: 1.17, z: 39.0 }, { x: 35.8, y: 5, z: -44.5 },
+
+    { x: 85.2, y: 1.17, z: 30.0 }, { x: 7.2, y: 5, z: -56.2 },
+    { x: 87.0, y: 1.1, z: 28.0 }, { x: 5.3, y: 5.5, z: -60 },
+    { x: 87.0, y: 1.1, z: 32.0 }, { x: 7.0, y: 5.2, z: -61.0 },
+    { x: 88.5, y: 1.1, z: 29.0 }, { x: 5.8, y: 5.8, z: -54.5 },
+    { x: 88.5, y: 1.1, z: 31.0 }, { x: 14.2, y: 5.4, z: -55.8 },
+
+    { x: 65.2, y: 1.2, z: 30.0 }, { x: 7.0, y: 5.4, z: -50.0 },
+    { x: 67.0, y: 1.1, z: 28.0 }, { x: 5.5, y: 5.35, z: -49.5 },
+    { x: 67.0, y: 1.1, z: 32.0 }, { x: 5.5, y: 5.5, z: -48.5 },
+    { x: 68.5, y: 1.1, z: 29.0 },
+    { x: 68.5, y: 1.1, z: 31.0 },
+  ]
+  
   private bookPosition: BookPosition[] = [
     { x: 58, y: 1, z: 48.9, direction: Direction.West },
     { x: 27, y: 1, z: 47, direction: Direction.West },
@@ -164,7 +104,7 @@ export default class GameLogic extends RE.Component {
   health = 100;
   damageFlags: Boolean[] = [];
 
-  lightingSet: Light[] = [];
+  lightingSet: Lighting[] = [];
 
 
   stylesUI: UIComponent;
@@ -359,7 +299,6 @@ export default class GameLogic extends RE.Component {
       if (interactAction) {
         this.audioManager.playSFX(this.audioManager.sfx_door);
         this.interactUI.hide();
-        RE.Debug.log(obj2.isOpen.toString());
         if (!obj2.isOpen) {
           obj2.openDoor();
         } else {
@@ -406,14 +345,14 @@ export default class GameLogic extends RE.Component {
   }
 
   addCollectables() {
-    for (let i = 0; i < this.collectableCount; i++) {
+    for (let i = 0; i < this.bookPosition.length; i++) {
       const collectableInstance = this.collectable.instantiate();
       if (collectableInstance) {
         this.collectableSet[i] = RE.getComponent(
           Collectable,
           collectableInstance
         ) as Collectable;
-        this.addCollectable(this.collectableSet[i], i * 3 + 18, 0, -12);
+        this.addCollectable(this.collectableSet[i], this.bookPosition[i].x, this.bookPosition[i].y, this.bookPosition[i].z);
       }
     }
   }
@@ -424,7 +363,7 @@ export default class GameLogic extends RE.Component {
     y: number,
     z: number
   ) {
-    collectableObject.object3d.position.set(x, 5.052, z);
+    collectableObject.object3d.position.set(x, y, z);
     this.collectableSet.push(collectableObject);
   }
 
@@ -464,38 +403,58 @@ export default class GameLogic extends RE.Component {
     this.doorSet.push(doorObject);
   }
   addLights() {
-    RE.Debug.log("this.lightPosition.length");
-    RE.Debug.log(this.lightPosition.length.toFixed());
+    for (let i = 0; i < Lighting.lightClassPosition.length; i++) {
+      // RE.Debug.log(Lighting.lightPosition[i].x + " " + Lighting.lightPosition[i].y)
+      let lightingClassInstance;
+      let lightingCorridorInstance;
 
-    for (let i = 0; i < this.lightPosition.length; i++) {
-      RE.Debug.log("Add Lightings");
-      const lightInstance = this.light.instantiate();
-      if (lightInstance) {
-        this.lightingSet[i] = RE.getComponent(Light, lightInstance) as Light;
-        RE.Debug.log(this.lightPosition[i].x.toPrecision() + " " + this.lightPosition[i].y.toPrecision() + " " + this.lightPosition[i].z.toPrecision())
-
-        // this.addLight(this.lightingSet[i], this.lightPosition[i].x, this.lightPosition[i].y, this.lightPosition[i].z);
+      lightingClassInstance = this.lightClass.instantiate();
+      lightingCorridorInstance = this.lightCorridor.instantiate();
+      if (lightingClassInstance) {
+        this.lightingSet[i] = RE.getComponent(
+          Lighting,
+          lightingClassInstance
+        ) as Lighting;
+        this.addLight(
+          this.lightingSet[i],
+          Lighting.lightClassPosition[i].x,
+          Lighting.lightClassPosition[i].y,
+          Lighting.lightClassPosition[i].z
+        );
+      }
+      if (lightingCorridorInstance) {
+        this.lightingSet[i] = RE.getComponent(
+          Lighting,
+          lightingCorridorInstance
+        ) as Lighting;
+        this.addLight(
+          this.lightingSet[i],
+          Lighting.lightCorridorPosition[i].x,
+          Lighting.lightCorridorPosition[i].y,
+          Lighting.lightCorridorPosition[i].z
+        );
       }
     }
   }
-  addLight(lightObject: Light, x: number, y: number, z: number) {
+
+  addLight(lightObject: Lighting, x: number, y: number, z: number) {
     lightObject.object3d.position.set(x, y, z);
-    // RE.Debug.log(x.toString() + "," + z.toString());
+    // //RE.Debug.log(x.toString() + "," + z.toString());
     this.lightingSet.push(lightObject);
   }
   ///add Bot
   addBots() {
-    for (let i = 1; i <= this.botCount; i++) {
+    for (let i = 0; i < this.botPosition.length; i++) {
       const botInstance = this.bot.instantiate();
       if (botInstance) {
         this.botSet[i] = RE.getComponent(Bot, botInstance) as Bot;
-        this.addBot(this.botSet[i], i * 3 + 20, -20);
+        this.addBot(this.botSet[i], this.botPosition[i].x, this.botPosition[i].y, this.botPosition[i].z);
       }
     }
   }
 
-  addBot(botObject: Bot, x: number, z: number) {
-    botObject.object3d.position.set(x, 6, z);
+  addBot(botObject: Bot, x: number, y:number, z: number) {
+    botObject.object3d.position.set(x, y, z);
     this.botSet.push(botObject);
   }
 
@@ -505,7 +464,7 @@ export default class GameLogic extends RE.Component {
     if (collide && !this.damageFlags[index]) {
       this.audioManager.playSFX(this.audioManager.sfx_damage);
       this.botSet[index].object3d.parent?.remove(this.botSet[index].object3d);
-      this.health -= 20;
+      this.health -= 5;
       this.damageFlags[index] = true;
       this.inGameUI.setHealth(this.health);
       if (this.health >= 0) {
@@ -518,51 +477,32 @@ export default class GameLogic extends RE.Component {
   }
 
   startGame() {
-    RE.Debug.log("StartGame")
-
     if (this.gameStarted === false) {
       this.gameLost = false;
       this.startMenuUI.hide();
       this.gameWinUI.hide();
       this.endGameUI.hide();
-
       this.inGameUI.show();
-      RE.Debug.log("After inGameUI")
-
       this.inGameUI.setScore(0);
       this.inGameUI.setHealth(100);
       this.gameStarted = true;
-      RE.Debug.log("gameStarted")
-
       const playerInstance = this.player.instantiate();
-      RE.Debug.log("playerInst")
-
       const degreeInstance = this.degree.instantiate();
-      RE.Debug.log("degreeInstance")
-
       const lockedDoorInstance = this.lockedDoorModel.instantiate();
-      RE.Debug.log("lockedDoorInstance")
-
       this.showKey = false;
       this.keyCollected = false;
       this.degreeCollected = false;
-      RE.Debug.log("Player Inst")
-      RE.Debug.log(playerInstance.toJSON())
 
       if (playerInstance) {
-
         playerInstance.position.set(20, 0.8, -18);
         this.playerController = RE.getComponent(
           PlayerController,
           playerInstance
         ) as PlayerController;
-        RE.Debug.log("Before adding stuff")
         this.addCollectables();
         this.addDoors();
+        this.addLights()
         this.addBots();
-        this.addLights();
-        RE.Debug.log("After adding stuff")
-
         for (let i = 0; i < this.collectableCount; i++) {
           this.collectedFlags.push(false);
         }
@@ -600,8 +540,14 @@ export default class GameLogic extends RE.Component {
     this.botSet.forEach((bot) => {
       bot.object3d.parent?.remove(bot.object3d);
     });
-
+    
     this.botSet = [];
+    
+    this.lightingSet.forEach((lighting) => {
+      lighting.object3d.parent?.remove(lighting.object3d);
+    });
+    this.lightingSet = []
+  
   }
 
   gameOver() {
@@ -669,7 +615,7 @@ export default class GameLogic extends RE.Component {
   }
 
   allCollected() {
-    return this.collectedFlags.every((flag) => flag === true);
+    return this.collectedFlags.every((flag) => flag === true) && this.collectedFlags.length != 0;
     // return true;
   }
 }

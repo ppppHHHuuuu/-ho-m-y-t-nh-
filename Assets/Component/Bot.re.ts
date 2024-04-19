@@ -1,7 +1,11 @@
 import * as RE from "rogue-engine";
 import RapierBody from "@RE/RogueEngine/rogue-rapier/Components/RapierBody.re";
 import RapierCollider from "@RE/RogueEngine/rogue-rapier/Components/Colliders/RapierCollider";
-
+export interface BotPosition {
+  x: number;
+  y: number;
+  z: number;
+}
 export default class Bot extends RE.Component {
   private _rapierBody: RapierBody;
   private _collider: RapierCollider;

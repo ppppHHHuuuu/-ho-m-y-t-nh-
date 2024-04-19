@@ -28,7 +28,7 @@ export default class RemoteMovement extends RE.Component {
       this.updatePosition();
     }
 
-    this.nextPosition -= Runtime.deltaTime;
+    this.nextPosition -= Runtime.deltaTime ;
     if (this.nextPosition < 0) {
       this.setupPosition();
       this.nextPosition = 1 + Math.abs(Math.random()) * 5;
@@ -38,10 +38,10 @@ export default class RemoteMovement extends RE.Component {
       this.updateRotation();
     }
 
-    this.nextRotation -= Runtime.deltaTime;
+    this.nextRotation -= Runtime.deltaTime ;
     if (this.nextRotation < 0) {
       this.setupRotation();
-      this.nextRotation = 1 + Math.abs(Math.random()) * 5;
+      this.nextRotation = 1 + Math.abs(Math.random()) * 5 ;
     }
 
     if (!this.model) {

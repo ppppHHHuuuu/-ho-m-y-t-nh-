@@ -72,7 +72,7 @@ export default class RapierKinematicCharacterController extends RapierBody {
   update() {
     super.update();
     if (this.body?.numColliders() < 1) {
-      RE.Debug.logWarning("No character collider");
+      //RE.Debug.logWarning("No character collider");
       return;
     }
   }
