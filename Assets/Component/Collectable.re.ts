@@ -28,7 +28,29 @@ export default class Collectable extends RE.Component {
   @RE.props.num() bouncingHeight = 0.01;
   @RE.props.num() bouncingSpeed = 100;
   @RE.props.num() bookHeight = 0.7;
-
+  public static bookPosition: BookPosition[] = [
+    { x: 47.779, y: 1.181, z: 44.362, direction: Direction.West },
+    { x: 53.943, y: 1.181, z: 44.362, direction: Direction.West },
+    { x: 63.683, y: 1.181, z: 44.362, direction: Direction.West },
+    { x: 89.938, y: 1.181, z: 44.362, direction: Direction.West },
+    { x: 95.279, y: 1.181, z: 31.597, direction: Direction.West },
+    { x: 95.777, y: 1.181, z: 44.362, direction: Direction.West },
+    
+    { x: 41, y: 5, z: -90, direction: Direction.East },
+    { x: 47, y: 5, z: -7.7, direction: Direction.South },
+    { x: 44, y: 5, z: -42, direction: Direction.South },
+    { x: 5, y: 5, z: -57, direction: Direction.South },
+    { x: 7, y: 5, z: -53, direction: Direction.South },
+    { x: 2.8, y: 5, z: -61, direction: Direction.South },
+    { x: 47, y: 5, z: - 46, direction: Direction.North },
+    { x: 51, y: 5, z: -14, direction: Direction.South },
+    { x: 51, y: 5, z: -4, direction: Direction.South },
+    { x: 45, y: 5, z: -60, direction: Direction.North },
+    { x: 46, y: 5, z: -24, direction: Direction.North },
+    { x: 45, y: 5, z: -30, direction: Direction.North },
+    { x: 30, y: 5, z: -32, direction: Direction.North },
+    { x: 45, y: 5, z: -62, direction: Direction.North },
+  ];
   curBook: THREE.Object3D[] = [];
   
   private floorHeight = [
@@ -46,30 +68,6 @@ export default class Collectable extends RE.Component {
       }
 
     return this._rapierBody;
-  }
-  generateRandomPosition(Build: Building): BookPosition {
-    var constraintX: {[key: string]: number}
-    var constraintZ: {[key: string]: number}
-    var fixedY: number
-    if (Build = Building.Right) {
-      constraintX = {min: 2.681, max: 97.681}
-      constraintZ = {min: 20.877, max: 51.2}
-      fixedY = 0 +this.bookHeight
-    }
-    else if (Build = Building.Left1stFloor) {
-      constraintX = {min: 2.524, max: 27.524}
-      constraintZ = {min: -1.523, max: -21.523}
-      fixedY = 0+this.bookHeight
-    }
-    else {
-      constraintX = {min: 2.524, max: 125.524}
-      constraintZ = {min: -1.523, max: -93}
-      fixedY = 5.052+this.bookHeight
-    }
-    const x = Math.floor(Math.random() * (constraintX.max - constraintX.min + 1)) + constraintX.min
-    const z = Math.floor(Math.random() * (constraintZ.max - constraintZ.min + 1)) + constraintZ.min 
-    
-    return {x: x, y: fixedY, z: z, direction: Direction.East}
   }
 
 

@@ -57,7 +57,7 @@ export default class RemoteMovement extends RE.Component {
     const change = Runtime.deltaTime;
     this.object3d.position.y = Math.max(
       -1.5,
-      Math.min(0.5, this.object3d.position.y + positionDirection * change)
+      Math.min(positionDirection, this.object3d.position.y + positionDirection * change)
     );
     this.positionTime -= change;
   }
@@ -69,19 +69,13 @@ export default class RemoteMovement extends RE.Component {
     this.rotationTime -= change;
   }
 
-  setupPosition() {
+ setupPosition() {
     const { y } = this.object3d.position;
-    this.positionDirection = Math.abs(Math.random()) < 1 ? 1 : 2;
+    this.positionDirection =
+        Math.random() < .5 ? y - 0.5 : y + 0.5;
 
-    if (y < -1) {
-      this.positionDirection = 1;
-    } else if (y > 0.4) {
-      this.positionDirection = -1;
-    }
-
-    this.positionTime = Math.abs(Math.random()) * 1;
+    this.positionTime = Math.random() * 1;
   }
-
   setupRotation() {
     this.rotationDirection = Math.random() < 0.5 ? -1.5 : 1.5;
     this.rotationTime = Math.random() * 45;

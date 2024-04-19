@@ -21,65 +21,7 @@ export default class GameLogic extends RE.Component {
   @RE.props.prefab() degree: RE.Prefab;
 
   private playCount: Number = 0;
-  private botPosition: BotPosition[] = [
-    { x: 59.5, y: 1, z: 47.5 },
-    { x: 40.5, y: 5, z: -87.0 },
-    { x: 45.5, y: 5, z: -46.0 },
-    { x: 59.5, y: 1, z: 44.3 }, 
-    { x: 41.5, y: 5, z: -84.0 }, { x: 46.0, y: 5.2, z: -44.0 },
-    { x: 62.8, y: 1.5, z: 44.5 }, { x: 38.8, y: 5, z: -89.0 }, { x: 42.0, y: 5.1, z: -44.5 },
-    { x: 66.8, y: 1, z: 44.5 }, { x: 38.8, y: 5, z: -86.0 }, { x: 40.0, y: 5, z: -44.0 },
-    { x: 70.2, y: 1.3, z: 40.9 }, { x: 35.0, y: 5, z: -84.0 }, { x: 19.5, y: 5.3, z: -23.0 },
 
-    { x: 27.7, y: 1.2, z: 48.2 }, { x: 44.0, y: 5, z: -7.7 }, { x: 65.5, y: 5.2, z: -10.5 },
-    { x: 27.9, y: 1.2, z: 44.7 }, { x: 41.5, y: 5, z: -6.2 }, { x: 66.3, y: 5.5, z: -9.2 },
-    { x: 24.1, y: 1.2, z: 44.3 }, { x: 41.6, y: 5, z: -10.3 }, { x: 41.0, y: 5, z: -59.5 },
-    { x: 18.5, y: 1.2, z: 41.2 }, { x: 44.5, y: 5, z: -10.2 }, { x: 43.3, y: 5, z: -58.5 },
-    { x: 27.8, y: 1.2, z: 41.2 }, { x: 42.0, y: 5, z: -12.6 }, { x: 43.0, y: 5.3, z: -62.0 },
-
-    { x: 95.8, y: 1.35, z: 47.8 }, { x: 45.0, y: 5, z: -43.5 }, { x: 46.5, y: 5.3, z: -27.0 },
-    { x: 94.7, y: 1.15, z: 43.4 }, { x: 42.5, y: 5, z: -42.6 }, { x: 30.5, y: 5.3, z: -29.0 },
-    { x: 96.6, y: 1.2, z: 41.5 }, { x: 39.5, y: 5, z: -44.3 },
-    { x: 95.2, y: 1.1, z: 40.8 }, { x: 37.5, y: 5, z: -43.1 },
-    { x: 97.2, y: 1.17, z: 39.0 }, { x: 35.8, y: 5, z: -44.5 },
-
-    { x: 85.2, y: 1.17, z: 30.0 }, { x: 7.2, y: 5, z: -56.2 },
-    { x: 87.0, y: 1.1, z: 28.0 }, { x: 5.3, y: 5.5, z: -60 },
-    { x: 87.0, y: 1.1, z: 32.0 }, { x: 7.0, y: 5.2, z: -61.0 },
-    { x: 88.5, y: 1.1, z: 29.0 }, { x: 5.8, y: 5.8, z: -54.5 },
-    { x: 88.5, y: 1.1, z: 31.0 }, { x: 14.2, y: 5.4, z: -55.8 },
-
-    { x: 65.2, y: 1.2, z: 30.0 }, { x: 7.0, y: 5.4, z: -50.0 },
-    { x: 67.0, y: 1.1, z: 28.0 }, { x: 5.5, y: 5.35, z: -49.5 },
-    { x: 67.0, y: 1.1, z: 32.0 }, { x: 5.5, y: 5.5, z: -48.5 },
-    { x: 68.5, y: 1.1, z: 29.0 },
-    { x: 68.5, y: 1.1, z: 31.0 },
-  ]
-  
-  private bookPosition: BookPosition[] = [
-    { x: 58, y: 1, z: 48.9, direction: Direction.West },
-    { x: 27, y: 1, z: 47, direction: Direction.West },
-    { x: 22, y: 1, z: 44, direction: Direction.West },
-    { x: 95, y: 2, z: 48, direction: Direction.West },
-    { x: 96, y: 1, z: 43, direction: Direction.West },
-    { x: 87, y: 1, z: 30, direction: Direction.South },
-    { x: 67, y: 1, z: 30, direction: Direction.South },
-
-    { x: 41, y: 5, z: -90, direction: Direction.East },
-    { x: 47, y: 5, z: -7.7, direction: Direction.South },
-    { x: 44, y: 5, z: -42, direction: Direction.South },
-    { x: 5, y: 5, z: -57, direction: Direction.South },
-    { x: 7, y: 5, z: -53, direction: Direction.South },
-    { x: 2.8, y: 5, z: -61, direction: Direction.South },
-    { x: 47, y: 5, z: - 46, direction: Direction.North },
-    { x: 51, y: 5, z: -14, direction: Direction.South },
-    { x: 51, y: 5, z: -4, direction: Direction.South },
-    { x: 45, y: 5, z: -60, direction: Direction.North },
-    { x: 46, y: 5, z: -24, direction: Direction.North },
-    { x: 45, y: 5, z: -30, direction: Direction.North },
-    { x: 30, y: 5, z: -32, direction: Direction.North },
-    { x: 45, y: 5, z: -62, direction: Direction.North },
-  ];
   audioManager: AudioManager;
   gameStarted = false;
   gameLost = false;
@@ -191,7 +133,7 @@ export default class GameLogic extends RE.Component {
 
         this.openLockedDoor(this.playerController, this.lockedDoor);
 
-        this.botSet.forEach((boot, index) => {
+        this.botSet.forEach((bot, index) => {
           this.botDamage(this.playerController, this.botSet, index);
         });
 
@@ -345,14 +287,14 @@ export default class GameLogic extends RE.Component {
   }
 
   addCollectables() {
-    for (let i = 0; i < this.bookPosition.length; i++) {
+    for (let i = 0; i < Collectable.bookPosition.length; i++) {
       const collectableInstance = this.collectable.instantiate();
       if (collectableInstance) {
         this.collectableSet[i] = RE.getComponent(
           Collectable,
           collectableInstance
         ) as Collectable;
-        this.addCollectable(this.collectableSet[i], this.bookPosition[i].x, this.bookPosition[i].y, this.bookPosition[i].z);
+        this.addCollectable(this.collectableSet[i], Collectable.bookPosition[i].x, Collectable.bookPosition[i].y, Collectable.bookPosition[i].z);
       }
     }
   }
@@ -406,10 +348,8 @@ export default class GameLogic extends RE.Component {
     for (let i = 0; i < Lighting.lightClassPosition.length; i++) {
       // RE.Debug.log(Lighting.lightPosition[i].x + " " + Lighting.lightPosition[i].y)
       let lightingClassInstance;
-      let lightingCorridorInstance;
 
       lightingClassInstance = this.lightClass.instantiate();
-      lightingCorridorInstance = this.lightCorridor.instantiate();
       if (lightingClassInstance) {
         this.lightingSet[i] = RE.getComponent(
           Lighting,
@@ -422,6 +362,10 @@ export default class GameLogic extends RE.Component {
           Lighting.lightClassPosition[i].z
         );
       }
+    }
+    for (let i = 0; i < Lighting.lightCorridorPosition.length; i++) {
+      let lightingCorridorInstance;
+      lightingCorridorInstance = this.lightCorridor.instantiate();
       if (lightingCorridorInstance) {
         this.lightingSet[i] = RE.getComponent(
           Lighting,
@@ -435,28 +379,41 @@ export default class GameLogic extends RE.Component {
         );
       }
     }
+
   }
 
   addLight(lightObject: Lighting, x: number, y: number, z: number) {
     lightObject.object3d.position.set(x, y, z);
-    // //RE.Debug.log(x.toString() + "," + z.toString());
     this.lightingSet.push(lightObject);
   }
   ///add Bot
   addBots() {
-    for (let i = 0; i < this.botPosition.length; i++) {
-      const botInstance = this.bot.instantiate();
+    for (let i = 0; i < Bot.botPosition.length; i++) {
+
+      let botInstance;
+      botInstance = this.bot.instantiate();
       if (botInstance) {
-        this.botSet[i] = RE.getComponent(Bot, botInstance) as Bot;
-        this.addBot(this.botSet[i], this.botPosition[i].x, this.botPosition[i].y, this.botPosition[i].z);
+        this.botSet[i] = RE.getComponent(
+          Bot, 
+          botInstance
+        ) as Bot;
+        if (i == 1){ 
+            RE.Debug.log(Bot.botPosition[i].x + " " + Bot.botPosition[i].y + " " + Bot.botPosition[i].z)
+        }
+
+        this.addBot(
+          this.botSet[i], 
+          Bot.botPosition[i].x, 
+          Bot.botPosition[i].y, 
+          Bot.botPosition[i].z);
       }
     }
   }
 
-  addBot(botObject: Bot, x: number, y:number, z: number) {
+ addBot(botObject: Bot, x: number, y: number, z: number) {
     botObject.object3d.position.set(x, y, z);
     this.botSet.push(botObject);
-  }
+  } 
 
   //Bot Damage
   botDamage(obj1: RE.Component, obj2: RE.Component[], index: number) {
@@ -524,7 +481,6 @@ export default class GameLogic extends RE.Component {
   }
 
   deleteAll() {
-    RE.Debug.log(this.doorSet.length.toString());
     this.collectableSet.forEach((collectable) => {
       collectable.object3d.parent?.remove(collectable.object3d);
     });
@@ -540,14 +496,14 @@ export default class GameLogic extends RE.Component {
     this.botSet.forEach((bot) => {
       bot.object3d.parent?.remove(bot.object3d);
     });
-    
+
     this.botSet = [];
-    
+
     this.lightingSet.forEach((lighting) => {
       lighting.object3d.parent?.remove(lighting.object3d);
     });
     this.lightingSet = []
-  
+
   }
 
   gameOver() {

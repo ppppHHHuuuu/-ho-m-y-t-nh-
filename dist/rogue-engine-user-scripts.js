@@ -13406,6 +13406,68 @@ class Bot extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
   }
 }
 __name(Bot, "Bot");
+Bot.botPosition = [
+  { x: 59.5, y: 1, z: 47.5 },
+  { x: 40.5, y: 5, z: -87 },
+  { x: 45.5, y: 5, z: -46 },
+  { x: 59.5, y: 1, z: 44.3 },
+  { x: 41.5, y: 5, z: -84 },
+  { x: 46, y: 5.2, z: -44 },
+  { x: 62.8, y: 1.5, z: 44.5 },
+  { x: 38.8, y: 5, z: -89 },
+  { x: 42, y: 5.1, z: -44.5 },
+  { x: 66.8, y: 1, z: 44.5 },
+  { x: 38.8, y: 5, z: -86 },
+  { x: 40, y: 5, z: -44 },
+  { x: 70.2, y: 1.3, z: 40.9 },
+  { x: 35, y: 5, z: -84 },
+  { x: 19.5, y: 5.3, z: -23 },
+  { x: 27.7, y: 1.2, z: 48.2 },
+  { x: 44, y: 5, z: -7.7 },
+  { x: 65.5, y: 5.2, z: -10.5 },
+  { x: 27.9, y: 1.2, z: 44.7 },
+  { x: 41.5, y: 5, z: -6.2 },
+  { x: 66.3, y: 5.5, z: -9.2 },
+  { x: 24.1, y: 1.2, z: 44.3 },
+  { x: 41.6, y: 5, z: -10.3 },
+  { x: 41, y: 5, z: -59.5 },
+  { x: 18.5, y: 1.2, z: 41.2 },
+  { x: 44.5, y: 5, z: -10.2 },
+  { x: 43.3, y: 5, z: -58.5 },
+  { x: 27.8, y: 1.2, z: 41.2 },
+  { x: 42, y: 5, z: -12.6 },
+  { x: 43, y: 5.3, z: -62 },
+  { x: 95.8, y: 1.35, z: 47.8 },
+  { x: 45, y: 5, z: -43.5 },
+  { x: 46.5, y: 5.3, z: -27 },
+  { x: 94.7, y: 1.15, z: 43.4 },
+  { x: 42.5, y: 5, z: -42.6 },
+  { x: 30.5, y: 5.3, z: -29 },
+  { x: 96.6, y: 1.2, z: 41.5 },
+  { x: 39.5, y: 5, z: -44.3 },
+  { x: 95.2, y: 1.1, z: 40.8 },
+  { x: 37.5, y: 5, z: -43.1 },
+  { x: 97.2, y: 1.17, z: 39 },
+  { x: 35.8, y: 5, z: -44.5 },
+  { x: 85.2, y: 1.17, z: 30 },
+  { x: 7.2, y: 5, z: -56.2 },
+  { x: 87, y: 1.1, z: 28 },
+  { x: 5.3, y: 5.5, z: -60 },
+  { x: 87, y: 1.1, z: 32 },
+  { x: 7, y: 5.2, z: -61 },
+  { x: 88.5, y: 1.1, z: 29 },
+  { x: 5.8, y: 5.8, z: -54.5 },
+  { x: 88.5, y: 1.1, z: 31 },
+  { x: 14.2, y: 5.4, z: -55.8 },
+  { x: 65.2, y: 1.2, z: 30 },
+  { x: 7, y: 5.4, z: -50 },
+  { x: 67, y: 1.1, z: 28 },
+  { x: 5.5, y: 5.35, z: -49.5 },
+  { x: 67, y: 1.1, z: 32 },
+  { x: 5.5, y: 5.5, z: -48.5 },
+  { x: 68.5, y: 1.1, z: 29 },
+  { x: 68.5, y: 1.1, z: 31 }
+];
 rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(Bot);
 
 
@@ -13474,27 +13536,6 @@ class Collectable extends rogue_engine__WEBPACK_IMPORTED_MODULE_1__.Component {
     }
     return this._rapierBody;
   }
-  generateRandomPosition(Build) {
-    var constraintX;
-    var constraintZ;
-    var fixedY;
-    if (Build = 0) {
-      constraintX = { min: 2.681, max: 97.681 };
-      constraintZ = { min: 20.877, max: 51.2 };
-      fixedY = 0 + this.bookHeight;
-    } else if (Build = 1) {
-      constraintX = { min: 2.524, max: 27.524 };
-      constraintZ = { min: -1.523, max: -21.523 };
-      fixedY = 0 + this.bookHeight;
-    } else {
-      constraintX = { min: 2.524, max: 125.524 };
-      constraintZ = { min: -1.523, max: -93 };
-      fixedY = 5.052 + this.bookHeight;
-    }
-    const x = Math.floor(Math.random() * (constraintX.max - constraintX.min + 1)) + constraintX.min;
-    const z = Math.floor(Math.random() * (constraintZ.max - constraintZ.min + 1)) + constraintZ.min;
-    return { x, y: fixedY, z, direction: 1 };
-  }
   update() {
     this.startTime = (this.startTime + rogue_engine__WEBPACK_IMPORTED_MODULE_1__.Runtime.deltaTime) % 1e3;
     let y = Math.cos(this.startTime / this.bouncingSpeed * 360) * this.bouncingHeight;
@@ -13502,6 +13543,28 @@ class Collectable extends rogue_engine__WEBPACK_IMPORTED_MODULE_1__.Component {
   }
 }
 __name(Collectable, "Collectable");
+Collectable.bookPosition = [
+  { x: 47.779, y: 1.181, z: 44.362, direction: 2 },
+  { x: 53.943, y: 1.181, z: 44.362, direction: 2 },
+  { x: 63.683, y: 1.181, z: 44.362, direction: 2 },
+  { x: 89.938, y: 1.181, z: 44.362, direction: 2 },
+  { x: 95.279, y: 1.181, z: 31.597, direction: 2 },
+  { x: 95.777, y: 1.181, z: 44.362, direction: 2 },
+  { x: 41, y: 5, z: -90, direction: 1 },
+  { x: 47, y: 5, z: -7.7, direction: 0 },
+  { x: 44, y: 5, z: -42, direction: 0 },
+  { x: 5, y: 5, z: -57, direction: 0 },
+  { x: 7, y: 5, z: -53, direction: 0 },
+  { x: 2.8, y: 5, z: -61, direction: 0 },
+  { x: 47, y: 5, z: -46, direction: 3 },
+  { x: 51, y: 5, z: -14, direction: 0 },
+  { x: 51, y: 5, z: -4, direction: 0 },
+  { x: 45, y: 5, z: -60, direction: 3 },
+  { x: 46, y: 5, z: -24, direction: 3 },
+  { x: 45, y: 5, z: -30, direction: 3 },
+  { x: 30, y: 5, z: -32, direction: 3 },
+  { x: 45, y: 5, z: -62, direction: 3 }
+];
 __decorateClass([
   rogue_engine__WEBPACK_IMPORTED_MODULE_1__.props.num()
 ], Collectable.prototype, "bouncing", 2);
@@ -13698,128 +13761,10 @@ var __decorateClass = (decorators, target, key, kind) => {
 
 
 
-
 class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
   constructor() {
     super(...arguments);
-    this.lightPosition = [
-      { x: 13.7872, y: 61.8854, z: 7.783 },
-      { x: 13.7872, y: 55.1753, z: 7.7871 },
-      { x: 7.1268, y: 55.1753, z: 7.7871 },
-      { x: 7.1268, y: 61.612, z: 7.78 },
-      { x: 13.7872, y: 42.3951, z: 7.7871 },
-      { x: 8.3762, y: 42.3951, z: 7.78 },
-      { x: 8.3762, y: 31.7277, z: 7.7871 },
-      { x: 13.7357, y: 31.7277, z: 7.7871 },
-      { x: 32.9576, y: 40.3939, z: 7.7871 },
-      { x: 37.3894, y: 40.3939, z: 7.7871 },
-      { x: 41.4606, y: 40.3939, z: 7.7871 },
-      { x: 45.5317, y: 40.3939, z: 7.7871 },
-      { x: 54.3789, y: 55.0896, z: 7.7871 },
-      { x: 57.9454, y: 55.0789, z: 7.7871 },
-      { x: 61.3994, y: 55.1158, z: 7.7871 },
-      { x: 54.3789, y: 48.2636, z: 7.7871 },
-      { x: 57.9454, y: 48.2529, z: 7.7871 },
-      { x: 61.3994, y: 48.2898, z: 7.7871 },
-      { x: 54.3789, y: 40.7054, z: 7.7871 },
-      { x: 57.9454, y: 40.6947, z: 7.7871 },
-      { x: 54.3789, y: 62.6478, z: 7.7871 },
-      { x: 57.9454, y: 62.6371, z: 7.7871 },
-      { x: 61.3994, y: 62.674, z: 7.7871 },
-      { x: 61.3994, y: 40.7316, z: 7.7871 },
-      { x: 54.3789, y: 32.2251, z: 7.7871 },
-      { x: 57.9454, y: 32.2144, z: 7.7871 },
-      { x: 61.3994, y: 32.2514, z: 7.7871 },
-      { x: 54.3789, y: 24.6669, z: 7.7871 },
-      { x: 48.1084, y: 88.3075, z: 7.7871 },
-      { x: 48.1084, y: 80.7868, z: 7.7871 },
-      { x: 71.3518, y: 88.3075, z: 7.7871 },
-      { x: 71.3518, y: 80.7868, z: 7.7871 },
-      { x: 55.7854, y: 88.3075, z: 7.7871 },
-      { x: 64.331, y: 88.3075, z: 7.7871 },
-      { x: 32.5247, y: 33.5933, z: 7.7871 },
-      { x: 36.9566, y: 33.5933, z: 7.7871 },
-      { x: 41.0277, y: 33.5933, z: 7.7871 },
-      { x: 45.0988, y: 33.5933, z: 7.7871 },
-      { x: 109.0001, y: 43.1218, z: 7.7871 },
-      { x: 116.7816, y: 43.1218, z: 7.7871 },
-      { x: 109.0001, y: 35.3344, z: 7.7871 },
-      { x: 116.7816, y: 35.3344, z: 7.7871 },
-      { x: 109.0001, y: 57.7666, z: 7.7871 },
-      { x: 116.7816, y: 57.7666, z: 7.7871 },
-      { x: 109.0001, y: 28.5334, z: 7.7871 },
-      { x: 116.7816, y: 28.5334, z: 7.7871 },
-      { x: 88.1683, y: 8.6964, z: 7.7871 },
-      { x: 102.8408, y: 8.6964, z: 7.7871 },
-      { x: 111.4387, y: 8.6964, z: 7.7871 },
-      { x: 119.8139, y: 8.6964, z: 7.7871 },
-      { x: 94.1791, y: 8.6964, z: 7.7871 },
-      { x: 32.9576, y: 47.9833, z: 7.7871 },
-      { x: 37.3894, y: 47.9833, z: 7.7871 },
-      { x: 41.4606, y: 47.9833, z: 7.7871 },
-      { x: 45.5317, y: 47.9833, z: 7.7871 },
-      { x: 32.5247, y: 63.4651, z: 7.7871 },
-      { x: 36.9566, y: 63.4651, z: 7.7871 },
-      { x: 41.0277, y: 63.4651, z: 7.78 },
-      { x: 45.0988, y: 63.4651, z: 7.7871 },
-      { x: 32.5247, y: 55.0217, z: 7.7871 },
-      { x: 36.9566, y: 55.0217, z: 7.7871 },
-      { x: 41.0277, y: 55.0217, z: 7.7871 },
-      { x: 45.0988, y: 55.0217, z: 7.7871 },
-      { x: 32.5247, y: 25.9839, z: 7.7871 },
-      { x: 36.9566, y: 25.9839, z: 7.7871 },
-      { x: 41.0277, y: 25.9839, z: 7.7871 },
-      { x: 45.0988, y: 25.9839, z: 7.7871 },
-      { x: 57.9454, y: 24.6562, z: 7.7871 },
-      { x: 61.3994, y: 24.6931, z: 7.7871 },
-      { x: 54.3789, y: 15.3359, z: 7.7871 },
-      { x: 57.9454, y: 15.3251, z: 7.7871 },
-      { x: 61.3994, y: 15.3621, z: 7.7871 },
-      { x: 54.3789, y: 7.7776, z: 7.7871 },
-      { x: 57.9454, y: 7.7669, z: 7.7871 },
-      { x: 61.3994, y: 7.8039, z: 7.7871 },
-      { x: 109.0001, y: 20.7459, z: 7.7871 },
-      { x: 116.7816, y: 20.7459, z: 7.7871 },
-      { x: 109.907, y: 50.7215, z: 7.7871 },
-      { x: 117.2357, y: 50.7215, z: 7.7871 },
-      { x: 109.0001, y: 72.529, z: 7.7871 },
-      { x: 116.7816, y: 72.529, z: 7.7871 },
-      { x: 109.0001, y: 64.7416, z: 7.7871 },
-      { x: 116.7816, y: 64.7416, z: 7.7871 },
-      { x: 55.7854, y: 80.7868, z: 7.7871 },
-      { x: 64.331, y: 80.7868, z: 7.7871 },
-      { x: 14.1312, y: 88.3075, z: 7.7871 },
-      { x: 38.1447, y: 88.3075, z: 7.7871 },
-      { x: 21.8083, y: 88.3075, z: 7.7871 },
-      { x: 30.3539, y: 88.3075, z: 7.7871 },
-      { x: 14.1312, y: 80.7868, z: 7.7871 },
-      { x: 38.1344, y: 80.3159, z: 7.7871 },
-      { x: 21.8083, y: 80.7868, z: 7.7871 },
-      { x: 30.3539, y: 80.224, z: 7.7871 }
-    ];
-    this.bookPosition = [
-      { x: 58, y: 1, z: 48.9, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.West },
-      { x: 27, y: 1, z: 47, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.West },
-      { x: 22, y: 1, z: 44, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.West },
-      { x: 95, y: 2, z: 48, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.West },
-      { x: 96, y: 1, z: 43, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.West },
-      { x: 87, y: 1, z: 30, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.South },
-      { x: 67, y: 1, z: 30, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.South },
-      { x: 41, y: 5, z: -90, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.East },
-      { x: 47, y: 5, z: -7.7, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.South },
-      { x: 44, y: 5, z: -42, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.South },
-      { x: 5, y: 5, z: -57, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.South },
-      { x: 7, y: 5, z: -53, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.South },
-      { x: 2.8, y: 5, z: -61, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.South },
-      { x: 47, y: 5, z: -46, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.North },
-      { x: 51, y: 5, z: -14, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.South },
-      { x: 51, y: 5, z: -4, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.South },
-      { x: 45, y: 5, z: -60, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.North },
-      { x: 46, y: 5, z: -24, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.North },
-      { x: 45, y: 5, z: -30, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.North },
-      { x: 30, y: 5, z: -32, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.North },
-      { x: 45, y: 5, z: -62, direction: _Collectable_re__WEBPACK_IMPORTED_MODULE_1__.Direction.North }
-    ];
+    this.playCount = 0;
     this.gameStarted = false;
     this.gameLost = false;
     this.gameWinCondition = false;
@@ -13865,7 +13810,7 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
           this.openDoorIn(this.playerController, door);
         });
         this.openLockedDoor(this.playerController, this.lockedDoor);
-        this.botSet.forEach((boot, index) => {
+        this.botSet.forEach((bot, index) => {
           this.botDamage(this.playerController, this.botSet, index);
         });
         this.collectDegree(this.playerController, this.degreeCollectable);
@@ -13955,7 +13900,6 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
       if (interactAction) {
         this.audioManager.playSFX(this.audioManager.sfx_door);
         this.interactUI.hide();
-        rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log(obj2.isOpen.toString());
         if (!obj2.isOpen) {
           obj2.openDoor();
         } else {
@@ -13999,16 +13943,16 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
     }
   }
   addCollectables() {
-    for (let i = 0; i < this.collectableCount; i++) {
+    for (let i = 0; i < _Collectable_re__WEBPACK_IMPORTED_MODULE_1__["default"].bookPosition.length; i++) {
       const collectableInstance = this.collectable.instantiate();
       if (collectableInstance) {
         this.collectableSet[i] = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_Collectable_re__WEBPACK_IMPORTED_MODULE_1__["default"], collectableInstance);
-        this.addCollectable(this.collectableSet[i], i * 3 + 18, 0, -12);
+        this.addCollectable(this.collectableSet[i], _Collectable_re__WEBPACK_IMPORTED_MODULE_1__["default"].bookPosition[i].x, _Collectable_re__WEBPACK_IMPORTED_MODULE_1__["default"].bookPosition[i].y, _Collectable_re__WEBPACK_IMPORTED_MODULE_1__["default"].bookPosition[i].z);
       }
     }
   }
   addCollectable(collectableObject, x, y, z) {
-    collectableObject.object3d.position.set(x, 5.052, z);
+    collectableObject.object3d.position.set(x, y, z);
     this.collectableSet.push(collectableObject);
   }
   addDoors() {
@@ -14032,14 +13976,20 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
     this.doorSet.push(doorObject);
   }
   addLights() {
-    rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("this.lightPosition.length");
-    rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log(this.lightPosition.length.toFixed());
-    for (let i = 0; i < this.lightPosition.length; i++) {
-      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("Add Lightings");
-      const lightInstance = this.light.instantiate();
-      if (lightInstance) {
-        this.lightingSet[i] = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_Lighting_re__WEBPACK_IMPORTED_MODULE_6__.Light, lightInstance);
-        rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log(this.lightPosition[i].x.toPrecision() + " " + this.lightPosition[i].y.toPrecision() + " " + this.lightPosition[i].z.toPrecision());
+    for (let i = 0; i < _Lighting_re__WEBPACK_IMPORTED_MODULE_6__.Lighting.lightClassPosition.length; i++) {
+      let lightingClassInstance;
+      lightingClassInstance = this.lightClass.instantiate();
+      if (lightingClassInstance) {
+        this.lightingSet[i] = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_Lighting_re__WEBPACK_IMPORTED_MODULE_6__.Lighting, lightingClassInstance);
+        this.addLight(this.lightingSet[i], _Lighting_re__WEBPACK_IMPORTED_MODULE_6__.Lighting.lightClassPosition[i].x, _Lighting_re__WEBPACK_IMPORTED_MODULE_6__.Lighting.lightClassPosition[i].y, _Lighting_re__WEBPACK_IMPORTED_MODULE_6__.Lighting.lightClassPosition[i].z);
+      }
+    }
+    for (let i = 0; i < _Lighting_re__WEBPACK_IMPORTED_MODULE_6__.Lighting.lightCorridorPosition.length; i++) {
+      let lightingCorridorInstance;
+      lightingCorridorInstance = this.lightCorridor.instantiate();
+      if (lightingCorridorInstance) {
+        this.lightingSet[i] = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_Lighting_re__WEBPACK_IMPORTED_MODULE_6__.Lighting, lightingCorridorInstance);
+        this.addLight(this.lightingSet[i], _Lighting_re__WEBPACK_IMPORTED_MODULE_6__.Lighting.lightCorridorPosition[i].x, _Lighting_re__WEBPACK_IMPORTED_MODULE_6__.Lighting.lightCorridorPosition[i].y, _Lighting_re__WEBPACK_IMPORTED_MODULE_6__.Lighting.lightCorridorPosition[i].z);
       }
     }
   }
@@ -14048,16 +13998,20 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
     this.lightingSet.push(lightObject);
   }
   addBots() {
-    for (let i = 1; i <= this.botCount; i++) {
-      const botInstance = this.bot.instantiate();
+    for (let i = 0; i < _Bot_re__WEBPACK_IMPORTED_MODULE_5__["default"].botPosition.length; i++) {
+      let botInstance;
+      botInstance = this.bot.instantiate();
       if (botInstance) {
         this.botSet[i] = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_Bot_re__WEBPACK_IMPORTED_MODULE_5__["default"], botInstance);
-        this.addBot(this.botSet[i], i * 3 + 20, -20);
+        if (i == 1) {
+          rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log(_Bot_re__WEBPACK_IMPORTED_MODULE_5__["default"].botPosition[i].x + " " + _Bot_re__WEBPACK_IMPORTED_MODULE_5__["default"].botPosition[i].y + " " + _Bot_re__WEBPACK_IMPORTED_MODULE_5__["default"].botPosition[i].z);
+        }
+        this.addBot(this.botSet[i], _Bot_re__WEBPACK_IMPORTED_MODULE_5__["default"].botPosition[i].x, _Bot_re__WEBPACK_IMPORTED_MODULE_5__["default"].botPosition[i].y, _Bot_re__WEBPACK_IMPORTED_MODULE_5__["default"].botPosition[i].z);
       }
     }
   }
-  addBot(botObject, x, z) {
-    botObject.object3d.position.set(x, 6, z);
+  addBot(botObject, x, y, z) {
+    botObject.object3d.position.set(x, y, z);
     this.botSet.push(botObject);
   }
   botDamage(obj1, obj2, index) {
@@ -14065,7 +14019,7 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
     if (collide && !this.damageFlags[index]) {
       this.audioManager.playSFX(this.audioManager.sfx_damage);
       this.botSet[index].object3d.parent?.remove(this.botSet[index].object3d);
-      this.health -= 20;
+      this.health -= 5;
       this.damageFlags[index] = true;
       this.inGameUI.setHealth(this.health);
       if (this.health >= 0) {
@@ -14077,38 +14031,28 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
     }
   }
   startGame() {
-    rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("StartGame");
     if (this.gameStarted === false) {
       this.gameLost = false;
       this.startMenuUI.hide();
       this.gameWinUI.hide();
       this.endGameUI.hide();
       this.inGameUI.show();
-      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("After inGameUI");
       this.inGameUI.setScore(0);
       this.inGameUI.setHealth(100);
       this.gameStarted = true;
-      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("gameStarted");
       const playerInstance = this.player.instantiate();
-      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("playerInst");
       const degreeInstance = this.degree.instantiate();
-      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("degreeInstance");
       const lockedDoorInstance = this.lockedDoorModel.instantiate();
-      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("lockedDoorInstance");
       this.showKey = false;
       this.keyCollected = false;
       this.degreeCollected = false;
-      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("Player Inst");
-      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log(playerInstance.toJSON());
       if (playerInstance) {
         playerInstance.position.set(20, 0.8, -18);
         this.playerController = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_PlayerController_re__WEBPACK_IMPORTED_MODULE_2__["default"], playerInstance);
-        rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("Before adding stuff");
         this.addCollectables();
         this.addDoors();
-        this.addBots();
         this.addLights();
-        rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("After adding stuff");
+        this.addBots();
         for (let i = 0; i < this.collectableCount; i++) {
           this.collectedFlags.push(false);
         }
@@ -14124,7 +14068,6 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
     }
   }
   deleteAll() {
-    rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log(this.doorSet.length.toString());
     this.collectableSet.forEach((collectable) => {
       collectable.object3d.parent?.remove(collectable.object3d);
     });
@@ -14137,6 +14080,10 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
       bot.object3d.parent?.remove(bot.object3d);
     });
     this.botSet = [];
+    this.lightingSet.forEach((lighting) => {
+      lighting.object3d.parent?.remove(lighting.object3d);
+    });
+    this.lightingSet = [];
   }
   gameOver() {
     this.gameStarted = false;
@@ -14191,7 +14138,7 @@ class GameLogic extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
     }
   }
   allCollected() {
-    return this.collectedFlags.every((flag) => flag === true);
+    return this.collectedFlags.every((flag) => flag === true) && this.collectedFlags.length != 0;
   }
 }
 __name(GameLogic, "GameLogic");
@@ -14218,7 +14165,10 @@ __decorateClass([
 ], GameLogic.prototype, "key", 2);
 __decorateClass([
   rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.prefab()
-], GameLogic.prototype, "light", 2);
+], GameLogic.prototype, "lightClass", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.prefab()
+], GameLogic.prototype, "lightCorridor", 2);
 __decorateClass([
   rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.prefab()
 ], GameLogic.prototype, "degree", 2);
@@ -14235,7 +14185,7 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(GameLogic);
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Light": () => (/* binding */ Light)
+/* harmony export */   "Lighting": () => (/* binding */ Lighting)
 /* harmony export */ });
 /* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
 /* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_0__);
@@ -14244,7 +14194,7 @@ var __defProp = Object.defineProperty;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
 
-class Light extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
+class Lighting extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
   get rapierBody() {
     if (!this._rapierBody) {
       this._rapierBody = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.getComponent(_RE_RogueEngine_rogue_rapier_Components_RapierBody_re__WEBPACK_IMPORTED_MODULE_1__["default"], this.object3d);
@@ -14252,7 +14202,142 @@ class Light extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
     return this._rapierBody;
   }
 }
-__name(Light, "Light");
+__name(Lighting, "Lighting");
+Lighting.lightClassPosition = [
+  { x: 25.0313, y: 3, z: 40.9641 },
+  { x: 25.0313, y: 3, z: 48.035 },
+  { x: 19.0062, y: 3, z: 48.035 },
+  { x: 50.8991, y: 3, z: 40.9641 },
+  { x: 50.8991, y: 3, z: 48.035 },
+  { x: 44.8741, y: 3, z: 48.035 },
+  { x: 66.2547, y: 3, z: 40.9641 },
+  { x: 63.3086, y: 3, z: 40.9641 },
+  { x: 66.2547, y: 3, z: 48.035 },
+  { x: 81.9406, y: 3, z: 40.9641 },
+  { x: 81.9406, y: 3, z: 48.035 },
+  { x: 95.419, y: 2.275, z: 51.0709 },
+  { x: 34.9455, y: 3, z: 40.9641 },
+  { x: 38.2707, y: 3, z: 48.035 },
+  { x: 95.8142, y: 3, z: 40.9641 },
+  { x: 95.8142, y: 3, z: 48.035 },
+  { x: 90.4691, y: 3, z: 40.9641 },
+  { x: 90.4691, y: 3, z: 48.035 },
+  { x: 13.7872, y: 6.783, z: -61.8854 },
+  { x: 13.7872, y: 6.7871, z: -55.1753 },
+  { x: 7.1268, y: 6.7871, z: -55.1753 },
+  { x: 7.1268, y: 6.78, z: -61.612 },
+  { x: 13.7872, y: 6.7871, z: -42.3951 },
+  { x: 8.3762, y: 6.78, z: -42.3951 },
+  { x: 8.3762, y: 6.7871, z: -31.7277 },
+  { x: 13.7357, y: 6.7871, z: -31.7277 },
+  { x: 32.9576, y: 6.7871, z: -40.3939 },
+  { x: 45.5317, y: 6.7871, z: -40.3939 },
+  { x: 54.3789, y: 6.7871, z: -55.0896 },
+  { x: 61.3994, y: 6.7871, z: -55.1158 },
+  { x: 54.3789, y: 6.7871, z: -48.2636 },
+  { x: 61.3994, y: 6.7871, z: -48.2898 },
+  { x: 54.3789, y: 6.7871, z: -40.7054 },
+  { x: 54.3789, y: 6.7871, z: -62.6478 },
+  { x: 61.3994, y: 6.7871, z: -62.674 },
+  { x: 61.3994, y: 6.7871, z: -40.7316 },
+  { x: 54.3789, y: 6.7871, z: -32.2251 },
+  { x: 61.3994, y: 6.7871, z: -32.2514 },
+  { x: 54.3789, y: 6.7871, z: -24.6669 },
+  { x: 48.1084, y: 6.7871, z: -88.3075 },
+  { x: 48.1084, y: 6.7871, z: -80.7868 },
+  { x: 71.3518, y: 6.7871, z: -88.3075 },
+  { x: 71.3518, y: 6.7871, z: -80.7868 },
+  { x: 55.7854, y: 6.7871, z: -88.3075 },
+  { x: 64.331, y: 6.7871, z: -88.3075 },
+  { x: 32.5247, y: 6.7871, z: -33.5933 },
+  { x: 45.0988, y: 6.7871, z: -33.5933 },
+  { x: 109.0001, y: 6.7871, z: -43.1218 },
+  { x: 116.7816, y: 6.7871, z: -43.1218 },
+  { x: 109.0001, y: 6.7871, z: -35.3344 },
+  { x: 116.7816, y: 6.7871, z: -35.3344 },
+  { x: 109.0001, y: 6.7871, z: -57.7666 },
+  { x: 116.7816, y: 6.7871, z: -57.7666 },
+  { x: 109.0001, y: 6.7871, z: -28.5334 },
+  { x: 116.7816, y: 6.7871, z: -28.5334 },
+  { x: 88.1683, y: 6.7871, z: -8.6964 },
+  { x: 102.8408, y: 6.7871, z: -8.6964 },
+  { x: 111.4387, y: 6.7871, z: -8.6964 },
+  { x: 119.8139, y: 6.7871, z: -8.6964 },
+  { x: 94.1791, y: 6.7871, z: -8.6964 },
+  { x: 32.9576, y: 6.7871, z: -47.9833 },
+  { x: 45.5317, y: 6.7871, z: -47.9833 },
+  { x: 32.5247, y: 6.7871, z: -63.4651 },
+  { x: 45.0988, y: 6.7871, z: -63.4651 },
+  { x: 41.0277, y: 6.7871, z: -55.0217 },
+  { x: 45.0988, y: 6.7871, z: -55.0217 },
+  { x: 32.5247, y: 6.7871, z: -25.9839 },
+  { x: 45.0988, y: 6.7871, z: -25.9839 },
+  { x: 61.3994, y: 6.7871, z: -24.6931 },
+  { x: 54.3789, y: 6.7871, z: -15.3359 },
+  { x: 61.3994, y: 6.7871, z: -15.3621 },
+  { x: 54.3789, y: 6.7871, z: -7.7776 },
+  { x: 61.3994, y: 6.7871, z: -7.8039 },
+  { x: 109.0001, y: 6.7871, z: -20.7459 },
+  { x: 116.7816, y: 6.7871, z: -20.7459 },
+  { x: 109.907, y: 6.7871, z: -50.7215 },
+  { x: 117.2357, y: 6.7871, z: -50.7215 },
+  { x: 109.0001, y: 6.7871, z: -72.529 },
+  { x: 116.7816, y: 6.7871, z: -72.529 },
+  { x: 109.0001, y: 6.7871, z: -64.7416 },
+  { x: 116.7816, y: 6.7871, z: -64.7416 },
+  { x: 55.7854, y: 6.7871, z: -80.7868 },
+  { x: 64.331, y: 6.7871, z: -80.7868 },
+  { x: 14.1312, y: 6.7871, z: -88.3075 },
+  { x: 38.1447, y: 6.7871, z: -88.3075 },
+  { x: 21.8083, y: 6.7871, z: -88.3075 },
+  { x: 30.3539, y: 6.7871, z: -88.3075 },
+  { x: 14.1312, y: 6.7871, z: -80.7868 },
+  { x: 38.1344, y: 6.7871, z: -80.3159 },
+  { x: 21.8083, y: 6.7871, z: -80.7868 },
+  { x: 30.3539, y: 6.7871, z: -80.224 }
+];
+Lighting.lightCorridorPosition = [
+  { x: 20, y: 2.78714, z: 29 },
+  { x: 33, y: 2.78714, z: 29 },
+  { x: 46, y: 2.78714, z: 29 },
+  { x: 59, y: 2.78714, z: 29 },
+  { x: 72, y: 2.78714, z: 29 },
+  { x: 85, y: 2.78714, z: 29 },
+  { x: 23, y: 6.78714, z: -32 },
+  { x: 23, y: 6.78714, z: -45 },
+  { x: 23, y: 6.78714, z: -58 },
+  { x: 23, y: 6.78714, z: -72 },
+  { x: 11, y: 6.78714, z: -72 },
+  { x: 36, y: 6.78714, z: -72 },
+  { x: 49, y: 6.78714, z: -72 },
+  { x: 62, y: 6.78714, z: -72 },
+  { x: 73, y: 6.78714, z: -72 },
+  { x: 86, y: 6.78714, z: -72 },
+  { x: 98, y: 6.78714, z: -72 },
+  { x: 73, y: 6.78714, z: -57 },
+  { x: 86, y: 6.78714, z: -57 },
+  { x: 98, y: 6.78714, z: -57 },
+  { x: 73, y: 6.78714, z: -42 },
+  { x: 86, y: 6.78714, z: -42 },
+  { x: 98, y: 6.78714, z: -42 },
+  { x: 73, y: 6.78714, z: -27 },
+  { x: 86, y: 6.78714, z: -27 },
+  { x: 98, y: 6.78714, z: -27 },
+  { x: 73, y: 6.78714, z: -12 },
+  { x: 32, y: 6.78714, z: -14 },
+  { x: 32, y: 6.78714, z: -7 },
+  { x: 43, y: 6.78714, z: -14 },
+  { x: 43, y: 6.78714, z: -7 },
+  { x: 19, y: 6.78714, z: -19 },
+  { x: 31, y: 6.78714, z: -19 },
+  { x: 43, y: 6.78714, z: -19 },
+  { x: 19, y: 6.78714, z: -9 },
+  { x: 5, y: 6.78714, z: -11 },
+  { x: 23.635, y: 1.832, z: -11 },
+  { x: 39.105, y: 1.832, z: -11 }
+];
+Lighting.lightOutsidePosition = [];
+rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(Lighting);
 
 
 /***/ }),
@@ -14288,6 +14373,160 @@ class PlayerController extends rogue_engine__WEBPACK_IMPORTED_MODULE_1__.Compone
 }
 __name(PlayerController, "PlayerController");
 rogue_engine__WEBPACK_IMPORTED_MODULE_1__.registerComponent(PlayerController);
+
+
+/***/ }),
+
+/***/ "./Assets/Component/RemoteFire.re.ts":
+/*!*******************************************!*\
+  !*** ./Assets/Component/RemoteFire.re.ts ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ RemoteFire)
+/* harmony export */ });
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three */ "three");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_1__);
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+var __decorateClass = (decorators, target, key, kind) => {
+  var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc(target, key) : target;
+  for (var i = decorators.length - 1, decorator; i >= 0; i--)
+    if (decorator = decorators[i])
+      result = (kind ? decorator(target, key, result) : decorator(result)) || result;
+  if (kind && result)
+    __defProp(target, key, result);
+  return result;
+};
+
+
+
+const vector = new three__WEBPACK_IMPORTED_MODULE_1__.Vector3();
+class RemoteFire extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
+  constructor() {
+    super(...arguments);
+    this.alwaysFire = false;
+    this.currentAudio = 0;
+    this.charging = false;
+    this.firing = false;
+    this.nextFire = 0;
+    this.nextFires = [];
+    this.fireSounds = [];
+  }
+  start() {
+    this.chargeSound.setPlaybackRate(1);
+    for (let i = 0; i < 10; i++) {
+      const audio = new three__WEBPACK_IMPORTED_MODULE_1__.PositionalAudio(this.fireSound.listener);
+      audio.setBuffer(this.fireSound.buffer);
+      this.fireSounds.push(audio);
+      this.object3d.add(audio);
+    }
+    const multiply = new three__WEBPACK_IMPORTED_MODULE_1__.Vector3(1.5, 1.5, 1.5);
+    this.object3d.parent?.traverse((child) => {
+      if (!child.isMesh) {
+        return;
+      }
+      const material = child.material;
+      if (!material.color) {
+        return;
+      }
+      if (material.color.r > 0.5 && material.color.g < 0.5 && material.color.b < 0.5) {
+        if (child.name === "mesh1273343276_1") {
+          child.scale.multiply(multiply);
+        }
+        if (!this.remoteMaterial) {
+          this.remoteMaterial = material.clone();
+          this.remoteMaterial.color.setRGB(1, 1, 1);
+        }
+        child.material = this.remoteMaterial;
+      }
+    });
+  }
+  update() {
+    if (!this.firing) {
+      return;
+    }
+    this.nextFire -= rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Runtime.deltaTime;
+    if (this.charging) {
+      this.remoteMaterial.color.setRGB(1, this.nextFire / 3, this.nextFire / 3);
+    }
+    if (this.nextFire > 0) {
+      return;
+    }
+    if (this.charging) {
+      this.remoteMaterial.color.setRGB(1, 1, 1);
+    }
+    this.charging = false;
+    this.firing = this.nextFires.length > 0;
+    this.nextFire = this.nextFires.shift();
+  }
+  startFiring() {
+    const numberOfFires = 2 + Math.random() * 4;
+    for (let i = 0; i < numberOfFires; i++) {
+      this.nextFires.push(0.25 + Math.random() * 0.35);
+    }
+    this.chargeSound.play();
+    this.charging = true;
+    this.firing = true;
+    this.nextFire = 1.75;
+    vector.x += -0.25 + Math.random() * 0.5;
+    vector.y += -0.3 + Math.random() * 0.3;
+    vector.z += -0.25 + Math.random() * 0.5;
+    return this.nextFires.reduce((result, value) => result + value, 1.5);
+  }
+  playAudio() {
+    this.currentAudio++;
+    if (this.currentAudio >= this.fireSounds.length) {
+      this.currentAudio = 0;
+    }
+    const fireSound = this.fireSounds[this.currentAudio];
+    fireSound.setPlaybackRate(0.8 + Math.random() * 0.7);
+    fireSound.play();
+  }
+  fire() {
+    const laser = this.laserPrefab.instantiate();
+    this.object3d.getWorldPosition(laser.position);
+    const cameraPositionX = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Runtime.camera.position.x;
+    const cameraPositionY = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Runtime.camera.position.y;
+    const cameraPositionZ = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Runtime.camera.position.z;
+    if (cameraPositionX < vector.x) {
+      vector.x -= vector.x - Math.abs(cameraPositionX);
+    } else {
+      vector.x += cameraPositionX - Math.abs(vector.x);
+    }
+    if (cameraPositionY < vector.y) {
+      vector.y -= vector.y - Math.abs(cameraPositionY);
+    } else {
+      vector.y += cameraPositionY - Math.abs(vector.y);
+    }
+    if (cameraPositionZ < vector.z) {
+      vector.z -= vector.z - Math.abs(cameraPositionZ);
+    } else {
+      vector.z += cameraPositionZ - Math.abs(vector.z);
+    }
+    laser.lookAt(vector);
+    this.playAudio();
+  }
+}
+__name(RemoteFire, "RemoteFire");
+__decorateClass([
+  (0,rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Prop)("Boolean")
+], RemoteFire.prototype, "alwaysFire", 2);
+__decorateClass([
+  (0,rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Prop)("PositionalAudio")
+], RemoteFire.prototype, "chargeSound", 2);
+__decorateClass([
+  (0,rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Prop)("PositionalAudio")
+], RemoteFire.prototype, "fireSound", 2);
+__decorateClass([
+  (0,rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Prop)("Prefab")
+], RemoteFire.prototype, "laserPrefab", 2);
+rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(RemoteFire);
 
 
 /***/ }),
@@ -14360,7 +14599,7 @@ class RemoteMovement extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component
   updatePosition() {
     const { positionDirection } = this;
     const change = rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Runtime.deltaTime;
-    this.object3d.position.y = Math.max(-1.5, Math.min(0.5, this.object3d.position.y + positionDirection * change));
+    this.object3d.position.y = Math.max(-1.5, Math.min(positionDirection, this.object3d.position.y + positionDirection * change));
     this.positionTime -= change;
   }
   updateRotation() {
@@ -14371,13 +14610,8 @@ class RemoteMovement extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component
   }
   setupPosition() {
     const { y } = this.object3d.position;
-    this.positionDirection = Math.abs(Math.random()) < 1 ? 1 : 2;
-    if (y < -1) {
-      this.positionDirection = 1;
-    } else if (y > 0.4) {
-      this.positionDirection = -1;
-    }
-    this.positionTime = Math.abs(Math.random()) * 1;
+    this.positionDirection = Math.random() < 0.5 ? y - 0.5 : y + 0.5;
+    this.positionTime = Math.random() * 1;
   }
   setupRotation() {
     this.rotationDirection = Math.random() < 0.5 ? -1.5 : 1.5;
@@ -17924,7 +18158,6 @@ class RapierKinematicCharacterController extends _RE_RogueEngine_rogue_rapier_Co
   update() {
     super.update();
     if (this.body?.numColliders() < 1) {
-      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.logWarning("No character collider");
       return;
     }
   }
@@ -18574,6 +18807,7 @@ function normalize( value, array ) {
 /******/ 	__webpack_require__("./Assets/Component/GameLogic.re.ts");
 /******/ 	__webpack_require__("./Assets/Component/Lighting.re.ts");
 /******/ 	__webpack_require__("./Assets/Component/PlayerController.re.ts");
+/******/ 	__webpack_require__("./Assets/Component/RemoteFire.re.ts");
 /******/ 	__webpack_require__("./Assets/Component/RemoteMovement.re.ts");
 /******/ 	__webpack_require__("./Assets/Component/UIComponent.re.ts");
 /******/ 	__webpack_require__("./Assets/Component/UIInGame.re.ts");
