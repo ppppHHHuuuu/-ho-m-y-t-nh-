@@ -1,0 +1,12 @@
+node_modules
+*.glb
+*gltf
+*.zip
+dist/
+Build/
+*.rogueScene
+rogue-engine-user-scripts*
+Scene_Collection.roguePrefab
+Scene_Collection.roguePrefab.meta
+Scene_Collection_Keeping_Most_Of_Things.roguePrefab
+Scene_Collection_Keeping_Most_Of_Things.roguePrefab.meta

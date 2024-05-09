@@ -1,0 +1,80 @@
+<div id="container-restart">
+  <div id="main-title">
+    <h1 class="game-title">dropped out...</h1>
+  </div>
+  <div id="maxScoreDiv">
+    <div>Max score:</div>
+    <div id="maxScore">0</div>
+  </div>
+  <div id="score-div">
+    <div>Current score:</div>
+    <div id="score">0</div>
+  </div>
+  <div id="playAgainButton">Press R to restart</div>
+</div>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #222;
+  }
+
+  #container-restart {
+    position: relative;
+    width: 95%;
+    height: 8vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    margin: auto;
+    /* background-color: red; */
+  }
+
+  #score-div {
+    display: flex;
+    align-items: center;
+    text-shadow: 0 0 5px #ffacac;
+    font-size: 25px;
+    color: #340707;
+  }
+
+  #maxScore {
+    font-size: 24px;
+    justify-content: center;
+    margin-left: 5px;
+  }
+
+  #maxScoreDiv {
+    display: flex;
+    align-items: center;
+    text-shadow: 0 0 5px #ffacac;
+    font-size: 25px;
+    color: #340707;
+  }
+
+  #score {
+    font-size: 24px;
+    justify-content: center;
+    margin-left: 5px;
+  }
+
+  #playAgainButton {
+    text-align: center;
+    font-size: 2vw;
+    margin-top: 10vh;
+    color: rgb(255, 0, 0);
+    text-shadow: 0 0 5px #fff;
+  }
+
+  .game-title {
+    text-align: center;
+    font-size: 5vw;
+    margin-top: 10vh;
+    color: black;
+    text-shadow: 0 0 30px #ff0000;
+  }
+</style>

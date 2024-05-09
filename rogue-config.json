@@ -1,0 +1,11 @@
+{
+  "title": "Projfect",
+  "scenes": [
+    {
+      "name": "FullFurnitureLight",
+      "uuid": "1ab46409-5342-4150-91f8-e7c5cd989a1f"
+    }
+  ],
+  "projectVersion": 24,
+  "lastOpenedScene": "\\Assets\\Fonts\\FullFurnitureLight.rogueScene"
+}
